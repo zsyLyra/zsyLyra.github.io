@@ -1,0 +1,712 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="AVFoundation," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="传统互联网的入口在浏览器，移动互联网的入口在二维码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS:AVFoundation:二维码">
+<meta property="og:url" content="http://yoursite.com/2016/02/17/iOS-AVFoundation-二维码/index.html">
+<meta property="og:site_name" content="Lyra">
+<meta property="og:description" content="传统互联网的入口在浏览器，移动互联网的入口在二维码">
+<meta property="og:image" content="http://lyra.tech/images/ArticlePics/二维码封装目录结构.png">
+<meta property="og:updated_time" content="2017-11-27T03:02:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS:AVFoundation:二维码">
+<meta name="twitter:description" content="传统互联网的入口在浏览器，移动互联网的入口在二维码">
+<meta name="twitter:image" content="http://lyra.tech/images/ArticlePics/二维码封装目录结构.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":1},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/02/17/iOS-AVFoundation-二维码/"/>
+
+
+
+
+
+  <title> iOS:AVFoundation:二维码 | Lyra </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lyra</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Personal Blog</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/02/17/iOS-AVFoundation-二维码/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="张胜烊">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Lyra">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Lyra" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS:AVFoundation:二维码
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-02-17T16:32:21+08:00">
+                2016-02-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p style="font-family:verdana;font-size:100%;color:gray" ,="" align="center">传统互联网的入口在浏览器，移动互联网的入口在二维码</p>
+
+<a id="more"></a>
+<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>在iOS7.0前，实现二维码扫描还需要借助第三方库，但如今，苹果的API逐渐完善与强大，这一功能我们可以借助AVFoundation框架来搞定。</p>
+<h3 id="类结构"><a href="#类结构" class="headerlink" title="类结构"></a>类结构</h3><p>二维码生成类：LyraQRCodeGenerate<br>二维码探测类：LyraQRCodeDetector<br>二维码扫描类：LyraQRCScanViewController -&gt; 扫描设备类QRCodeScanDevice<br>                                      -&gt; 扫描视图类QRCodeScanView<br>以下为二维码封装类结构截图：<br><img src="http://lyra.tech/images/ArticlePics/二维码封装目录结构.png" alt=""></p>
+<h3 id="识别图片中的二维码"><a href="#识别图片中的二维码" class="headerlink" title="识别图片中的二维码"></a>识别图片中的二维码</h3><h4 id="二维码识别类LyraQRCodeDetector"><a href="#二维码识别类LyraQRCodeDetector" class="headerlink" title="二维码识别类LyraQRCodeDetector"></a>二维码识别类LyraQRCodeDetector</h4><p><strong>interface</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">//  LyraQRCodeDetector.h</div><div class="line">//  LyraQRCode</div><div class="line">//</div><div class="line">//  Created by ZSY on 2017/1/16.</div><div class="line">//  Copyright © 2017年 Lyra. All rights reserved.</div><div class="line">//</div><div class="line">//  二维码识别</div><div class="line"></div><div class="line">#import &lt;Foundation/Foundation.h&gt;</div><div class="line">#import &lt;UIKit/UIKit.h&gt;</div><div class="line">#import &lt;AVFoundation/AVFoundation.h&gt;</div><div class="line"></div><div class="line">@interface LyraQRCodeDetector : NSObject</div><div class="line"></div><div class="line">/**</div><div class="line"> 接口： 根据图片进行二维码识别，识别成功进行闭包回调</div><div class="line"> </div><div class="line"> - parameter Image: 要识别的包含二维码的图片</div><div class="line"> - parameter DrawQRCodeFrame:  是否绘制边框</div><div class="line"> - parameter result:      闭包回调</div><div class="line"> */</div><div class="line">+ (void)detectorWithImage:(UIImage *)image DrawQRCodeFrame:(BOOL)drawQRCodeFrame Result:(void (^)(UIImage * image, NSArray * results))result;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p><strong>implenentation</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">//  LyraQRCodeDetector.m</div><div class="line">//  LyraQRCode</div><div class="line">//</div><div class="line">//  Created by ZSY on 2017/1/16.</div><div class="line">//  Copyright © 2017年 Lyra. All rights reserved.</div><div class="line">//</div><div class="line"></div><div class="line">#import &quot;LyraQRCodeDetector.h&quot;</div><div class="line"></div><div class="line">@implementation LyraQRCodeDetector</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - Public</div><div class="line"></div><div class="line">+ (void)detectorWithImage:(UIImage *)image DrawQRCodeFrame:(BOOL)drawQRCodeFrame Result:(void (^)(UIImage * image, NSArray * results))result</div><div class="line">&#123;</div><div class="line">    // 1. 创建一个二维码探测器</div><div class="line">    CIContext * context = [[CIContext alloc] init];</div><div class="line">    CIDetector * detector = [CIDetector detectorOfType:CIDetectorTypeQRCode context:context options:@&#123;CIDetectorAccuracy : CIDetectorAccuracyHigh&#125;];</div><div class="line">    </div><div class="line">    // 2. 识别图片特征</div><div class="line">    CIImage * ciImage = [CIImage imageWithCGImage:image.CGImage];</div><div class="line">    NSArray * features = [detector featuresInImage:ciImage];</div><div class="line">    </div><div class="line">    NSMutableArray * temps = [NSMutableArray array];</div><div class="line">    UIImage  *tempImage = image;</div><div class="line">    </div><div class="line">    for (CIFeature * feature in features)</div><div class="line">    &#123;</div><div class="line">        if ([feature isKindOfClass:[CIQRCodeFeature class]])</div><div class="line">        &#123;</div><div class="line">            CIQRCodeFeature * tempFeature = (CIQRCodeFeature *)feature;</div><div class="line">            [temps addObject:tempFeature.messageString];</div><div class="line">            </div><div class="line">            if (drawQRCodeFrame)</div><div class="line">            &#123;</div><div class="line">                tempImage = [self drawQRCodeBoder:tempFeature Image:tempImage];</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        if ([feature isKindOfClass:[CITextFeature class]])</div><div class="line">        &#123;</div><div class="line">            CITextFeature * tempFeature = (CITextFeature *)feature;</div><div class="line">            NSLog(@&quot;%@&quot;, tempFeature.subFeatures);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    // 3. 音效播放</div><div class="line">    NSString * audioPath = [[NSBundle mainBundle] pathForResource:@&quot;qrcode_scan_suc.wav&quot; ofType:@&quot;&quot;];</div><div class="line">    NSData * audioData = [NSData dataWithContentsOfFile:audioPath];</div><div class="line">    AVAudioPlayer * audioPlayer = [[AVAudioPlayer alloc] initWithData:audioData error:nil];</div><div class="line">    [audioPlayer play];</div><div class="line">    </div><div class="line">    // 4. 回调</div><div class="line">    result (tempImage, temps);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">/**</div><div class="line"> * 绘制识别出的二维码边框</div><div class="line"> - parameter qrFeature: CIQRCodeFeature特征对象</div><div class="line"> - parameter image:     绘制识别的Image</div><div class="line"> - returns: 绘制完成的Image</div><div class="line"> */</div><div class="line">+ (UIImage *)drawQRCodeBoder:(CIQRCodeFeature *)qrcodeFeature Image:(UIImage *)image</div><div class="line">&#123;   </div><div class="line">    // 1. 开启图形上下文</div><div class="line">    UIGraphicsBeginImageContext(image.size);</div><div class="line">    // 2. 绘制图片</div><div class="line">    [image drawInRect:CGRectMake(0, 0, image.size.width, image.size.height)];</div><div class="line">    // 3. 上下颠倒坐标系</div><div class="line">    CGContextRef context = UIGraphicsGetCurrentContext();</div><div class="line">    CGContextScaleCTM(context, 1.0, -1.0);</div><div class="line">    CGContextTranslateCTM(context, 0, -image.size.height);</div><div class="line">    // 4. 绘制识别的二维码的矩形框</div><div class="line">    UIBezierPath * bezierPath = [UIBezierPath bezierPathWithRect:qrcodeFeature.bounds];</div><div class="line">    [[UIColor redColor] set];</div><div class="line">    bezierPath.lineWidth = 3.f;</div><div class="line">    [bezierPath stroke];</div><div class="line">    // 5. 取出图片</div><div class="line">    UIImage * handleImage = UIGraphicsGetImageFromCurrentImageContext();</div><div class="line">    // 6. 关闭图形上下文</div><div class="line">    UIGraphicsEndImageContext();</div><div class="line">    </div><div class="line">    return handleImage;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<h3 id="二维码生成"><a href="#二维码生成" class="headerlink" title="二维码生成"></a>二维码生成</h3><h4 id="二维码生成类LyraQRCodeGenerate"><a href="#二维码生成类LyraQRCodeGenerate" class="headerlink" title="二维码生成类LyraQRCodeGenerate"></a>二维码生成类LyraQRCodeGenerate</h4><p>二维码生成的关键类是 CIFilter类，即滤镜，输入-&gt;相应设置-&gt;输出拿到二维码-&gt;后期处理</p>
+<p><strong>interface</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">//  LyraQRCodeGenerate.h</div><div class="line">//  LyraQRCode</div><div class="line">//</div><div class="line">//  Created by ZSY on 2017/1/16.</div><div class="line">//  Copyright © 2017年 Lyra. All rights reserved.</div><div class="line">//</div><div class="line"></div><div class="line">#import &lt;Foundation/Foundation.h&gt;</div><div class="line">#import &lt;UIKit/UIKit.h&gt;</div><div class="line"></div><div class="line">@interface LyraQRCodeGenerate : NSObject</div><div class="line"></div><div class="line">/**</div><div class="line"> 接口：根据信息文本生成二维码</div><div class="line"> </div><div class="line"> - parameter codeInfo:    信息文本</div><div class="line"> - parameter centerImage: logo图片</div><div class="line"> - returns: 绘制好的UIImage图片</div><div class="line"> */</div><div class="line">+ (UIImage *)QRCodeGenerateWithCodeInfo:(NSString *)codeInfo CenterImage:(UIImage *)centerImage;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p><strong>implementation</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">//  LyraQRCodeGenerate.m</div><div class="line">//  LyraQRCode</div><div class="line">//</div><div class="line">//  Created by ZSY on 2017/1/16.</div><div class="line">//  Copyright © 2017年 Lyra. All rights reserved.</div><div class="line">//</div><div class="line"></div><div class="line">#import &quot;LyraQRCodeGenerate.h&quot;</div><div class="line">#define bitmapImgSize 300.0</div><div class="line">#define centerImgSize 80.0</div><div class="line"></div><div class="line">@implementation LyraQRCodeGenerate</div><div class="line"></div><div class="line"></div><div class="line">+ (UIImage *)QRCodeGenerateWithCodeInfo:(NSString *)codeInfo CenterImage:(UIImage *)centerImage</div><div class="line">&#123;</div><div class="line">    NSData * codeData = [codeInfo dataUsingEncoding:NSUTF8StringEncoding];</div><div class="line">    // 1. 创建一个滤镜</div><div class="line">    CIFilter * filter = [CIFilter filterWithName:@&quot;CIQRCodeGenerator&quot;];</div><div class="line">    // 1.1 恢复滤镜默认设置</div><div class="line">    [filter setDefaults];</div><div class="line">    // 2. 设置二维码滤镜的输入数据, 需要通过KVC, 设置 inputMessage字段, 值为NSData</div><div class="line">    [filter setValue:codeData forKey:@&quot;inputMessage&quot;];</div><div class="line">    // 2.1 设置二维码纠错率, 需要通过KVC, 设置 inputCorrectionLevel字段, 值为L, M, Q, H</div><div class="line">    [filter setValue:@&quot;M&quot; forKey:@&quot;inputCorrectionLevel&quot;];</div><div class="line">    // 3. 获取输出图片(默认大小是23 X 23)</div><div class="line">    CIImage * outputImage = [filter outputImage];</div><div class="line">    // 3.1 后期处理, 借助位图的方式, 放大图片</div><div class="line">    UIImage * image = [self bitmapScaleImage:outputImage Size:bitmapImgSize];</div><div class="line">    </div><div class="line">    if (centerImage)</div><div class="line">    &#123;</div><div class="line">        return [self drawCenterImage:centerImage BgImage:image Size:centerImgSize];</div><div class="line">    &#125;</div><div class="line">    else</div><div class="line">    &#123;</div><div class="line">        return image;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">/**</div><div class="line"> 使用位图根据CIImage生成指定大小的高清UIImage</div><div class="line"> </div><div class="line"> - parameter ciImage: 指定CIImage</div><div class="line"> - parameter size:    size    指定大小</div><div class="line"> - returns: 生成好的高清图片</div><div class="line"> */</div><div class="line">+ (UIImage *)bitmapScaleImage:(CIImage *)orieignimage Size:(CGFloat)size</div><div class="line">&#123;</div><div class="line">    CGRect extent = orieignimage.extent;</div><div class="line">    CGFloat scale = MIN(size/extent.size.width, size/extent.size.height);</div><div class="line">    </div><div class="line">    // 1.创建bitmap;</div><div class="line">    CGFloat wh = extent.size.width * scale;</div><div class="line">    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();</div><div class="line">    CGContextRef bitmapRef = CGBitmapContextCreate(nil, (int)wh, (int)wh, 8, 0, colorSpace, 0);</div><div class="line">    </div><div class="line">    // 2.图形上下文</div><div class="line">    CIContext * context = [[CIContext alloc] initWithOptions:0];</div><div class="line">    CGImageRef bitmapImage = [context createCGImage:orieignimage fromRect:extent];</div><div class="line">    CGContextSetInterpolationQuality(bitmapRef, kCGInterpolationNone);</div><div class="line">    CGContextScaleCTM(bitmapRef, scale, scale);</div><div class="line">    CGContextDrawImage(bitmapRef, extent, bitmapImage);</div><div class="line">    </div><div class="line">    // 3.保存bitmap到图片</div><div class="line">    CGImageRef scaledImage = CGBitmapContextCreateImage(bitmapRef);</div><div class="line">    UIImage * image = [UIImage imageWithCGImage:scaledImage];</div><div class="line">    </div><div class="line">    // 4.释放内存</div><div class="line">    CGColorSpaceRelease(colorSpace);</div><div class="line">    CGContextRelease(bitmapRef);</div><div class="line">    CGImageRelease(scaledImage);</div><div class="line">    </div><div class="line">    return image;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">/**</div><div class="line"> 添加二维码中间logo图片</div><div class="line"> </div><div class="line"> - parameter centerImg: logo图片</div><div class="line"> - parameter size:      logo图片像素宽高</div><div class="line"> - parameter bgImage:   二维码图片</div><div class="line"> - returns: 合成后图片</div><div class="line"> */</div><div class="line">+ (UIImage *)drawCenterImage:(UIImage *)centerImage BgImage:(UIImage *)bgImage Size:(CGFloat)size</div><div class="line">&#123;</div><div class="line">    // 1. 开启一个图形上下文</div><div class="line">    CGSize bgSize = bgImage.size;</div><div class="line">    UIGraphicsBeginImageContext(bgSize);</div><div class="line">    // 2. 绘制大图片</div><div class="line">    [bgImage drawInRect:CGRectMake(0, 0, bgSize.width, bgSize.height)];</div><div class="line">    // 3. 在中间绘制小图片</div><div class="line">    CGFloat x = (bgSize.width - size)/2.f;</div><div class="line">    CGFloat y = (bgSize.height - size)/2.f;</div><div class="line">    [centerImage drawInRect:CGRectMake(x, y, size, size)];</div><div class="line">    // 4. 获取最终合成图片</div><div class="line">    UIImage * image = UIGraphicsGetImageFromCurrentImageContext();</div><div class="line">    // 5. 关闭上下文</div><div class="line">    UIGraphicsEndImageContext();</div><div class="line">    </div><div class="line">    return image;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<h3 id="二维码扫描"><a href="#二维码扫描" class="headerlink" title="二维码扫描"></a>二维码扫描</h3><h4 id="扫描视图类QRCodeScanView"><a href="#扫描视图类QRCodeScanView" class="headerlink" title="扫描视图类QRCodeScanView"></a>扫描视图类QRCodeScanView</h4><p>二维码扫描自然用到AVFoundation来自定义相机，这里的输出流使用AVCaptureMetadataOutput，通过设置输出流的rectOfInterest来设置识别区域</p>
+<p><strong>interface</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">//  QRCodeScanView.h</div><div class="line">//  LyraQRCode</div><div class="line">//</div><div class="line">//  Created by ZSY on 2017/1/16.</div><div class="line">//  Copyright © 2017年 Lyra. All rights reserved.</div><div class="line">//</div><div class="line">//  二维码扫描视图类</div><div class="line"></div><div class="line">#import &lt;UIKit/UIKit.h&gt;</div><div class="line"></div><div class="line">#define KSW [UIScreen mainScreen].bounds.size.width</div><div class="line">#define KSH [UIScreen mainScreen].bounds.size.height</div><div class="line">#define VWH 220.f</div><div class="line"></div><div class="line">@interface QRCodeScanView : UIView</div><div class="line"></div><div class="line">/**</div><div class="line"> * 开启扫描动作</div><div class="line"> */</div><div class="line">- (void)beignScanAnimation;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 关闭扫描动作</div><div class="line"> */</div><div class="line">- (void)endScanAnimation;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p><strong>implementation</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">//  QRCodeScanView.m</div><div class="line">//  LyraQRCode</div><div class="line">//</div><div class="line">//  Created by ZSY on 2017/1/16.</div><div class="line">//  Copyright © 2017年 Lyra. All rights reserved.</div><div class="line">//</div><div class="line"></div><div class="line">#import &quot;QRCodeScanView.h&quot;</div><div class="line"></div><div class="line">@interface QRCodeScanView ()</div><div class="line"></div><div class="line">/// 区域边框</div><div class="line">@property (nonatomic, strong) UIImageView * frameImgView;</div><div class="line">/// 扫描线</div><div class="line">@property (nonatomic, strong) UIImageView * lineImgView;</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">@implementation QRCodeScanView</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - Init</div><div class="line"></div><div class="line">- (instancetype)initWithFrame:(CGRect)frame</div><div class="line">&#123;</div><div class="line">    if (self = [super initWithFrame:frame])</div><div class="line">    &#123;</div><div class="line">        [self addSubview:self.frameImgView];</div><div class="line">        [self addSubview:self.lineImgView];</div><div class="line">        self.lineImgView.frame = CGRectMake(0, -self.lineImgView.frame.size.height, self.frame.size.width, self.lineImgView.frame.size.height);</div><div class="line">        self.clipsToBounds = true;</div><div class="line">    &#125;</div><div class="line">    return self;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)didMoveToSuperview</div><div class="line">&#123;</div><div class="line">    CGRect rect = self.frame;</div><div class="line">    UIColor * fillColor = [UIColor colorWithRed:1.f/255.f green:1.f/255.f blue:1.f/255.f alpha:1.f];</div><div class="line">    </div><div class="line">    CAShapeLayer* layerTop   = [[CAShapeLayer alloc] init];</div><div class="line">    layerTop.fillColor       = fillColor.CGColor;</div><div class="line">    layerTop.opacity         = 0.5;</div><div class="line">    layerTop.path            = [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, KSW, rect.origin.y)].CGPath;</div><div class="line">    [self.superview.layer addSublayer:layerTop];</div><div class="line">    </div><div class="line">    CAShapeLayer* layerLeft   = [[CAShapeLayer alloc] init];</div><div class="line">    layerLeft.fillColor       = fillColor.CGColor;</div><div class="line">    layerLeft.opacity         = 0.5;</div><div class="line">    layerLeft.path            = [UIBezierPath bezierPathWithRect:CGRectMake(0, rect.origin.y, (KSW-VWH)/2.0f, KSH)].CGPath;</div><div class="line">    [self.superview.layer addSublayer:layerLeft];</div><div class="line">    </div><div class="line">    CAShapeLayer* layerRight   = [[CAShapeLayer alloc] init];</div><div class="line">    layerRight.fillColor       = fillColor.CGColor;</div><div class="line">    layerRight.opacity         = 0.5;</div><div class="line">    layerRight.path            = [UIBezierPath bezierPathWithRect:CGRectMake(KSW - (KSW-VWH)/2.0f, rect.origin.y, (KSW-VWH)/2.0f, KSH)].CGPath;</div><div class="line">    [self.superview.layer addSublayer:layerRight];</div><div class="line">    </div><div class="line">    CAShapeLayer* layerBottom   = [[CAShapeLayer alloc] init];</div><div class="line">    layerBottom.fillColor       = fillColor.CGColor;</div><div class="line">    layerBottom.opacity         = 0.5;</div><div class="line">    layerBottom.path            = [UIBezierPath bezierPathWithRect:CGRectMake((KSW-VWH)/2.0f, rect.origin.y + rect.size.height, rect.size.width, KSH - rect.origin.y - rect.size.height)].CGPath;</div><div class="line">    [self.superview.layer addSublayer:layerBottom];</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - Public</div><div class="line"></div><div class="line">/**</div><div class="line"> * 开启扫描动作</div><div class="line"> */</div><div class="line">- (void)beignScanAnimation</div><div class="line">&#123;</div><div class="line">    [UIView animateWithDuration:2.0 animations:^&#123;</div><div class="line">        </div><div class="line">        [UIView setAnimationRepeatCount:MAXFLOAT];</div><div class="line">        self.lineImgView.frame = CGRectMake(0, 2 * self.frame.size.height, self.frame.size.width, self.lineImgView.frame.size.height);</div><div class="line">    &#125;];</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 关闭扫描动作</div><div class="line"> */</div><div class="line">- (void)endScanAnimation</div><div class="line">&#123;</div><div class="line">    [self.lineImgView.layer removeAllAnimations];</div><div class="line">    self.lineImgView.frame = CGRectMake(0, -self.lineImgView.frame.size.height, self.frame.size.width, self.lineImgView.frame.size.height);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - Lazy Loading</div><div class="line"></div><div class="line">- (UIImageView *)frameImgView</div><div class="line">&#123;</div><div class="line">    if (!_frameImgView)</div><div class="line">    &#123;</div><div class="line">        _frameImgView = [[UIImageView alloc] init];</div><div class="line">        _frameImgView.frame = self.bounds;</div><div class="line">        </div><div class="line">        UIImage * frameImg = [UIImage imageNamed:@&quot;qrcode_border&quot;];</div><div class="line">        frameImg = [frameImg stretchableImageWithLeftCapWidth:(NSInteger)frameImg.size.width * 0.5f topCapHeight:(NSInteger)frameImg.size.height * 0.5f];</div><div class="line">        _frameImgView.image = frameImg;</div><div class="line">    &#125;</div><div class="line">    return _frameImgView;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (UIImageView *)lineImgView</div><div class="line">&#123;</div><div class="line">    if (!_lineImgView)</div><div class="line">    &#123;</div><div class="line">        _lineImgView = [[UIImageView alloc] init];</div><div class="line">        _lineImgView.frame = self.bounds;</div><div class="line">        _lineImgView.image = [UIImage imageNamed:@&quot;qrcode_scanline.png&quot;];</div><div class="line">        [_lineImgView sizeToFit];</div><div class="line">    &#125;</div><div class="line">    return _lineImgView;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<h4 id="扫描设备类QRCodeScanDevice"><a href="#扫描设备类QRCodeScanDevice" class="headerlink" title="扫描设备类QRCodeScanDevice"></a>扫描设备类QRCodeScanDevice</h4><p><strong>interface</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">//  QRCodeScanDevice.h</div><div class="line">//  LyraQRCode</div><div class="line">//</div><div class="line">//  Created by ZSY on 2017/1/16.</div><div class="line">//  Copyright © 2017年 Lyra. All rights reserved.</div><div class="line">//</div><div class="line">//  二维码扫描设备类</div><div class="line"></div><div class="line">#import &lt;Foundation/Foundation.h&gt;</div><div class="line">#import &lt;UIKit/UIKit.h&gt;</div><div class="line">#import &lt;AVFoundation/AVFoundation.h&gt;</div><div class="line"></div><div class="line">@class QRCodeScanDevice;</div><div class="line"></div><div class="line">typedef void(^QRCallback)(QRCodeScanDevice * scanDevice, NSArray * results);</div><div class="line"></div><div class="line">@interface QRCodeScanDevice : NSObject</div><div class="line">&lt;AVCaptureMetadataOutputObjectsDelegate&gt;</div><div class="line"></div><div class="line">/// 输入设备</div><div class="line">@property (nonatomic, strong) AVCaptureDevice * device;</div><div class="line">/// 设备输入</div><div class="line">@property (nonatomic, strong) AVCaptureDeviceInput * deviceInput;</div><div class="line">/// 输出设备</div><div class="line">@property (nonatomic, strong) AVCaptureMetadataOutput * metadataOutput;</div><div class="line">/// session会话</div><div class="line">@property (nonatomic, strong) AVCaptureSession * session;</div><div class="line">/// 显示图层</div><div class="line">@property (nonatomic, strong) AVCaptureVideoPreviewLayer * videoPreviewLayer;</div><div class="line">/// 音效播放</div><div class="line">@property (nonatomic, strong) AVAudioPlayer * audioPlayer;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 添加预览图层并设置</div><div class="line"> */</div><div class="line">- (void)configPreViewLayerInView:(UIView *)view;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 设置输出的标识区域</div><div class="line"> */</div><div class="line">- (void)configOutputInterestRect:(CGRect)sourceRect;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 开始扫描</div><div class="line"> */</div><div class="line">- (void)startScanWithDrawQRCodeFrame:(BOOL)drawQRCodeFrame Result:(QRCallback)result;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 停止扫描</div><div class="line"> */</div><div class="line">- (void)stopScan;</div><div class="line"></div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p><strong>implementation</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">//  QRCodeScanDevice.m</div><div class="line">//  LyraQRCode</div><div class="line">//</div><div class="line">//  Created by ZSY on 2017/1/16.</div><div class="line">//  Copyright © 2017年 Lyra. All rights reserved.</div><div class="line">//</div><div class="line"></div><div class="line">#import &quot;QRCodeScanDevice.h&quot;</div><div class="line"></div><div class="line">@interface QRCodeScanDevice ()</div><div class="line">&#123;</div><div class="line">    QRCallback _result;</div><div class="line">    BOOL _drawQRCodeFrame;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">@implementation QRCodeScanDevice</div><div class="line"></div><div class="line"></div><div class="line">- (instancetype)init</div><div class="line">&#123;</div><div class="line">    if (self = [super init])</div><div class="line">    &#123;</div><div class="line">        [self configSession];</div><div class="line">    &#125;</div><div class="line">    return self;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - Public</div><div class="line"></div><div class="line">/**</div><div class="line"> * 添加预览图层并设置</div><div class="line"> */</div><div class="line">- (void)configPreViewLayerInView:(UIView *)view</div><div class="line">&#123;</div><div class="line">    self.videoPreviewLayer.frame = view.layer.bounds;</div><div class="line">    </div><div class="line">    if (![view.layer.sublayers containsObject:self.videoPreviewLayer])</div><div class="line">    &#123;</div><div class="line">        [view.layer insertSublayer:self.videoPreviewLayer atIndex:0];</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 设置输出的标识区域</div><div class="line"> */</div><div class="line">- (void)configOutputInterestRect:(CGRect)sourceRect</div><div class="line">&#123;</div><div class="line">    // 设置兴趣区域</div><div class="line">    // 注意, 此处需要填的rect, 是以右上角为(0, 0), 也就是横屏状态</div><div class="line">    // 值域范围: 0-&gt;1</div><div class="line">    CGRect preBounds = self.videoPreviewLayer.bounds;</div><div class="line">    CGFloat x = sourceRect.origin.x / preBounds.size.width;</div><div class="line">    CGFloat y = sourceRect.origin.y / preBounds.size.height;</div><div class="line">    CGFloat w = sourceRect.size.width / preBounds.size.width;</div><div class="line">    CGFloat h = sourceRect.size.height / preBounds.size.height;</div><div class="line">    </div><div class="line">    self.metadataOutput.rectOfInterest = CGRectMake(y, x, h, w);</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 开始扫描</div><div class="line"> */</div><div class="line">- (void)startScanWithDrawQRCodeFrame:(BOOL)drawQRCodeFrame Result:(QRCallback)result</div><div class="line">&#123;</div><div class="line">    _drawQRCodeFrame = drawQRCodeFrame;</div><div class="line">    _result = result;</div><div class="line">    </div><div class="line">    [self.session startRunning];</div><div class="line">    </div><div class="line">    // 移除之前添加的扫描到的二维码框</div><div class="line">    [self removeQRCodeFrame];</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 停止扫描</div><div class="line"> */</div><div class="line">- (void)stopScan</div><div class="line">&#123;</div><div class="line">    [self.session stopRunning];</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - AVCaptureMetadataOutputObjectsDelegate</div><div class="line"></div><div class="line">- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection</div><div class="line">&#123;</div><div class="line">    // 移除之前添加的扫描到的二维码框</div><div class="line">    [self removeQRCodeFrame];</div><div class="line">    </div><div class="line">    NSMutableArray * temps = [NSMutableArray array];</div><div class="line">    </div><div class="line">    for (AVMetadataMachineReadableCodeObject * codeObj in metadataObjects)</div><div class="line">    &#123;</div><div class="line">        [temps addObject:[codeObj stringValue]];</div><div class="line">        </div><div class="line">        if (_drawQRCodeFrame)</div><div class="line">        &#123;</div><div class="line">            // 使用预览图层转换坐标系,.将扫描到二维码的坐标转换为我们能够识别的坐标</div><div class="line">            AVMetadataObject * metaObj = [self.videoPreviewLayer transformedMetadataObjectForMetadataObject:codeObj];</div><div class="line">            [self drawQRCodeFrame:(AVMetadataMachineReadableCodeObject *)metaObj];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    if (_result)</div><div class="line">    &#123;</div><div class="line">        [self.audioPlayer play];</div><div class="line">        _result(self, temps);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - Private</div><div class="line"></div><div class="line">/**</div><div class="line"> * 根据扫描到的元数据对象, 绘制二维码边框</div><div class="line"> - parameter codeObj: 元数据对象</div><div class="line"> */</div><div class="line">- (void)drawQRCodeFrame:(AVMetadataMachineReadableCodeObject *)codeObj</div><div class="line">&#123;</div><div class="line">    // 创建图层</div><div class="line">    CAShapeLayer * shapeLayer = [[CAShapeLayer alloc] init];</div><div class="line">    shapeLayer.lineWidth = 3;</div><div class="line">    shapeLayer.strokeColor = [UIColor redColor].CGColor;</div><div class="line">    shapeLayer.fillColor = [UIColor clearColor].CGColor;</div><div class="line">    </div><div class="line">    // 创建图层路径, 并根据四角绘制线</div><div class="line">    UIBezierPath * bezierPath = [[UIBezierPath alloc] init];</div><div class="line">    </div><div class="line">    // 解析点</div><div class="line">    NSInteger count = codeObj.corners.count;</div><div class="line">    </div><div class="line">    for (NSInteger i = 0; i &lt; count; i++)</div><div class="line">    &#123;</div><div class="line">        // 根据元数据获取其中的边角信息</div><div class="line">        CFDictionaryRef pointDict = (__bridge CFDictionaryRef)(codeObj.corners[i]);</div><div class="line">        // 根据字典创建一个point</div><div class="line">        CGPoint point = CGPointZero;</div><div class="line">        CGPointMakeWithDictionaryRepresentation(pointDict, &amp;point);</div><div class="line">        // 根据点描绘边框</div><div class="line">        if (i == 0)</div><div class="line">        &#123;</div><div class="line">            // 移动到第一个点</div><div class="line">            [bezierPath moveToPoint:point];</div><div class="line">        &#125;</div><div class="line">        else</div><div class="line">        &#123;</div><div class="line">            // 添加其余的边框</div><div class="line">            [bezierPath addLineToPoint:point];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    // 关闭路径</div><div class="line">    [bezierPath closePath];</div><div class="line">    // 设置路径</div><div class="line">    shapeLayer.path = bezierPath.CGPath;</div><div class="line">    // 将绘制后的layer, 添加到图层上</div><div class="line">    [self.videoPreviewLayer addSublayer:shapeLayer];</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 移除扫描到的二维码的绘制边框</div><div class="line"> */</div><div class="line">- (void)removeQRCodeFrame</div><div class="line">&#123;</div><div class="line">    for (CAShapeLayer * shapeLayer in self.videoPreviewLayer.sublayers)</div><div class="line">    &#123;</div><div class="line">        if ([shapeLayer isKindOfClass:[CAShapeLayer class]])</div><div class="line">        &#123;</div><div class="line">            [shapeLayer removeFromSuperlayer];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - Lazy Loading</div><div class="line"></div><div class="line">- (AVCaptureDevice *)device</div><div class="line">&#123;</div><div class="line">    if (!_device)</div><div class="line">    &#123;</div><div class="line">        _device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];</div><div class="line">    &#125;</div><div class="line">    return _device;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (AVCaptureDeviceInput *)deviceInput</div><div class="line">&#123;</div><div class="line">    if (!_deviceInput)</div><div class="line">    &#123;</div><div class="line">        NSError * error;</div><div class="line">        _deviceInput = [AVCaptureDeviceInput deviceInputWithDevice:self.device error:&amp;error];</div><div class="line">    &#125;</div><div class="line">    return _deviceInput;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (AVCaptureMetadataOutput *)metadataOutput</div><div class="line">&#123;</div><div class="line">    if (!_metadataOutput)</div><div class="line">    &#123;</div><div class="line">        _metadataOutput = [[AVCaptureMetadataOutput alloc] init];</div><div class="line">        [_metadataOutput setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];</div><div class="line">    &#125;</div><div class="line">    return _metadataOutput;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (AVCaptureSession *)session</div><div class="line">&#123;</div><div class="line">    if (!_session)</div><div class="line">    &#123;</div><div class="line">        _session = [[AVCaptureSession alloc] init];</div><div class="line">        // 采集质量</div><div class="line">        [_session setSessionPreset:AVCaptureSessionPresetHigh];</div><div class="line">    &#125;</div><div class="line">    return _session;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (AVCaptureVideoPreviewLayer *)videoPreviewLayer</div><div class="line">&#123;</div><div class="line">    if (!_videoPreviewLayer)</div><div class="line">    &#123;</div><div class="line">        _videoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:self.session];</div><div class="line">    &#125;</div><div class="line">    return _videoPreviewLayer;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (AVAudioPlayer *)audioPlayer</div><div class="line">&#123;</div><div class="line">    if (!_audioPlayer)</div><div class="line">    &#123;</div><div class="line">        NSString * audioPath = [[NSBundle mainBundle] pathForResource:@&quot;qrcode_scan_suc.wav&quot; ofType:@&quot;&quot;];</div><div class="line">        NSData * audioData = [NSData dataWithContentsOfFile:audioPath];</div><div class="line">        _audioPlayer = [[AVAudioPlayer alloc] initWithData:audioData error:nil];</div><div class="line">    &#125;</div><div class="line">    return _audioPlayer;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)configSession</div><div class="line">&#123;</div><div class="line">    // 1. 创建会话, 连接输入和输出</div><div class="line">    if ([self.session canAddInput:self.deviceInput])</div><div class="line">    &#123;</div><div class="line">        [self.session addInput:self.deviceInput];</div><div class="line">    &#125;</div><div class="line">    if ([self.session canAddOutput:self.metadataOutput])</div><div class="line">    &#123;</div><div class="line">        [self.session addOutput:self.metadataOutput];</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    // 2 设置元数据处理类型 output.availableMetadataObjectTypes</div><div class="line">    // 必须在添加元数据输出之后, 才可以设置, 否则无效</div><div class="line">    if ([[self.metadataOutput availableMetadataObjectTypes] containsObject:AVMetadataObjectTypeQRCode])</div><div class="line">    &#123;</div><div class="line">        self.metadataOutput.metadataObjectTypes = @[AVMetadataObjectTypeQRCode];</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<h4 id="扫描控制器类LyraQRCScanViewController"><a href="#扫描控制器类LyraQRCScanViewController" class="headerlink" title="扫描控制器类LyraQRCScanViewController"></a>扫描控制器类LyraQRCScanViewController</h4><p><strong>interface</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">//  LyraQRCScanViewController.h</div><div class="line">//  LyraQRCode</div><div class="line">//</div><div class="line">//  Created by ZSY on 2017/1/16.</div><div class="line">//  Copyright © 2017年 Lyra. All rights reserved.</div><div class="line">//</div><div class="line">//  二维码扫描控制器类</div><div class="line"></div><div class="line">#import &lt;UIKit/UIKit.h&gt;</div><div class="line"></div><div class="line">@interface LyraQRCScanViewController : LyraViewController</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p><strong>implementation</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">//  LyraQRCScanViewController.m</div><div class="line">//  LyraQRCode</div><div class="line">//</div><div class="line">//  Created by ZSY on 2017/1/16.</div><div class="line">//  Copyright © 2017年 Lyra. All rights reserved.</div><div class="line">//</div><div class="line"></div><div class="line">#import &quot;LyraQRCScanViewController.h&quot;</div><div class="line">#import &quot;QRCodeScanView.h&quot;</div><div class="line">#import &quot;QRCodeScanDevice.h&quot;</div><div class="line">#import &quot;zsyStoreMakeSureSendVC.h&quot;</div><div class="line"></div><div class="line">@interface LyraQRCScanViewController ()</div><div class="line"></div><div class="line">@property (nonatomic, strong) QRCodeScanView * scanView;</div><div class="line">@property (nonatomic, strong) QRCodeScanDevice * scanDevice;</div><div class="line">@property (nonatomic, strong) UILabel * alertLabel;</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">@implementation LyraQRCScanViewController</div><div class="line"></div><div class="line">- (void)viewDidLoad</div><div class="line">&#123;</div><div class="line">    [super viewDidLoad];</div><div class="line">    </div><div class="line">    self.title = @&quot;扫一扫&quot;;</div><div class="line">    </div><div class="line">    [self.view addSubview:self.scanView];</div><div class="line">    [self.scanDevice configPreViewLayerInView:self.view];</div><div class="line">    [self.scanDevice configOutputInterestRect:self.scanView.frame];</div><div class="line">    </div><div class="line">    [self.view addSubview:self.alertLabel];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)viewWillAppear:(BOOL)animated</div><div class="line">&#123;</div><div class="line">    [super viewWillAppear:animated];</div><div class="line">    </div><div class="line">    [self reConfigNavigation];</div><div class="line">    </div><div class="line">    [self.scanView beignScanAnimation];</div><div class="line">    </div><div class="line">    __weak typeof(self) weakSelf = self;</div><div class="line">    [self.scanDevice startScanWithDrawQRCodeFrame:true Result:^(QRCodeScanDevice *scanDevice, NSArray *results) &#123;</div><div class="line">        </div><div class="line">        __strong typeof(weakSelf) strongSelf = weakSelf;</div><div class="line">        </div><div class="line">        [scanDevice stopScan];</div><div class="line">        [strongSelf.scanView endScanAnimation];</div><div class="line">        </div><div class="line">        if (results.count &lt;= 0)</div><div class="line">        &#123;</div><div class="line">            return;</div><div class="line">        &#125;</div><div class="line">        NSString * resultStr = results[0];</div><div class="line">        </div><div class="line">        NSData * data = [resultStr dataUsingEncoding:NSUTF8StringEncoding];</div><div class="line">        NSString * dictString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];</div><div class="line">        </div><div class="line">        if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:resultStr]]) &#123;</div><div class="line">            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:resultStr]];</div><div class="line">            return;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        SellerAccount * seller = UNGetSerializedObject(KEY_SELLER);</div><div class="line">        BOOL isBusiner = ![seller.sellerId isEqualToString:@&quot;&quot;];</div><div class="line">        BOOL isExchange = [dictString containsString:@&quot;exchange&quot;];//商家兑换</div><div class="line">        </div><div class="line">        if (isBusiner&amp;&amp;isExchange)</div><div class="line">        &#123;</div><div class="line">            resultStr = [resultStr substringFromIndex:9];</div><div class="line">            NSData * data = [resultStr dataUsingEncoding:NSUTF8StringEncoding];</div><div class="line">            NSDictionary * dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];</div><div class="line">            zsyStoreMakeSureSendVC * makeSureSendVC = [[zsyStoreMakeSureSendVC alloc] init];</div><div class="line">            makeSureSendVC.makeSureMode = zsyStoreMakeSureModeExchange;</div><div class="line">            makeSureSendVC.qrDict = dict;</div><div class="line">            [self.navigationController pushViewController:makeSureSendVC animated:YES];</div><div class="line">            NSMutableArray * vcs = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];</div><div class="line">            [vcs removeObject:self];</div><div class="line">            self.navigationController.viewControllers = vcs;</div><div class="line">            return;</div><div class="line">        &#125;</div><div class="line">    &#125;];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)viewWillDisappear:(BOOL)animated</div><div class="line">&#123;</div><div class="line">    [super viewWillDisappear:animated];</div><div class="line">    </div><div class="line">    [self configNavigation];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)viewDidDisappear:(BOOL)animated</div><div class="line">&#123;</div><div class="line">    [super viewDidDisappear:animated];</div><div class="line">    </div><div class="line">    [self.scanDevice stopScan];</div><div class="line">    [self.scanView endScanAnimation];</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - Lazy Loading &amp; Config</div><div class="line"></div><div class="line">- (QRCodeScanView *)scanView</div><div class="line">&#123;</div><div class="line">    if (!_scanView)</div><div class="line">    &#123;</div><div class="line">        CGRect scanViewFrame = CGRectMake((KSW-VWH)/2.0f, (KSH-VWH)/2.0f, VWH, VWH);</div><div class="line">        _scanView = [[QRCodeScanView alloc] initWithFrame:scanViewFrame];</div><div class="line">    &#125;</div><div class="line">    return _scanView;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (QRCodeScanDevice *)scanDevice</div><div class="line">&#123;</div><div class="line">    if (!_scanDevice)</div><div class="line">    &#123;</div><div class="line">        _scanDevice = [[QRCodeScanDevice alloc] init];</div><div class="line">    &#125;</div><div class="line">    return _scanDevice;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (UILabel *)alertLabel</div><div class="line">&#123;</div><div class="line">    if (!_alertLabel)</div><div class="line">    &#123;</div><div class="line">        _alertLabel = [[UILabel alloc] init];</div><div class="line">        _alertLabel.font = [UIFont systemFontOfSize:14.f];</div><div class="line">        _alertLabel.textColor = [UIColor whiteColor];</div><div class="line">        _alertLabel.text = @&quot;将取景框对准二维码，即可自动扫描&quot;;</div><div class="line">        [_alertLabel sizeToFit];</div><div class="line">        _alertLabel.center = CGPointMake(KSW/2.0f, self.scanView.frame.origin.y - _alertLabel.bounds.size.height - 10);</div><div class="line">    &#125;</div><div class="line">    return _alertLabel;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)reConfigNavigation</div><div class="line">&#123;</div><div class="line">    UIImage * image = [UIColor imageWithHex:0x000000 Alpha:0];</div><div class="line">    [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];</div><div class="line">    [self.navigationController.navigationBar setShadowImage:[UIImage new]];</div><div class="line">    </div><div class="line">    self.navigationController.navigationBar.translucent = true;</div><div class="line">    self.edgesForExtendedLayout = UIRectEdgeTop;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/AVFoundation/" rel="tag"># AVFoundation</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/02/11/iOS-AVFoundation-自定义相机视频录制与合成/" rel="next" title="iOS:AVFoundation:自定义相机视频录制与合成">
+                <i class="fa fa-chevron-left"></i> iOS:AVFoundation:自定义相机视频录制与合成
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/21/Objective-C-Block/" rel="prev" title="Objective-C:Block">
+                Objective-C:Block <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="张胜烊" />
+          <p class="site-author-name" itemprop="name">张胜烊</p>
+          <p class="site-description motion-element" itemprop="description">A Coder who like Orange</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="mailto:Lyra814@icloud.com" target="_blank" title="Email">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                  Email
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://wy95.xyz" title="诗酒趁年华" target="_blank">诗酒趁年华</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://yucapri.net" title="yucapri" target="_blank">yucapri</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类结构"><span class="nav-number">2.</span> <span class="nav-text">类结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#识别图片中的二维码"><span class="nav-number">3.</span> <span class="nav-text">识别图片中的二维码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#二维码识别类LyraQRCodeDetector"><span class="nav-number">3.1.</span> <span class="nav-text">二维码识别类LyraQRCodeDetector</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二维码生成"><span class="nav-number">4.</span> <span class="nav-text">二维码生成</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#二维码生成类LyraQRCodeGenerate"><span class="nav-number">4.1.</span> <span class="nav-text">二维码生成类LyraQRCodeGenerate</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二维码扫描"><span class="nav-number">5.</span> <span class="nav-text">二维码扫描</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#扫描视图类QRCodeScanView"><span class="nav-number">5.1.</span> <span class="nav-text">扫描视图类QRCodeScanView</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#扫描设备类QRCodeScanDevice"><span class="nav-number">5.2.</span> <span class="nav-text">扫描设备类QRCodeScanDevice</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#扫描控制器类LyraQRCScanViewController"><span class="nav-number">5.3.</span> <span class="nav-text">扫描控制器类LyraQRCScanViewController</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张胜烊</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

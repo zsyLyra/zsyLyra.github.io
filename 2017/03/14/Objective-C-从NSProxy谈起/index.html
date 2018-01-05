@@ -1,0 +1,706 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Objc," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="id&amp;lt; NSObject &amp;gt;面向协议编程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Objective-C-从NSProxy谈起">
+<meta property="og:url" content="http://yoursite.com/2017/03/14/Objective-C-从NSProxy谈起/index.html">
+<meta property="og:site_name" content="Lyra">
+<meta property="og:description" content="id&amp;lt; NSObject &amp;gt;面向协议编程">
+<meta property="og:updated_time" content="2017-11-30T02:41:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Objective-C-从NSProxy谈起">
+<meta name="twitter:description" content="id&amp;lt; NSObject &amp;gt;面向协议编程">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":1},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/03/14/Objective-C-从NSProxy谈起/"/>
+
+
+
+
+
+  <title> Objective-C-从NSProxy谈起 | Lyra </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lyra</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Personal Blog</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/14/Objective-C-从NSProxy谈起/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="张胜烊">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Lyra">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Lyra" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Objective-C-从NSProxy谈起
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-14T20:14:35+08:00">
+                2017-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p style="font-family:verdana;font-size:100%;color:gray" ,="" align="center">id&lt; NSObject &gt;面向协议编程</p>
+
+<a id="more"></a>
+<h3 id="NSProxy类"><a href="#NSProxy类" class="headerlink" title="NSProxy类"></a>NSProxy类</h3><p>NSProxy类是最近偶然发现的一个类，平时基本没有用过这个类。但是在OC中，NSproxy是一个十分特殊的类，严格来讲，NSProxy不是一个NSObject，也不属于OC类。<br>我们开一下NSproxy的API：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">@class NSMethodSignature, NSInvocation;</div><div class="line"></div><div class="line">NS_ASSUME_NONNULL_BEGIN</div><div class="line"></div><div class="line">NS_ROOT_CLASS</div><div class="line">@interface NSProxy &lt;NSObject&gt; &#123;</div><div class="line">    Class	isa;</div><div class="line">&#125;</div><div class="line"></div><div class="line">+ (id)alloc;</div><div class="line">+ (id)allocWithZone:(nullable NSZone *)zone NS_AUTOMATED_REFCOUNT_UNAVAILABLE;</div><div class="line">+ (Class)class;</div><div class="line"></div><div class="line">- (void)forwardInvocation:(NSInvocation *)invocation;</div><div class="line">- (nullable NSMethodSignature *)methodSignatureForSelector:(SEL)sel NS_SWIFT_UNAVAILABLE(&quot;NSInvocation and related APIs not available&quot;);</div><div class="line">- (void)dealloc;</div><div class="line">- (void)finalize;</div><div class="line">@property (readonly, copy) NSString *description;</div><div class="line">@property (readonly, copy) NSString *debugDescription;</div><div class="line">+ (BOOL)respondsToSelector:(SEL)aSelector;</div><div class="line"></div><div class="line">- (BOOL)allowsWeakReference NS_UNAVAILABLE;</div><div class="line">- (BOOL)retainWeakReference NS_UNAVAILABLE;</div><div class="line"></div><div class="line">// - (id)forwardingTargetForSelector:(SEL)aSelector;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>@interface NSProxy <nsobject> 说明NSproxy遵守NSObject协议，而且有一个 Class    isa 指针，可以猜想它完全可以当做NSObject类来使用。对于NSProxy的使用，主要集中在两个方法：</nsobject></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">- (void)forwardInvocation:(NSInvocation *)invocation;</div><div class="line">- (nullable NSMethodSignature *)methodSignatureForSelector:(SEL)sel NS_SWIFT_UNAVAILABLE(&quot;NSInvocation and related APIs not available&quot;);</div></pre></td></tr></table></figure>
+<p>###NSProxy的使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">@interface MyProxy : NSProxy &#123;</div><div class="line">    id _object;</div><div class="line">&#125;</div><div class="line"></div><div class="line">+ (id)proxyForObject:(id)obj;</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line"></div><div class="line">@implementation MyProxy</div><div class="line"></div><div class="line">+ (id)proxyForObject:(id)obj &#123;</div><div class="line">    MyProxy *instance = [MyProxy alloc];</div><div class="line">    instance-&gt;_object = obj;</div><div class="line"></div><div class="line">    return instance;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (NSMethodSignature *)methodSignatureForSelector:(SEL)sel &#123;</div><div class="line">    return [_object methodSignatureForSelector:sel];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)forwardInvocation:(NSInvocation *)invocation &#123;</div><div class="line">    if ([_object respondsToSelector:invocation.selector]) &#123;</div><div class="line">        NSString *selectorName = NSStringFromSelector(invocation.selector);</div><div class="line"></div><div class="line">        NSLog(@&quot;Before calling \&quot;%@\&quot;.&quot;, selectorName);</div><div class="line">        [invocation invokeWithTarget:_object];</div><div class="line">        NSLog(@&quot;After calling \&quot;%@\&quot;.&quot;, selectorName);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>这是我们的 Proxy 简单实现，我们需要持有一个被代理对象的引用，然后将消息转发到这个对象上，在转发之前和以后我们就可以做自己想做的事情了。</p>
+<p>methodSignatureForSelector: 方法需要获取一个方法签名，用来生成 NSInvocation，我们直接将这个调用转发到被代理对象中。紧接着，forwardInvocation: 会被调用，将 NSInvocation 用被代理对象调用。我们就可以在这个方法里做一些手脚，比如埋点计数等。在这个例子中，我只是简单地将对象所调用的方法的 selector 打印出来。</p>
+<p>然后我们看看用于测试的主函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">int main(int argc, char *argv[]) &#123;</div><div class="line">    dispatch_semaphore_t sem = dispatch_semaphore_create(0);</div><div class="line"></div><div class="line">    NSURL *url = [MyProxy proxyForObject:[NSURL URLWithString:@&quot;https://www.google.com&quot;]];</div><div class="line">    NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) &#123;</div><div class="line">        dispatch_semaphore_signal(sem);</div><div class="line">    &#125;];</div><div class="line"></div><div class="line">    [task resume];</div><div class="line">    dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);</div><div class="line"></div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>就是简单构造一个 NSURL，只不过我们先用了 MyProxy 封装代理后传给 NSURLSession 去使用,<br>系统用 NSURL 的 absoluteURL 属性来获取真正的 URL 数据，这样，我们就已经可以跟踪已有类的行为了，甚至还可以通过 [NSThread callStackSymbols] 来跟踪调用该方法的函数调用栈，并借此来跟踪一些系统行为。</p>
+<h3 id="Hook-返回值"><a href="#Hook-返回值" class="headerlink" title="Hook 返回值"></a>Hook 返回值</h3><p>在消息发送过程中的拦截调用，曾经出现一个方法：<br><code>- (void)forwardInvocation:(NSInvocation *)anInvocation;</code><br>该方法将所调用的未找到的method，打包成NSInvocation（即anInvocation），在该方法中进行自定义处理后，调用invokeWithTarget:方法，让另一个实例来触发。<br>对于 NSInvocation，它封装了一个方法调用的全部信息，包括参数和返回值。既然是 Hook，我们就应该可以拦截方法的返回值并作加工。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">- (void)getReturnValue:(void *)retLoc;</div><div class="line">- (void)setReturnValue:(void *)retLoc;</div></pre></td></tr></table></figure>
+<p>就是处理返回值的两个方法，我们可以用下面的语句来获取被代理对象的方法返回值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">NSURL *retValue;</div><div class="line">[invocation getReturnValue:&amp;retValue];</div></pre></td></tr></table></figure>
+<p>这是OC 中原生实现 AOP 的方式，更多的AOP在Runtime处，AOP 的在平时开发中的利用率还是挺高的，知名的 JSPatch、平时做的一些代码插桩都用到了 AOP 这一范式，而且 OC 天生就对这方面的支持十分友好。但并不是说 AOP 是万能的，滥用也会造成很多问题，导致代码复杂度上升，维护性下降。AOP 只是用来弥补设计上的不足或失误的，并不是一切问题的解决方法，谨慎使用才能更好地提高开发效率，降低维护成本。</p>
+<h3 id="从NSProxy谈起：id类型-NBObject类，与id-lt-NSObject-gt"><a href="#从NSProxy谈起：id类型-NBObject类，与id-lt-NSObject-gt" class="headerlink" title="从NSProxy谈起：id类型 NBObject类，与id&lt; NSObject &gt;"></a>从NSProxy谈起：id类型 NBObject类，与id&lt; NSObject &gt;</h3><h4 id="id类型"><a href="#id类型" class="headerlink" title="id类型"></a>id类型</h4><p>id类型简单申明了指向对象的指针，没有给编译器任何类型信息，因此编译器不会进行类型检查。所以可以给id类型的对象发送任何信息。这也是初始化方法，+alloc返回id类型，调用[[Foo alloc] init]不会产生编译错误的原因。<br>id类型是运行时的动态类型。它是一个OC对象，但是并不都指向NSObject对象，即使这个类型和NSObject对象有很多共同的方法，像retain和release。要让编译器知道这个类继承自NSObject，一种解决办法就是使用NSObject静态类型，当你发送NSObject没有的方法，像length或者count时，编译器就会给出警告。这也意味着，你可以安全地使用像retain，release，description这些方法。</p>
+<h3 id="NSObject类型"><a href="#NSObject类型" class="headerlink" title="NSObject类型"></a>NSObject类型</h3><p>虽然可以申明一个通用的NSObject对象指针，但并不是所有的Foundation/Cocoa对象都继承息NSObject，比如NSProxy就不从NSObject继承，所以你无法使用NSObject＊指向这个对象，即使NSProxy对象有release和retain这样的通用方法。为了解决这个问题，这时候，你就需要一个指向拥有NSObject方法对象的指针，id&lt; NSObject &gt;就可以这样做到。</p>
+<h3 id="id-lt-NSObject-gt"><a href="#id-lt-NSObject-gt" class="headerlink" title="id&lt; NSObject &gt;"></a>id&lt; NSObject &gt;</h3><p>id&lt; NSObject &gt;告诉编译器，你不关心对象是什么类型，但它必须遵守NSObject协议(protocol)，编译器就能保证所有赋值给id&lt; NSObject &gt;类型的对象都遵守NSObject协议(protocol)。这样的指针可以指向任何NSObject对象，因为NSObject对象遵守NSObject协议(protocol)，而且，它也可以用来保存NSProxy对象，因为它也遵守NSObject协议(protocol)。这是非常强大，方便且灵活，你不用关心对象是什么类型，而只关心它实现了哪些方法。</p>
+<p>本文是学习整理，主题知识来源于网络，链接：<a href="http://www.jianshu.com/p/a7187e014c03" target="_blank" rel="external"></a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Objc/" rel="tag"># Objc</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/05/Objective-C-Runtime+Button优雅的添加连点限定/" rel="next" title="Objective-C:Runtime+Button优雅的添加连点限定">
+                <i class="fa fa-chevron-left"></i> Objective-C:Runtime+Button优雅的添加连点限定
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/27/Objective-C-内存管理/" rel="prev" title="Objective-C:内存管理">
+                Objective-C:内存管理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="张胜烊" />
+          <p class="site-author-name" itemprop="name">张胜烊</p>
+          <p class="site-description motion-element" itemprop="description">A Coder who like Orange</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="mailto:Lyra814@icloud.com" target="_blank" title="Email">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                  Email
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://wy95.xyz" title="诗酒趁年华" target="_blank">诗酒趁年华</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://yucapri.net" title="yucapri" target="_blank">yucapri</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#NSProxy类"><span class="nav-number">1.</span> <span class="nav-text">NSProxy类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hook-返回值"><span class="nav-number">2.</span> <span class="nav-text">Hook 返回值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从NSProxy谈起：id类型-NBObject类，与id-lt-NSObject-gt"><span class="nav-number">3.</span> <span class="nav-text">从NSProxy谈起：id类型 NBObject类，与id< NSObject ></span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#id类型"><span class="nav-number">3.1.</span> <span class="nav-text">id类型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NSObject类型"><span class="nav-number">4.</span> <span class="nav-text">NSObject类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#id-lt-NSObject-gt"><span class="nav-number">5.</span> <span class="nav-text">id< NSObject ></span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张胜烊</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

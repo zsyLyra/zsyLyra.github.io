@@ -1,0 +1,751 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="密码学," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这是一场不公平的战争，战争双方攻防不对等">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS:密码学">
+<meta property="og:url" content="http://yoursite.com/2015/11/15/iOS-密码学/index.html">
+<meta property="og:site_name" content="Lyra">
+<meta property="og:description" content="这是一场不公平的战争，战争双方攻防不对等">
+<meta property="og:updated_time" content="2017-11-27T03:00:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS:密码学">
+<meta name="twitter:description" content="这是一场不公平的战争，战争双方攻防不对等">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":1},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/11/15/iOS-密码学/"/>
+
+
+
+
+
+  <title> iOS:密码学 | Lyra </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lyra</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Personal Blog</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/11/15/iOS-密码学/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="张胜烊">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Lyra">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Lyra" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS:密码学
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-11-15T15:03:38+08:00">
+                2015-11-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p style="font-family:verdana;font-size:100%;color:gray" ,="" align="center">这是一场不公平的战争，战争双方攻防不对等</p>
+
+<a id="more"></a>
+<p>常见的加密算法有三种，哈希算法（散列函数），对称加密算法，以及非对称加密算法。三种加密算法分别有不同的应用场景，最常用的是综合搭配使用。</p>
+<h3 id="哈希算法"><a href="#哈希算法" class="headerlink" title="哈希算法"></a>哈希算法</h3><h4 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h4><h5 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h5><ol>
+<li>算法公开；</li>
+<li>对不同数据的加密结果是定长的32位字符；</li>
+<li>加密不可逆。</li>
+</ol>
+<h5 id="破解"><a href="#破解" class="headerlink" title="破解"></a>破解</h5><p>散列碰撞，找出两个不同的数据，加密之后得到相同的Hash值。</p>
+<h5 id="经典算法"><a href="#经典算法" class="headerlink" title="经典算法"></a>经典算法</h5><ol>
+<li>MD5加密；</li>
+<li>SHA1（256/512）加密；</li>
+<li>HMAC加密。</li>
+</ol>
+<h4 id="MD5加密"><a href="#MD5加密" class="headerlink" title="MD5加密"></a>MD5加密</h4><h5 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h5><ol>
+<li>MD5（“信息指纹”,“信息-摘要”算法）；</li>
+<li>压缩性 : 任意长度的数据,算出的 MD5 值长度都是固定的；</li>
+<li>容易计算 : 从原数据计算出 MD5 值容易且高效；</li>
+<li>抗修改性 : 对原数据进行任何改动,哪怕只修改一个字节,所得到的 MD5 值都有很大区别；</li>
+<li>弱抗碰撞 : 已知原数据和其 MD5 值,想找到一个具有相同 MD5 值的数据(即伪造数据)是非常困难的；</li>
+<li>强抗碰撞: 想找到两个不同数据,使他们具有相同的 MD5 值,是非常困难的。</li>
+</ol>
+<h5 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h5><ol>
+<li>密码加密；</li>
+<li>利用 MD5 来进行文件校验,被大量应用在软件下载站,论坛数据库,系统文件安全等方面(是否认为添加木马，篡改文件内容等)；</li>
+<li>搜索引擎：iOS Lyra 与 Lyra iOS ，将关键字分别MD5后进行位运算可得相同结果；</li>
+<li>云盘的秒传，根据MD5判断文件是否存在于服务器中;</li>
+<li>一致性验证:MD5将整个文件当做一个大文本信息,通过不可逆的字符串变换算法,产生一个唯一的MD5信息摘要.就像每个人都有自己独一无二的指纹,MD5对任何文件产生一个独一无二的数字指纹;</li>
+<li>数字签名;</li>
+<li>安全访问认证。</li>
+</ol>
+<h4 id="SHA1（256-512）加密"><a href="#SHA1（256-512）加密" class="headerlink" title="SHA1（256/512）加密"></a>SHA1（256/512）加密</h4><h5 id="特点-2"><a href="#特点-2" class="headerlink" title="特点"></a>特点</h5><p>SHA1（256/512）是继MD5之后的算法，一定程度上是MD5的替代</p>
+<h5 id="应用-1"><a href="#应用-1" class="headerlink" title="应用"></a>应用</h5><p>SHA1（256/512）加密</p>
+<h4 id="HMAC加密"><a href="#HMAC加密" class="headerlink" title="HMAC加密"></a>HMAC加密</h4><h5 id="特点-3"><a href="#特点-3" class="headerlink" title="特点"></a>特点</h5><p>在MD5和SHA1之上的补充，用一个密钥加密，然后做两次散列</p>
+<h5 id="应用-2"><a href="#应用-2" class="headerlink" title="应用"></a>应用</h5><ol>
+<li>加密；</li>
+<li>设备锁（KEY保存到钥匙串中，以KEY为设备锁的依据）</li>
+</ol>
+<h4 id="注册登录加密方案"><a href="#注册登录加密方案" class="headerlink" title="注册登录加密方案"></a>注册登录加密方案</h4><h5 id="加密方式1：直接MD5加密"><a href="#加密方式1：直接MD5加密" class="headerlink" title="加密方式1：直接MD5加密"></a>加密方式1：直接MD5加密</h5><p><strong>说明</strong>：直接MD5加密简单直接，但安全系数极低，没什么用。<br><strong>代码</strong>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">#pragma mark - 加密方式1：直接MD5加密</div><div class="line"></div><div class="line">static NSString * Account1;</div><div class="line">static NSString * Password1;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 注册登录流程模拟1：MD5直接加密</div><div class="line"> */</div><div class="line">- (void)handleUserAccountPasswordBasedMD5 &#123;</div><div class="line">    </div><div class="line">    [self registerBasedMD5];</div><div class="line">    [self loginBasedMD5];</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 注册加密处理1:MD5直接加密</div><div class="line"> */</div><div class="line">- (void)registerBasedMD5 &#123;</div><div class="line">    </div><div class="line">    /// 本地账号密码处理</div><div class="line">    NSString * account = @&quot;18918186688&quot;;</div><div class="line">    NSString * password = @&quot;Lyra12345678&quot;;</div><div class="line">    password = password.md5String;</div><div class="line">    </div><div class="line">    /// 发送到服务器接收</div><div class="line">    Account1 = account;</div><div class="line">    Password1 = password;</div><div class="line">    NSLog(@&quot;The account server received is:%@&quot;, Account1);</div><div class="line">    NSLog(@&quot;The password server received is:%@&quot;, Password1);</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 登录加密处理1:MD5直接加密</div><div class="line"> */</div><div class="line">- (void)loginBasedMD5 &#123;</div><div class="line">    </div><div class="line">    /// 本地账号密码处理</div><div class="line">    NSString * account = @&quot;18918186688&quot;;</div><div class="line">    NSString * password = @&quot;Lyra12345678&quot;;</div><div class="line">    password = password.md5String;</div><div class="line">    </div><div class="line">    /// 发送到服务器验证</div><div class="line">    if ([account isEqualToString:Account1] &amp;&amp; [password isEqualToString:Password1]) &#123;</div><div class="line">        NSLog(@&quot;登陆成功&quot;);</div><div class="line">    &#125; else &#123;</div><div class="line">        NSLog(@&quot;登陆失败&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h5 id="加密方式2：密码加盐后MD5加密"><a href="#加密方式2：密码加盐后MD5加密" class="headerlink" title="加密方式2：密码加盐后MD5加密"></a>加密方式2：密码加盐后MD5加密</h5><p><strong>说明</strong>：密码加盐后MD5加密比单纯加密要安全，但是弊端很明显：盐写死在程序，要更换盐代价很大，而且盐的泄漏风险很高。<br><strong>代码</strong>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line">#pragma mark - 加密方式2：密码加盐后MD5加密</div><div class="line"></div><div class="line">static NSString * Account2;</div><div class="line">static NSString * Password2;</div><div class="line">///盐：盐要足够长，足够复杂.</div><div class="line">static NSString * salt = @&quot;THIBSNNABKDAINDND91i2e9uqENSDDSJNDJNJSDNJ81838jaw92&quot;;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 注册登录流程模拟2：密码加盐后MD5加密</div><div class="line"> */</div><div class="line">- (void)handleUserAccountPasswordBasedSaltMD5 &#123;</div><div class="line">    </div><div class="line">    [self registerBasedSaltMD5];</div><div class="line">    [self loginBasedSaltMD5];</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 注册加密处理2:密码加盐后MD5加密</div><div class="line"> */</div><div class="line">- (void)registerBasedSaltMD5 &#123;</div><div class="line">    </div><div class="line">    /// 本地账号密码处理</div><div class="line">    NSString * account = @&quot;18918186688&quot;;</div><div class="line">    NSString * password = @&quot;Lyra12345678&quot;;</div><div class="line">    password = [password stringByAppendingString:salt].md5String;</div><div class="line">    </div><div class="line">    /// 发送到服务器接收</div><div class="line">    Account2 = account;</div><div class="line">    Password2 = password;</div><div class="line">    NSLog(@&quot;The account server received is:%@&quot;, Account2);</div><div class="line">    NSLog(@&quot;The password server received is:%@&quot;, Password2);</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 登录加密处理2:密码加盐后MD5加密</div><div class="line"> */</div><div class="line">- (void)loginBasedSaltMD5 &#123;</div><div class="line">    </div><div class="line">    /// 本地账号密码处理</div><div class="line">    NSString * account = @&quot;18918186688&quot;;</div><div class="line">    NSString * password = @&quot;Lyra12345678&quot;;</div><div class="line">    password = [password stringByAppendingString:salt].md5String;</div><div class="line">    </div><div class="line">    /// 发送到服务器验证</div><div class="line">    if ([account isEqualToString:Account2] &amp;&amp; [password isEqualToString:Password2]) &#123;</div><div class="line">        NSLog(@&quot;登陆成功&quot;);</div><div class="line">    &#125; else &#123;</div><div class="line">        NSLog(@&quot;登陆失败&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h5 id="加密方式3：HMAC加密"><a href="#加密方式3：HMAC加密" class="headerlink" title="加密方式3：HMAC加密"></a>加密方式3：HMAC加密</h5><p><strong>说明</strong>：HMAC加密，KEY从服务器获取，此种加密相对较为安全，但同样有严重漏洞：网络传输过程中加密的HMAC字符串很容易泄漏，进而被攻击者模拟用户行为进行登录，获取用户数据。<br><strong>代码</strong>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line">#define KEY_ACCOUNTKEY @&quot;KEY_ACCOUNTKEY&quot;</div><div class="line">#define BUNDLEID [[NSBundle mainBundle] bundleIdentifier]</div><div class="line">static NSString * Account3;</div><div class="line">static NSString * Password3;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 注册登录流程模拟3：HMAC直接加密</div><div class="line"> */</div><div class="line">- (void)handleUserAccountPasswordBasedHMAC &#123;</div><div class="line">    </div><div class="line">    [self registerBasedHMAC];</div><div class="line">    [self loginBasedHMAC];</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 注册加密处理3:HMAC直接加密</div><div class="line"> */</div><div class="line">- (void)registerBasedHMAC &#123;</div><div class="line">    </div><div class="line">    /// 从服务器获取Key并保存到keychain</div><div class="line">    NSString * key = @&quot;useraccount281818&quot;;</div><div class="line">    [SAMKeychain setPassword:key forService:BUNDLEID account:KEY_ACCOUNTKEY];</div><div class="line">    </div><div class="line">    /// 本地账号密码处理</div><div class="line">    NSString * account = @&quot;18918186688&quot;;</div><div class="line">    NSString * password = @&quot;Lyra12345678&quot;;</div><div class="line">    password = [password hmacMD5StringWithKey:key];</div><div class="line">    </div><div class="line">    /// 发送到服务器接收</div><div class="line">    Account3 = account;</div><div class="line">    Password3 = password;</div><div class="line">    NSLog(@&quot;The account server received is:%@&quot;, Account3);</div><div class="line">    NSLog(@&quot;The password server received is:%@&quot;, Password3);</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 登录加密处理3:HMAC直接加密</div><div class="line"> */</div><div class="line">- (void)loginBasedHMAC &#123;</div><div class="line">    </div><div class="line">    /// 本地账号密码处理</div><div class="line">    NSString * account = @&quot;18918186688&quot;;</div><div class="line">    NSString * password = @&quot;Lyra12345678&quot;;</div><div class="line">    NSString * key = [SAMKeychain passwordForService:BUNDLEID account:KEY_ACCOUNTKEY];</div><div class="line">    if (!key) &#123;</div><div class="line">        /// 从服务器获取Key并保存到keychain</div><div class="line">        key = @&quot;useraccount281818&quot;;</div><div class="line">        [SAMKeychain setPassword:key forService:BUNDLEID account:KEY_ACCOUNTKEY];</div><div class="line">    &#125;</div><div class="line">    password = [password hmacMD5StringWithKey:key];</div><div class="line">    </div><div class="line">    /// 发送到服务器验证</div><div class="line">    if ([account isEqualToString:Account3] &amp;&amp; [password isEqualToString:Password3]) &#123;</div><div class="line">        NSLog(@&quot;登陆成功&quot;);</div><div class="line">    &#125; else &#123;</div><div class="line">        NSLog(@&quot;登陆失败&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h5 id="加密方式4：（HMAC-时间戳）再MD5加密"><a href="#加密方式4：（HMAC-时间戳）再MD5加密" class="headerlink" title="加密方式4：（HMAC+时间戳）再MD5加密"></a>加密方式4：（HMAC+时间戳）再MD5加密</h5><p><strong>说明</strong>：密码+key进行HMAC加密，后拼接时间戳，然后再整体进行MD5加密。<br>这种方式有时间限定，加密的结果受时间影响很大，即使黑客获取密文模仿用户进行登录，也必须在2分钟内完成此操作，很大程度上增加了安全性。一般采用这种方式进行注册登录流程的加密。<br><strong>代码</strong>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">static NSString * Account4;</div><div class="line">static NSString * Password4;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 注册登录流程模拟4:（HMAC加密+时间戳）再MD5加密</div><div class="line"> */</div><div class="line">- (void)handleUserAccountPasswordBasedHMACTimeStamp &#123;</div><div class="line">    </div><div class="line">    [self registerBasedHMACTimeStamp];</div><div class="line">    [self loginBasedHMACTimeStamp];</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 注册加密处理4:（HMAC加密+时间戳）再MD5加密(注册时发送给服务器的密码是不添加时间戳和再MD5处理的)</div><div class="line"> */</div><div class="line">- (void)registerBasedHMACTimeStamp &#123;</div><div class="line">    </div><div class="line">    /// 从服务器获取Key并保存到keychain</div><div class="line">    NSString * key = @&quot;useraccount281818&quot;;</div><div class="line">    [SAMKeychain setPassword:key forService:BUNDLEID account:KEY_ACCOUNTKEY];</div><div class="line">    </div><div class="line">    /// 本地账号密码处理</div><div class="line">    NSString * account = @&quot;18918186688&quot;;</div><div class="line">    NSString * password = @&quot;Lyra12345678&quot;;</div><div class="line">    password = [password hmacMD5StringWithKey:key];</div><div class="line">    </div><div class="line">    /// 发送到服务器接收</div><div class="line">    Account4 = account;</div><div class="line">    Password4 = password;</div><div class="line">    NSLog(@&quot;The account server received is:%@&quot;, Account4);</div><div class="line">    NSLog(@&quot;The password server received is:%@&quot;, Password4);</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 登录加密处理4:（HMAC加密+时间戳）再MD5加密</div><div class="line"> */</div><div class="line">- (void)loginBasedHMACTimeStamp &#123;</div><div class="line">    </div><div class="line">    /// 本地账号密码处理</div><div class="line">    NSString * account = @&quot;18918186688&quot;;</div><div class="line">    NSString * password = @&quot;Lyra12345678&quot;;</div><div class="line">    NSString * key = [SAMKeychain passwordForService:BUNDLEID account:KEY_ACCOUNTKEY];</div><div class="line">    if (!key) &#123;</div><div class="line">        /// 从服务器获取Key并保存到keychain</div><div class="line">        key = @&quot;useraccount281818&quot;;</div><div class="line">        [SAMKeychain setPassword:key forService:BUNDLEID account:KEY_ACCOUNTKEY];</div><div class="line">    &#125;</div><div class="line">    /// 加时间戳</div><div class="line">    NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];</div><div class="line">    [dateFormatter setDateFormat:@&quot;YY-MM-dd hh:mm&quot;];</div><div class="line">    NSString * timeScale = [dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSinceNow:0]];</div><div class="line">    password = [[password hmacMD5StringWithKey:key] stringByAppendingString:timeScale].md5String;</div><div class="line">    </div><div class="line">    /// 发送到服务器验证</div><div class="line">    BOOL isAccount = [account isEqualToString:Account4];</div><div class="line">    /// 服务器添加时间戳后验证</div><div class="line">    NSString * timeScaleNow = [dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSinceNow:0]];</div><div class="line">    NSString * timeScaleLast = [dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSinceNow:0 - 60]];</div><div class="line">    NSString * passwordNow = [Password4 stringByAppendingString:timeScaleNow].md5String;</div><div class="line">    NSString * passwordLast = [Password4 stringByAppendingString:timeScaleLast].md5String;</div><div class="line">    BOOL isPassword = [password isEqualToString:passwordNow] || [password isEqualToString:passwordLast];</div><div class="line">    </div><div class="line">    if (isAccount &amp;&amp; isPassword) &#123;</div><div class="line">        NSLog(@&quot;登陆成功&quot;);</div><div class="line">    &#125; else &#123;</div><div class="line">        NSLog(@&quot;登陆失败&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="对称加密算法"><a href="#对称加密算法" class="headerlink" title="对称加密算法"></a>对称加密算法</h3><h4 id="概要-1"><a href="#概要-1" class="headerlink" title="概要"></a>概要</h4><h5 id="特点-4"><a href="#特点-4" class="headerlink" title="特点"></a>特点</h5><ol>
+<li>传统加密算法，加密可逆（解密）；</li>
+<li>加密和解密使用同一个密钥（密钥的保密从而变得尤为重要，密钥一般会定期更换）。</li>
+</ol>
+<h5 id="经典算法-1"><a href="#经典算法-1" class="headerlink" title="经典算法"></a>经典算法</h5><ol>
+<li>DES：数据加密标准（加密强度不够，用的较少）；</li>
+<li>3DES：使用三个密钥，对相同的数据进行三次加密（密钥管理非常麻烦，用的较少）；</li>
+<li>AES：高级密码标准（美国国家安全局加密标准，现有手段暴力破解需要2000万年）。</li>
+</ol>
+<h5 id="加密方式"><a href="#加密方式" class="headerlink" title="加密方式"></a>加密方式</h5><ol>
+<li>ECB：电子代码本，每一个数据块独立加密；</li>
+<li>CBC：密码块链，使用一个密钥和一个初始化向量（IV）对数据进行加密。每一个数据块的加密依赖于上一个数据块。</li>
+</ol>
+<h3 id="非对称加密算法（RSA）"><a href="#非对称加密算法（RSA）" class="headerlink" title="非对称加密算法（RSA）"></a>非对称加密算法（RSA）</h3><h4 id="特点-5"><a href="#特点-5" class="headerlink" title="特点"></a>特点</h4><ol>
+<li>现代加密算法，加密可逆（解密）；</li>
+<li>公钥和私钥：使用公钥加密，私钥解密，使用私钥加密，公钥解密。</li>
+<li>大文件加密效率较低；</li>
+</ol>
+<h4 id="应用-3"><a href="#应用-3" class="headerlink" title="应用"></a>应用</h4><p>数字签名：</p>
+<ol>
+<li>数据传送过程中，会被分拆成为一个个数据报文；</li>
+<li>对数据报文进行MD5，获取特征值，将该特征值使用公钥进行RSA加密；</li>
+<li>RSA加密后的特征值与原始数据报文一起发送到服务器；</li>
+<li>服务器获取到原始数据报文后，进行MD5，再用私钥解密特征值，将MD5与特征值进行比对，可知数据有无篡改。</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/密码学/" rel="tag"># 密码学</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/28/写在最初/" rel="next" title="写在最初">
+                <i class="fa fa-chevron-left"></i> 写在最初
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/28/iOS-Foundation-数据存储3-4—沙盒机制，属性列表，Preference，NSKeyedArchiver/" rel="prev" title="iOS:Foundation:数据存储3/4—沙盒机制，属性列表，Preference，NSKeyedArchiver">
+                iOS:Foundation:数据存储3/4—沙盒机制，属性列表，Preference，NSKeyedArchiver <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="张胜烊" />
+          <p class="site-author-name" itemprop="name">张胜烊</p>
+          <p class="site-description motion-element" itemprop="description">A Coder who like Orange</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="mailto:Lyra814@icloud.com" target="_blank" title="Email">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                  Email
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://wy95.xyz" title="诗酒趁年华" target="_blank">诗酒趁年华</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://yucapri.net" title="yucapri" target="_blank">yucapri</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#哈希算法"><span class="nav-number">1.</span> <span class="nav-text">哈希算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#概要"><span class="nav-number">1.1.</span> <span class="nav-text">概要</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#特点"><span class="nav-number">1.1.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#破解"><span class="nav-number">1.1.2.</span> <span class="nav-text">破解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#经典算法"><span class="nav-number">1.1.3.</span> <span class="nav-text">经典算法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MD5加密"><span class="nav-number">1.2.</span> <span class="nav-text">MD5加密</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#特点-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#应用"><span class="nav-number">1.2.2.</span> <span class="nav-text">应用</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SHA1（256-512）加密"><span class="nav-number">1.3.</span> <span class="nav-text">SHA1（256/512）加密</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#特点-2"><span class="nav-number">1.3.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#应用-1"><span class="nav-number">1.3.2.</span> <span class="nav-text">应用</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HMAC加密"><span class="nav-number">1.4.</span> <span class="nav-text">HMAC加密</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#特点-3"><span class="nav-number">1.4.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#应用-2"><span class="nav-number">1.4.2.</span> <span class="nav-text">应用</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注册登录加密方案"><span class="nav-number">1.5.</span> <span class="nav-text">注册登录加密方案</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#加密方式1：直接MD5加密"><span class="nav-number">1.5.1.</span> <span class="nav-text">加密方式1：直接MD5加密</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#加密方式2：密码加盐后MD5加密"><span class="nav-number">1.5.2.</span> <span class="nav-text">加密方式2：密码加盐后MD5加密</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#加密方式3：HMAC加密"><span class="nav-number">1.5.3.</span> <span class="nav-text">加密方式3：HMAC加密</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#加密方式4：（HMAC-时间戳）再MD5加密"><span class="nav-number">1.5.4.</span> <span class="nav-text">加密方式4：（HMAC+时间戳）再MD5加密</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对称加密算法"><span class="nav-number">2.</span> <span class="nav-text">对称加密算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#概要-1"><span class="nav-number">2.1.</span> <span class="nav-text">概要</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#特点-4"><span class="nav-number">2.1.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#经典算法-1"><span class="nav-number">2.1.2.</span> <span class="nav-text">经典算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#加密方式"><span class="nav-number">2.1.3.</span> <span class="nav-text">加密方式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非对称加密算法（RSA）"><span class="nav-number">3.</span> <span class="nav-text">非对称加密算法（RSA）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#特点-5"><span class="nav-number">3.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#应用-3"><span class="nav-number">3.2.</span> <span class="nav-text">应用</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张胜烊</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

@@ -1,0 +1,733 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Foundation,GCD," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="1S的误差对计算机来说都是天文数字">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS:Foundation:计时器-NSTimer与GCD(Dispatch Sources)">
+<meta property="og:url" content="http://yoursite.com/2016/01/06/iOS-Foundation-计时器-NSTimer与GCD-Dispatch-Sources/index.html">
+<meta property="og:site_name" content="Lyra">
+<meta property="og:description" content="1S的误差对计算机来说都是天文数字">
+<meta property="og:updated_time" content="2017-11-14T12:09:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS:Foundation:计时器-NSTimer与GCD(Dispatch Sources)">
+<meta name="twitter:description" content="1S的误差对计算机来说都是天文数字">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":1},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/01/06/iOS-Foundation-计时器-NSTimer与GCD-Dispatch-Sources/"/>
+
+
+
+
+
+  <title> iOS:Foundation:计时器-NSTimer与GCD(Dispatch Sources) | Lyra </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lyra</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Personal Blog</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/06/iOS-Foundation-计时器-NSTimer与GCD-Dispatch-Sources/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="张胜烊">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Lyra">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Lyra" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS:Foundation:计时器-NSTimer与GCD(Dispatch Sources)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-01-06T14:32:28+08:00">
+                2016-01-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p style="font-family:verdana;font-size:100%;color:gray" ,="" align="center">1S的误差对计算机来说都是天文数字</p>
+
+<a id="more"></a>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>　　公司的项目有一个秒杀模块，真是加了又删，删了又加，改了又改，多人开发的时候代码封装与控制没有做好，导致项目多处计时器，秒杀时间计算等逻辑，代码冗余而又难改，最关键的是大量的NSTimer的不当使用，鉴于此，有了这次的封装与这篇文章。</p>
+<h3 id="NSTimer与NSRunLoop"><a href="#NSTimer与NSRunLoop" class="headerlink" title="NSTimer与NSRunLoop"></a>NSTimer与NSRunLoop</h3><p>　　NSTimer有两种初始化方式：</p>
+<ol>
+<li>使用scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:方法初始化:<br>使用NSTimer的scheduledTimerWithTimeInterval方法时,Timer会被加入到当前线程的RunLoop中,模式是默认的NSDefaultRunLoopMode。<br>而在当前线程为主线程的情况下，当主线程中进行复杂的运算，或者进行UI界面操作时，由于在main runloop中NSTimer是同步交付的被“阻塞”，而模式也有可能会改变(会将RunLoop切换成NSEventTrackingRunLoopMode模式，在这个过程中，默认的NSDefaultRunLoopMode模式中注册的事件是不会被执行的)。也就是说，此时使用scheduledTimerWithTimeInterval添加到RunLoop中的Timer就不会执行。因此，就会导致NSTimer计时出现延误。</li>
+<li>使用timerWithTimeInterval:target:selector:userInfo:repeats:方法初始化：<br>使用timerWithTimeInterval方法时，我们需要调用NSRunLoop的addTimer:forMode:方法，将Timer以指定模式加入到RunLoop中。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">FOUNDATION_EXPORT NSRunLoopMode const NSDefaultRunLoopMode;</div><div class="line">FOUNDATION_EXPORT NSRunLoopMode const NSRunLoopCommonModes NS_AVAILABLE(10_5, 2_0);</div></pre></td></tr></table></figure>
+<p>根据Apple文档，NSRunLoopCommonModes等效于NSDefaultRunLoopMode和NSEventTrackingRunLoopMode的结合，当我们使用NSRunLoopCommonModes模式启动时，Timer的优先级将和UI控件一样高，也即不会受到主线程UI操作的影响，从而正常执行。</p>
+<p>　　Runloop:即运行循环，每个线程都有一个实际已经存在的runloop,他不停地运行，从程序开始到程序退出，Runloop在不断地监听各种事件，使得程序可以检测到用户的各种触摸交互、网络返回的数据、定时器在预定的时间触发等一系列操作。<br>　　Runloop只接受两种任务：输入源和定时源。计时器就是其中的定时源。默认状态下，子线程的runloop中没有加入我们自己的源，同样也是没有启动的（只有主线程的Runloop是自动开启的），在子线程中使用定时器时，就需要自己加到runloop中，并启动该线程的runloop，从而使定时器正常运行。关于Runloop，我将会单独写一篇文章做详细记录。</p>
+<p>　　第一种初始化方式的弊端我们可以通过初始化方式二来进行解决，除此之外，在子线程中进行逻辑运算，在主线程中进行刷新UI的操作，也可以解决主线程阻塞导致模式转变而计时不准的问题。</p>
+<h3 id="NSTimer与NSThread"><a href="#NSTimer与NSThread" class="headerlink" title="NSTimer与NSThread"></a>NSTimer与NSThread</h3><p>　　在实际项目中，有很多计时器关联的操作是比较费时的或计算量较大的，如某些秒杀逻辑的运算，这种情况下，为避免阻塞主线程或导致UI卡顿，我们需要将计时器关联的操作放到子线程中执行，再在主线程回调刷新UI，这种情况下，就要结合线程操作。</p>
+<p>以下为代码示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">/// 创建并执行新的线程</div><div class="line">- (void)StartTimerThread</div><div class="line">&#123;   </div><div class="line">    NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(timerThread) object:nil];</div><div class="line">    [thread start];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)timerThread</div><div class="line">&#123;</div><div class="line">    @autoreleasepool</div><div class="line">    &#123;</div><div class="line">        // 在当前Run Loop中添加timer，模式是默认的NSDefaultRunLoopMode</div><div class="line">        _timer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(timerCallback) userInfo:nil repeats:YES];</div><div class="line">        // 开始执行新线程的Run Loop</div><div class="line">        [[NSRunLoop currentRunLoop] run];</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/// timer的关联方法</div><div class="line">- (void)timerCallback</div><div class="line">&#123;</div><div class="line">    // 逻辑运算，后主线程回调刷新UI</div><div class="line">    [self performSelectorOnMainThread:@selector(refreshUI) withObject:nil waitUntilDone:false];</div><div class="line">&#125;</div><div class="line"></div><div class="line">/// 回调方法</div><div class="line">- (void)refreshLabel</div><div class="line">&#123;</div><div class="line">    /// 刷新UI</div><div class="line">&#125;</div><div class="line"></div><div class="line">/// timer的取消方法</div><div class="line">- (void)cancelTimer</div><div class="line">&#123;</div><div class="line">    NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(timerCancelThread) object:nil];</div><div class="line">    [thread start];</div><div class="line">&#125;</div><div class="line">- (void)timerCancelThread</div><div class="line">&#123;</div><div class="line">    if (_timer)</div><div class="line">    &#123;</div><div class="line">        [_timer invalidate];</div><div class="line">        _timer = nil;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>　　一定记住，要及时销毁timer，否则会有内存泄漏的风险，timer的invalidate方法的文档：</p>
+<blockquote>
+<p>This method is the only way to remove a timer from an NSRunLoop object. The NSRunLoop object removes its strong reference to the timer, either just before the invalidate method returns or at some later point.<br>If it was configured with target and user info objects, the receiver removes its strong references to those objects as well.<br>You must send this message from the thread on which the timer was installed. If you send this message from another thread, the input source associated with the timer may not be removed from its run loop, which could prevent the thread from exiting properly.</p>
+</blockquote>
+<p>　　timer再初始化时，会持有target对象，而Runloop对象会持有timer对象，当invalidate被调用时，NSRunLoop对象会释放对timer的持有，timer会释放对target的持有。除此之外，我们没有途径可以释放timer对target的持有。所以解决内存泄露就必须撤销timer，若不撤销，target对象将永远无法释放。<br>　　除此之外：NSTimer的创建与撤销必须在同一个线程操作。<br>　　对于timerThread方法中的@autoreleasepool{}，我们都知道主线程的RunLoop是默认启动的，而在main函数中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">int main(int argc, char * argv[]) &#123;</div><div class="line">    @autoreleasepool &#123;</div><div class="line">        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>　　也存在自动释放池，这种做法，我将在之后的RunLoop及多线程相关文章中做出说明和讲解。</p>
+<h3 id="GCD中的Dispatch-Sources"><a href="#GCD中的Dispatch-Sources" class="headerlink" title="GCD中的Dispatch Sources"></a>GCD中的Dispatch Sources</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>　　NSTimer使用起来着实有太多不便，需要注意的地方太多。我们的另一个选择是使用GCD的Dispatch Sources 来创建一个timer<br>　　什么是dispatch source呢？dispatch source是一个监视某些类型事件的对象。当这些事件发生时，它自动将一个block放入一个dispatch queue的执行例程中。简要来说，它是一个“输入源”来起到监听作用，在事件发生时自动执行block中的任务。对于dispatch source，将开单独的文章进行记录和说明。<br>　　我们在Xcode中打dispatch source 会出现dispatch source timer的提示，敲下回车后，代码是这个样子的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());</div><div class="line">    dispatch_source_set_timer(timer, DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC, 1 * NSEC_PER_SEC);</div><div class="line">    dispatch_source_set_event_handler(timer, ^&#123;</div><div class="line">        //</div><div class="line">    &#125;);</div><div class="line">    dispatch_resume(timer);</div></pre></td></tr></table></figure>
+<p>　　我们可以把参数拆分一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">// 创建一个队列</div><div class="line">dispatch_queue_t queue = dispatch_get_global_queue(0, 0);</div><div class="line">// 根据队列创建timer</div><div class="line">dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);</div><div class="line">// 首次执行时间</div><div class="line">dispatch_time_t start = dispatch_time(DISPATCH_TIME_NOW, 0);</div><div class="line">// 任务执行时间间隔</div><div class="line">uint64_t interval = timeInterval * NSEC_PER_SEC;</div><div class="line">// 允许的延迟（精确度）</div><div class="line">uint64_t leeway = 0 * NSEC_PER_SEC;</div><div class="line">// 设置timer的 首次执行时间， 任务执行时间间隔， 精确度</div><div class="line">dispatch_source_set_timer(timer, start, interval, leeway);</div><div class="line">// 设置timer的 执行任务事件</div><div class="line">__weak typeof (self) weakSelf = self;</div><div class="line">dispatch_source_set_event_handler(timer, ^&#123;</div><div class="line">    // action handle</div><div class="line">    [weakSelf do];</div><div class="line">&#125;);</div><div class="line">// 启动timer</div><div class="line">dispatch_resume(timer);</div><div class="line">// 取消timer</div><div class="line">dispatch_source_cancel(timer);</div></pre></td></tr></table></figure>
+<p>　　这就是使用GCD的dispatch source来创建计时器的主要步骤。leeway这个参数很有意思，我们知道，任何计时器都不可能做到100%精确，这个参数表明了我们希望系统为达到的精确度做出努力的程度，既然这样，也就表明，精确度越高，系统CPU资源的占用也就越多，相反，精确度越低，CPU占用就越低。这样做的意义就在于降低资源消耗。如果系统可以让cpu休息足够长的时间，并在每次醒来的时候执行一个任务集合，而不是不断的醒来睡去以执行任务，那么系统会更高效。如果传入一个比较大的leeway给你的计时器，意味着你允许系统拖延你的计时器来将计时器任务与其他任务联合起来一起执行。<br>　　这样使用dispatch timer 已经可以满足大部分的需求了，但是还不够全面，下面记录并解释对dispatch timer的封装。</p>
+<h4 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h4><p>　　这个封装的目的在于，我们需要像NSTimer那样，是计时器的创建和管理更简单方便，而且需要更全面的功能，那么封装的这个计时器类，我们把它设定为单例类：LyraTimer。<br>　　LyraTimer的主体功能：<br>　　1. 提供创建计时器的接口；<br>　　2. 提供取消计时器的接口；<br>　　3. 计时器的需求有可能在很多模块都存在，我们需要提供计时器的缓存，以优化和查找；<br>　　4. 对于特定的需求，我们需要新开启的计时器能够同时执行已取消的计时器的方法和新添加的逻辑；<br>　　基于以上设计，我们定义接口文件如下：
+　　</p>
+<h5 id="interface："><a href="#interface：" class="headerlink" title="interface："></a>interface：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">#import &lt;Foundation/Foundation.h&gt;</div><div class="line"></div><div class="line">typedef NS_ENUM(NSUInteger, ActionOption) &#123;</div><div class="line">    PreviousActionCancel,//废除旧任务</div><div class="line">    PreviousActionMerge,//合并新旧任务</div><div class="line">&#125;;</div><div class="line"></div><div class="line"></div><div class="line">@interface LyraTimer : NSObject</div><div class="line"></div><div class="line">/**</div><div class="line"> * method:sharedInstance.</div><div class="line"> */</div><div class="line">+ (instancetype)sharedInstance;</div><div class="line"></div><div class="line">/**</div><div class="line"> * method:create&amp;start a timer based GCD.</div><div class="line"> * Name:         名字标识;</div><div class="line"> * TimeInterval: 计时器执行任务间隔;</div><div class="line"> * Queue:        任务执行的线程(默认子线程);</div><div class="line"> * Repeats:      是否重复;</div><div class="line"> * Option:       相同标识timer任务执行模式,0废除旧任务(默认),1合并新旧任务;</div><div class="line"> * Action:       timer关联SEL.</div><div class="line"> * 合并新任务模式下暂不支持传参</div><div class="line"> */</div><div class="line">- (void)TimerWithName:(NSString *)name TimeInterval:(double)timeInterval Queue:(dispatch_queue_t)queue Repeats:(BOOL)repeats  Option:(ActionOption)option Target:(id)target Action:(SEL)action Object:(id)obj;</div><div class="line"></div><div class="line">/**</div><div class="line"> * method:cancelTimerWithName.</div><div class="line"> */</div><div class="line">- (void)cancelTimerWithName:(NSString *)name;</div><div class="line"></div><div class="line">/**</div><div class="line"> * method:cancel all timer.</div><div class="line"> */</div><div class="line">- (void)cancelAllTimer;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>　　第四点的需求，我们通过枚举值来进行控制转换。</p>
+<h5 id="implementation中的匿名类别："><a href="#implementation中的匿名类别：" class="headerlink" title="implementation中的匿名类别："></a>implementation中的匿名类别：</h5><p>　　我们将缓存放入匿名类别中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">#import &quot;LyraTimer.h&quot;</div><div class="line"></div><div class="line">@interface LyraTimer ()</div><div class="line"></div><div class="line">@property (strong , nonatomic) NSMutableDictionary * timerCache;</div><div class="line">@property (strong , nonatomic) NSMutableDictionary * actionCache;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>　　一个是timer缓存，避免同样的timer重复创建；另一个是action缓存，这里记录了timer的关联方法，存储类型为SEL类型。timer的创建与action等的缓存，均是根据“name”别名来作Key存储。</p>
+<h5 id="implementation"><a href="#implementation" class="headerlink" title="implementation:"></a>implementation:</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div></pre></td><td class="code"><pre><div class="line">@implementation LyraTimer</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - sharedInstance.</div><div class="line"></div><div class="line">static LyraTimer * _instance = nil;</div><div class="line">/**</div><div class="line"> * method:sharedInstance.</div><div class="line"> */</div><div class="line">+ (instancetype)sharedInstance</div><div class="line">&#123;</div><div class="line">    static dispatch_once_t onceToken;</div><div class="line">    dispatch_once(&amp;onceToken, ^&#123;</div><div class="line">        _instance = [[LyraTimer alloc] init];</div><div class="line">    &#125;);</div><div class="line">    return _instance;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - methods:public</div><div class="line"></div><div class="line">/**</div><div class="line"> * method:create&amp;start a timer based GCD.</div><div class="line"> * Name:         名字标识;</div><div class="line"> * TimeInterval: 计时器执行任务间隔;</div><div class="line"> * Queue:        任务执行的线程(默认子线程);</div><div class="line"> * Repeats:      是否重复;</div><div class="line"> * Option:       相同标识timer任务执行模式,0废除旧任务(默认),1合并新旧任务;</div><div class="line"> * Action:       timer关联SEL.</div><div class="line"> */</div><div class="line">- (void)TimerWithName:(NSString *)name TimeInterval:(double)timeInterval Queue:(dispatch_queue_t)queue Repeats:(BOOL)repeats  Option:(ActionOption)option Target:(id)target Action:(SEL)action Object:(id)obj</div><div class="line">&#123;</div><div class="line">    if (!name)  return;</div><div class="line">    if (!action) return;</div><div class="line">    if (!target)  return;</div><div class="line">    if (!queue) queue = dispatch_get_global_queue(0, 0);</div><div class="line">    </div><div class="line">    dispatch_source_t timer = self.timerCache[name];</div><div class="line">    </div><div class="line">    if (!timer)</div><div class="line">    &#123;</div><div class="line">        timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);</div><div class="line">        // timer cache</div><div class="line">        [self.timerCache setObject:timer forKey:name];</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    dispatch_time_t start = dispatch_time(DISPATCH_TIME_NOW, 0);</div><div class="line">    uint64_t interval = timeInterval * NSEC_PER_SEC;</div><div class="line">    uint64_t leeway = 0 * NSEC_PER_SEC;</div><div class="line">    dispatch_source_set_timer(timer, start, interval, leeway);</div><div class="line">    </div><div class="line">    __weak typeof (self) weakSelf = self;</div><div class="line">    </div><div class="line">    switch (option)</div><div class="line">    &#123;</div><div class="line">        case PreviousActionMerge: // 合并之前的任务，下一轮一起执行</div><div class="line">        &#123;</div><div class="line">            [self saveAction:action WithName:name];</div><div class="line">            </div><div class="line">            dispatch_source_set_event_handler(timer, ^&#123;</div><div class="line">                </div><div class="line">                [weakSelf performActionsWithName:name Target:target];</div><div class="line">                </div><div class="line">                if (!repeats)</div><div class="line">                &#123;</div><div class="line">                    [self cancelTimerWithName:name];</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">            </div><div class="line">            break;</div><div class="line">        &#125;</div><div class="line">        case PreviousActionCancel: // 取消之前的任务，下一次仅执行新任务</div><div class="line">        &#123;</div><div class="line">            [self removeActionCacheWithName:name];</div><div class="line">            </div><div class="line">            dispatch_source_set_event_handler(timer, ^&#123;</div><div class="line">                </div><div class="line">                [weakSelf performActionWithTarget:target Action:action Object:obj];</div><div class="line">                </div><div class="line">                if (!repeats)</div><div class="line">                &#123;</div><div class="line">                    [self cancelTimerWithName:name];</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">            </div><div class="line">            break;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    dispatch_resume(timer);</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * method:cancelTimerWithName.</div><div class="line"> */</div><div class="line">- (void)cancelTimerWithName:(NSString *)name</div><div class="line">&#123;</div><div class="line">    dispatch_source_t timer = self.timerCache[name];</div><div class="line">    if (!timer) return;</div><div class="line">    </div><div class="line">    dispatch_source_cancel(timer);</div><div class="line">    [self.timerCache removeObjectForKey:name];</div><div class="line">//    [self.actionCache removeObjectForKey:name];</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * method:cancel all timer.</div><div class="line"> */</div><div class="line">- (void)cancelAllTimer</div><div class="line">&#123;</div><div class="line">    [self.timerCache enumerateKeysAndObjectsUsingBlock:^(NSString * name, dispatch_source_t timer, BOOL * _Nonnull stop) &#123;</div><div class="line">        [self.timerCache removeObjectForKey:name];</div><div class="line">        dispatch_source_cancel(timer);</div><div class="line">    &#125;];</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - methods:private.</div><div class="line"></div><div class="line">/**</div><div class="line"> * 根据timer名，将新的action加入缓存</div><div class="line"> */</div><div class="line">- (void)saveAction:(SEL)action WithName:(NSString *)name</div><div class="line">&#123;</div><div class="line">    NSString * actionString = NSStringFromSelector(action);</div><div class="line">    </div><div class="line">    id actionArray = self.actionCache[name];</div><div class="line">    </div><div class="line">    if (actionArray&amp;&amp;[actionArray isKindOfClass:[NSMutableArray class]])</div><div class="line">    &#123;</div><div class="line">        [(NSMutableArray *)actionArray addObject:actionString];</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    NSMutableArray * actionArrayNew = [[NSMutableArray alloc] initWithObjects:actionString, nil];</div><div class="line">    [self.actionCache setObject:actionArrayNew forKey:name];</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 根据timer名，将之前的action移除缓存</div><div class="line"> */</div><div class="line">- (void)removeActionCacheWithName:(NSString *)name</div><div class="line">&#123;</div><div class="line">    if (!self.actionCache[name]) return;</div><div class="line">    </div><div class="line">    [self.actionCache removeObjectForKey:name];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)performActionsWithName:(NSString *)name Target:(id)target</div><div class="line">&#123;</div><div class="line">//    [self removeActionCacheWithName:name];</div><div class="line">    </div><div class="line">    NSMutableArray * actionArray = self.actionCache[name];</div><div class="line">    [actionArray enumerateObjectsUsingBlock:^(NSString * actionString, NSUInteger idx, BOOL * _Nonnull stop) &#123;</div><div class="line">        </div><div class="line">        SEL aAction = NSSelectorFromString(actionString);</div><div class="line">        IMP imp = [target methodForSelector:aAction];</div><div class="line">        void (*func)(id, SEL , id) = (void *)imp;</div><div class="line">        func(target, aAction , nil);</div><div class="line">    &#125;];</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)performActionWithTarget:(id)target Action:(SEL)action Object:(id)obj</div><div class="line">&#123;</div><div class="line">    IMP imp = [target methodForSelector:action];</div><div class="line">    void (*func)(id, SEL , id) = (void *)imp;</div><div class="line">    func(target, action , obj);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - lazy loading.</div><div class="line"></div><div class="line">/**</div><div class="line"> * timer cache, timer缓存.</div><div class="line"> */</div><div class="line">- (NSMutableDictionary *)timerCache</div><div class="line">&#123;</div><div class="line">    if (!_timerCache)</div><div class="line">    &#123;</div><div class="line">        _timerCache = [NSMutableDictionary dictionary];</div><div class="line">    &#125;</div><div class="line">    return _timerCache;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * action cache, action缓存.</div><div class="line"> */</div><div class="line">- (NSMutableDictionary *)actionCache</div><div class="line">&#123;</div><div class="line">    if (!_actionCache)</div><div class="line">    &#123;</div><div class="line">        _actionCache = [NSMutableDictionary dictionary];</div><div class="line">    &#125;</div><div class="line">    return _actionCache;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>　　实现文件中除了一个单例方法，两个缓存数组的懒加载方法外，主要分成两部分，一部分是对外提供的public方法，另一种是私有的private方法。</p>
+<p>　　对于public方法：<br>　　1. Timer的创建，TimerWithName：方法：<br>创建timer的方法中，首先从缓存中根据name查找并获取timer，没有获取到，则创建新的timer；其次对timer进行相关设置；下一步，则根据ActionOption这个执行策略的枚举，来判断是否合并之前的任务一起执行，从而设置相应的dispatch_source_set_event_handler。Repeats字段是仿照NSTimer的Repeats，不需要重复执行的任务，将在一次执行后调用dispatch_source_cancel取消掉。<br>　　2. Timer的取消，cancelTimerWithName：方法：<br>根据name，先从缓存中找到timer，然后dispatch_source_cancel取消掉这个timer，最后从缓存删除。<br>　　3. cancelAllTimer 取消所有timer的方法：<br>遍历timer缓存，逐个的将timer取消，并从缓存删除。</p>
+<p>　　对于private方法：<br>　　1. saveAction： 将action加入缓存的方法：<br>对于action缓存，由于有合并执行策略的存在，存储结构为：{“name”:[action1, action2]}，此方法以name为键的形式将多个同name的action一一缓存。<br>由于OC语言的特性，这里缓存的并非真正的SEL，而是缓存的SEL对应的名称，调用时再根据名称获取SEL进行调用。<br>　　2. removeActionCacheWithName： 将action从缓存中移除的方法：<br>直接从缓存数组中删除。<br>　　3. performActionsWithName：多actions的调用方法：<br><code>SEL aAction = NSSelectorFromString(actionString)</code>根据SEL名称获取SEL；<br><code>IMP imp = [target methodForSelector:aAction]</code>根据SEL获取方法指针;<br><code>void (*func)(id, SEL , id) = (void *)imp;</code><br><code>func(target, aAction , nil);</code>最后，根据方法指针进行函数调用。<br>　　在合并任务，也即多方法调用里，并未实现传参的功能，如有需要，可以根据SEL名称进行参数Object的缓存。<br>　　4. performActionWithTarget：单action的调用方法：<br>　　单方法调用则更为简单：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">IMP imp = [target methodForSelector:action];</div><div class="line">void (*func)(id, SEL , id) = (void *)imp;</div><div class="line">func(target, action , obj);</div></pre></td></tr></table></figure></p>
+<p>　　对于这种底层的直接调用函数的方式，可以查看Runtime的文章，通过函数调动，相比SEL选择器调用速度更快，但失去了Runtime的灵活性，孰优孰略，根据需求自行考量。
+　　</p>
+<h5 id="使用测试"><a href="#使用测试" class="headerlink" title="使用测试"></a>使用测试</h5><p>　　我们定义一个宏作为Timer名字，声明一个整型index，创建一个label：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">#import &quot;ViewController.h&quot;</div><div class="line">#import &quot;LyraTimer.h&quot;</div><div class="line"></div><div class="line">#define TIMER_TEST @&quot;Timer_Test&quot;</div><div class="line"></div><div class="line">@interface ViewController ()</div><div class="line">&#123;</div><div class="line">    int index;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@property (weak, nonatomic) IBOutlet UILabel *label;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>　　在viewDidLoad方法中进行测试调用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">- (void)viewDidLoad </div><div class="line">&#123;</div><div class="line">    [super viewDidLoad];</div><div class="line">    </div><div class="line">//    [self timerTestWithActionOption:PreviousActionMerge];</div><div class="line">    [self timerTestWithActionOption:PreviousActionCancel];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>　　调用的方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">- (void)timerTestWithActionOption:(ActionOption)option</div><div class="line">&#123;</div><div class="line">    index = 0;</div><div class="line">    </div><div class="line">    [[LyraTimer sharedInstance] TimerWithName:TIMER_TEST TimeInterval:1.f Queue:dispatch_get_global_queue(0, 0) Repeats:true Option:option Target:self Action:@selector(action1) Object:nil];</div><div class="line">    </div><div class="line">    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^&#123;</div><div class="line">        [[LyraTimer sharedInstance] cancelTimerWithName:TIMER_TEST];</div><div class="line">    &#125;);</div><div class="line">    </div><div class="line">    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^&#123;</div><div class="line">        [[LyraTimer sharedInstance] TimerWithName:TIMER_TEST TimeInterval:1.f Queue:dispatch_get_global_queue(0, 0) Repeats:true Option:option Target:self Action:@selector(action2) Object:nil];</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)action1</div><div class="line">&#123;</div><div class="line">    index += 1;</div><div class="line">    </div><div class="line">    dispatch_async(dispatch_get_main_queue(), ^&#123;</div><div class="line">        _label.text = [NSString stringWithFormat:@&quot;%i&quot;, index];</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)action2</div><div class="line">&#123;</div><div class="line">    dispatch_async(dispatch_get_main_queue(), ^&#123;</div><div class="line">        NSLog(@&quot;%i&quot;, index);</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>　　可以看到，我们的计时器在两种模式下都可以正常工作，但在同命名的Timer的任务执行模式转换时要多加注意。<br>　　最后，不要忘记销毁：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (void)dealloc</div><div class="line">&#123;</div><div class="line">    [[LyraTimer sharedInstance] cancelTimerWithName:TIMER_TEST];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>　　Perfect~</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Foundation/" rel="tag"># Foundation</a>
+          
+            <a href="/tags/GCD/" rel="tag"># GCD</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/20/Objective-C-修饰符与关键字/" rel="next" title="Objective-C:修饰符与关键字">
+                <i class="fa fa-chevron-left"></i> Objective-C:修饰符与关键字
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/10/iOS-AVFoundation-自定义相机摄像/" rel="prev" title="iOS:AVFoundation:自定义相机摄像">
+                iOS:AVFoundation:自定义相机摄像 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="张胜烊" />
+          <p class="site-author-name" itemprop="name">张胜烊</p>
+          <p class="site-description motion-element" itemprop="description">A Coder who like Orange</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="mailto:Lyra814@icloud.com" target="_blank" title="Email">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                  Email
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://wy95.xyz" title="诗酒趁年华" target="_blank">诗酒趁年华</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://yucapri.net" title="yucapri" target="_blank">yucapri</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NSTimer与NSRunLoop"><span class="nav-number">2.</span> <span class="nav-text">NSTimer与NSRunLoop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NSTimer与NSThread"><span class="nav-number">3.</span> <span class="nav-text">NSTimer与NSThread</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GCD中的Dispatch-Sources"><span class="nav-number">4.</span> <span class="nav-text">GCD中的Dispatch Sources</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#原理"><span class="nav-number">4.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#封装"><span class="nav-number">4.2.</span> <span class="nav-text">封装</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#interface："><span class="nav-number">4.2.1.</span> <span class="nav-text">interface：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#implementation中的匿名类别："><span class="nav-number">4.2.2.</span> <span class="nav-text">implementation中的匿名类别：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#implementation"><span class="nav-number">4.2.3.</span> <span class="nav-text">implementation:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#使用测试"><span class="nav-number">4.2.4.</span> <span class="nav-text">使用测试</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张胜烊</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

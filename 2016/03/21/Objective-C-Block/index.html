@@ -1,0 +1,749 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Objc," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Objective-C中的匿名函数–Blcok">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Objective-C:Block">
+<meta property="og:url" content="http://yoursite.com/2016/03/21/Objective-C-Block/index.html">
+<meta property="og:site_name" content="Lyra">
+<meta property="og:description" content="Objective-C中的匿名函数–Blcok">
+<meta property="og:image" content="http://lyra.tech/images/ArticlePics/Block__forwarding.JPG">
+<meta property="og:updated_time" content="2017-12-04T01:53:37.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Objective-C:Block">
+<meta name="twitter:description" content="Objective-C中的匿名函数–Blcok">
+<meta name="twitter:image" content="http://lyra.tech/images/ArticlePics/Block__forwarding.JPG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":1},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/03/21/Objective-C-Block/"/>
+
+
+
+
+
+  <title> Objective-C:Block | Lyra </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lyra</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Personal Blog</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/21/Objective-C-Block/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="张胜烊">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Lyra">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Lyra" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Objective-C:Block
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-03-21T12:00:44+08:00">
+                2016-03-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p style="font-family:verdana;font-size:100%;color:gray" ,="" align="center">Objective-C中的匿名函数–Blcok</p>
+
+<a id="more"></a>
+<h3 id="dispatch-block-t-定义Block-及安全调用"><a href="#dispatch-block-t-定义Block-及安全调用" class="headerlink" title="dispatch_block_t 定义Block 及安全调用"></a>dispatch_block_t 定义Block 及安全调用</h3><p>BlockTips 演示类 interface</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">@interface BlockTips : NSObject</div><div class="line"></div><div class="line">//@property (nonatomic, strong) void(^aBlock)(void);</div><div class="line"></div><div class="line">/** 1.利用系统所有的type定义无参无返回值的block*/</div><div class="line">@property (nonatomic, strong) dispatch_block_t aBlock;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 2.block属性安全调用</div><div class="line"> */</div><div class="line">- (void)blockHandleSafely;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>BlockTips 演示类 implementation</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">@implementation BlockTips</div><div class="line"></div><div class="line">/**</div><div class="line"> * 2.block属性安全调用</div><div class="line"> */</div><div class="line">- (void)blockHandleSafely &#123;</div><div class="line">    </div><div class="line">    !_aBlock ? : _aBlock();</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<h3 id="weak-strong-dance"><a href="#weak-strong-dance" class="headerlink" title="weak- strong-dance"></a>weak- strong-dance</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">@interface ViewController ()</div><div class="line">&#123;</div><div class="line">    int _number;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@property (nonatomic, strong) BlockTips * blockTips;</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">@implementation ViewController</div><div class="line"></div><div class="line">- (void)viewDidLoad &#123;</div><div class="line">    [super viewDidLoad];</div><div class="line">    // Do any additional setup after loading the view, typically from a nib.</div><div class="line">    </div><div class="line">    self.blockTips = [BlockTips new];</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">- (void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event &#123;</div><div class="line">    </div><div class="line">    </div><div class="line">    // weak- strong-dance</div><div class="line">    // 存在使用了类的成员变量而导致循环引用的情况，需要使用 weak- strong-dance，并在访问实例变量使用结构体访问成员的操作符 -&gt;</div><div class="line">    __weak typeof(self) weakSelf = self;</div><div class="line">    self.blockTips.aBlock = ^&#123;</div><div class="line">        __strong typeof(weakSelf) strongSelf = weakSelf;</div><div class="line">        if (!strongSelf) &#123;</div><div class="line">            return ;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        strongSelf-&gt;_number = 1024;</div><div class="line">    &#125;;</div><div class="line">    // block属性安全调用</div><div class="line">    [self.blockTips blockHandleSafely];</div><div class="line">    NSLog(@&quot;self _number is : %d&quot;, _number);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Block-实现函数多返回值"><a href="#Block-实现函数多返回值" class="headerlink" title="Block 实现函数多返回值"></a>Block 实现函数多返回值</h3><p>BlockTips 演示类 interface</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@interface BlockTips : NSObject</div><div class="line"></div><div class="line">/**</div><div class="line"> * 3.block实现函数多返回值</div><div class="line"> */</div><div class="line">- (void)blockReturnValuesInFunctions;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>BlockTips 演示类 implementation</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">@implementation BlockTips</div><div class="line"></div><div class="line">/**</div><div class="line"> * 3.block实现函数多返回值</div><div class="line"> */</div><div class="line">- (void)blockReturnValuesInFunctions &#123;</div><div class="line">    </div><div class="line">    int a = 1;</div><div class="line">    int b = 2;</div><div class="line">    __block int _sum = 0;</div><div class="line">    __block int _min = 0;</div><div class="line">    __block int _max = 0;</div><div class="line">    </div><div class="line">    [self calculateA:a B:b Result:^(int sum, int max, int min) &#123;</div><div class="line">        _sum = sum;</div><div class="line">        _min = min;</div><div class="line">        _max = max;</div><div class="line">    &#125;];</div><div class="line">    </div><div class="line">    NSLog(@&quot;sum is : %d, min is : %d, max is : %d&quot;, _sum, _min, _max);</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)calculateA:(int)a B:(int)b Result:(void(^)(int sum, int max, int min))result &#123;</div><div class="line">    </div><div class="line">    if (!result) &#123;</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    result(a + b, MAX(a, b), MIN(a, b));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Block实现链式语法"><a href="#Block实现链式语法" class="headerlink" title="Block实现链式语法"></a>Block实现链式语法</h3><p>BlockLink 演示类 interface</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">@interface BlockLink : NSObject</div><div class="line">&#123;</div><div class="line">    NSInteger _money;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@property (nonatomic, strong, readonly) BlockLink * (^add)(NSInteger number);</div><div class="line">@property (nonatomic, strong, readonly) BlockLink * (^subtract)(NSInteger number);</div><div class="line"></div><div class="line">- (NSInteger)currentMoney;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>BlockLink 演示类 implementation</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">@implementation BlockLink</div><div class="line"></div><div class="line">- (NSInteger)currentMoney &#123;</div><div class="line">    </div><div class="line">    return _money;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (BlockLink *(^)(NSInteger))add &#123;</div><div class="line">    </div><div class="line">    return ^ BlockLink * (NSInteger number) &#123;</div><div class="line">        </div><div class="line">        _money += number;</div><div class="line">        return self;</div><div class="line">    &#125;;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (BlockLink *(^)(NSInteger))subtract &#123;</div><div class="line">    </div><div class="line">    return ^ BlockLink * (NSInteger number) &#123;</div><div class="line">        </div><div class="line">        _money -= number;</div><div class="line">        return self;</div><div class="line">    &#125;;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">- (void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event &#123;</div><div class="line">    </div><div class="line">    // block实现链式语法</div><div class="line">    BlockLink * link = [BlockLink new];</div><div class="line">    NSLog(@&quot;current money is : %zd&quot;, [link currentMoney]);</div><div class="line">    link.add(100).subtract(10).add(5).subtract(20);</div><div class="line">    NSLog(@&quot;current money is : %zd&quot;, [link currentMoney]);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Block的底层实现"><a href="#Block的底层实现" class="headerlink" title="Block的底层实现"></a>Block的底层实现</h3><h4 id="NSConcerteGlobalBlock的底层实现"><a href="#NSConcerteGlobalBlock的底层实现" class="headerlink" title="NSConcerteGlobalBlock的底层实现"></a>NSConcerteGlobalBlock的底层实现</h4><p>我们在ARC环境中新建命令行项目，在main.m中编写一个block：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">int main(int argc, const char * argv[]) &#123;</div><div class="line">    @autoreleasepool &#123;</div><div class="line">        // insert code here...</div><div class="line">        ^&#123;</div><div class="line">            printf(&quot;hello world&quot;);</div><div class="line">        &#125;();</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们用clang将main.m编译成cpp文件看一下底层实现（屏蔽无关代码）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">#ifndef BLOCK_IMPL</div><div class="line">#define BLOCK_IMPL</div><div class="line">struct __block_impl &#123;</div><div class="line">    void *isa;</div><div class="line">    int Flags;</div><div class="line">    int Reserved;</div><div class="line">    void *FuncPtr;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"></div><div class="line">struct __main_block_impl_0 &#123;</div><div class="line">    struct __block_impl impl;</div><div class="line">    struct __main_block_desc_0* Desc;</div><div class="line">    __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, int flags=0) &#123;</div><div class="line">        impl.isa = &amp;_NSConcreteStackBlock;</div><div class="line">        impl.Flags = flags;</div><div class="line">        impl.FuncPtr = fp;</div><div class="line">        Desc = desc;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line">static void __main_block_func_0(struct __main_block_impl_0 *__cself) &#123;</div><div class="line">    </div><div class="line">    printf(&quot;hello world&quot;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">static struct __main_block_desc_0 &#123;</div><div class="line">    size_t reserved;</div><div class="line">    size_t Block_size;</div><div class="line">&#125; __main_block_desc_0_DATA = &#123; 0, sizeof(struct __main_block_impl_0)&#125;;</div><div class="line"></div><div class="line">int main(int argc, const char * argv[]) &#123;</div><div class="line">    /* @autoreleasepool */ &#123; __AtAutoreleasePool __autoreleasepool;</div><div class="line">        </div><div class="line">        ((void (*)())&amp;__main_block_impl_0((void *)__main_block_func_0, &amp;__main_block_desc_0_DATA))();</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div><div class="line">static struct IMAGE_INFO &#123; unsigned version; unsigned flag; &#125; _OBJC_IMAGE_INFO = &#123; 0, 2 &#125;;</div></pre></td></tr></table></figure>
+<p>我们可以看到__main_block_impl_0就是该block的实现，其内构成：</p>
+<ol>
+<li>impl：<strong>block_impl结构体,impl是实际的函数指针，指向</strong>main_block_func_0</li>
+<li>Desc：__main_block_desc_0结构体，存储block附加信息，这里主要是结构体大小</li>
+<li>impl.isa = &amp;_NSConcreteStackBlock;由于clang和LLVM改写差异，在LLVM中应该是NSConcreteGlobalBlock。</li>
+</ol>
+<h4 id="NSConcerteStackBlock的底层实现"><a href="#NSConcerteStackBlock的底层实现" class="headerlink" title="NSConcerteStackBlock的底层实现"></a>NSConcerteStackBlock的底层实现</h4><h5 id="不加-block的实现："><a href="#不加-block的实现：" class="headerlink" title="不加__block的实现："></a>不加__block的实现：</h5><p>修改main.m：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">int main(int argc, const char * argv[]) &#123;</div><div class="line">    @autoreleasepool &#123;</div><div class="line">        // insert code here...</div><div class="line">        int a = 10;</div><div class="line">        ^&#123;</div><div class="line">            printf(&quot;hello world %d&quot;, a);</div><div class="line">        &#125;();</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>用clang重编译：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">#ifndef BLOCK_IMPL</div><div class="line">#define BLOCK_IMPL</div><div class="line">struct __block_impl &#123;</div><div class="line">    void *isa;</div><div class="line">    int Flags;</div><div class="line">    int Reserved;</div><div class="line">    void *FuncPtr;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">struct __main_block_impl_0 &#123;</div><div class="line">    struct __block_impl impl;</div><div class="line">    struct __main_block_desc_0* Desc;</div><div class="line">    int a;</div><div class="line">    __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, int _a, int flags=0) : a(_a) &#123;</div><div class="line">        impl.isa = &amp;_NSConcreteStackBlock;</div><div class="line">        impl.Flags = flags;</div><div class="line">        impl.FuncPtr = fp;</div><div class="line">        Desc = desc;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line">static void __main_block_func_0(struct __main_block_impl_0 *__cself) &#123;</div><div class="line">    int a = __cself-&gt;a; // bound by copy</div><div class="line">    </div><div class="line">    printf(&quot;hello world %d&quot;, a);</div><div class="line">&#125;</div><div class="line"></div><div class="line">static struct __main_block_desc_0 &#123;</div><div class="line">    size_t reserved;</div><div class="line">    size_t Block_size;</div><div class="line">&#125; __main_block_desc_0_DATA = &#123; 0, sizeof(struct __main_block_impl_0)&#125;;</div><div class="line"></div><div class="line">int main(int argc, const char * argv[]) &#123;</div><div class="line">    /* @autoreleasepool */ &#123; __AtAutoreleasePool __autoreleasepool;</div><div class="line">        </div><div class="line">        int a = 10;</div><div class="line">        ((void (*)())&amp;__main_block_impl_0((void *)__main_block_func_0, &amp;__main_block_desc_0_DATA, a))();</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div><div class="line">static struct IMAGE_INFO &#123; unsigned version; unsigned flag; &#125; _OBJC_IMAGE_INFO = &#123; 0, 2 &#125;;</div></pre></td></tr></table></figure>
+<ol>
+<li>这里，impl.isa = &amp;_NSConcreteStackBlock; isa指向NSConcerteStackBlock；</li>
+<li><strong><strong>main_block_impl_0中增加了一个变量a，在block中引用的变量a实际是在声明block时，被复制到</strong>main_block_impl_0的结构体中</strong> 这样，在block内部修改变量a，不会影响到外部的实际变量。</li>
+<li><strong><strong>main_block_impl_0中由于增加了变量a，所以结构体大小变大了，改结构体大小被写在了</strong>main_block_desc_0中</strong></li>
+</ol>
+<h5 id="添加-block的实现："><a href="#添加-block的实现：" class="headerlink" title="添加__block的实现："></a>添加__block的实现：</h5><p>修改main.m<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">int main(int argc, const char * argv[]) &#123;</div><div class="line">    @autoreleasepool &#123;</div><div class="line">        // insert code here...</div><div class="line">        __block int a = 10;</div><div class="line">        ^&#123;</div><div class="line">            printf(&quot;hello world %d&quot;, a);</div><div class="line">        &#125;();</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>用clang重编译：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line">#ifndef BLOCK_IMPL</div><div class="line">#define BLOCK_IMPL</div><div class="line">struct __block_impl &#123;</div><div class="line">    void *isa;</div><div class="line">    int Flags;</div><div class="line">    int Reserved;</div><div class="line">    void *FuncPtr;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">struct __Block_byref_a_0 &#123;</div><div class="line">    void *__isa;</div><div class="line">    __Block_byref_a_0 *__forwarding;</div><div class="line">    int __flags;</div><div class="line">    int __size;</div><div class="line">    int a;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">struct __main_block_impl_0 &#123;</div><div class="line">    struct __block_impl impl;</div><div class="line">    struct __main_block_desc_0* Desc;</div><div class="line">    __Block_byref_a_0 *a; // by ref</div><div class="line">    __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, __Block_byref_a_0 *_a, int flags=0) : a(_a-&gt;__forwarding) &#123;</div><div class="line">        impl.isa = &amp;_NSConcreteStackBlock;</div><div class="line">        impl.Flags = flags;</div><div class="line">        impl.FuncPtr = fp;</div><div class="line">        Desc = desc;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line">static void __main_block_func_0(struct __main_block_impl_0 *__cself) &#123;</div><div class="line">    __Block_byref_a_0 *a = __cself-&gt;a; // bound by ref</div><div class="line">    </div><div class="line">    printf(&quot;hello world %d&quot;, (a-&gt;__forwarding-&gt;a));</div><div class="line">&#125;</div><div class="line">static void __main_block_copy_0(struct __main_block_impl_0*dst, struct __main_block_impl_0*src) &#123;_Block_object_assign((void*)&amp;dst-&gt;a, (void*)src-&gt;a, 8/*BLOCK_FIELD_IS_BYREF*/);&#125;</div><div class="line"></div><div class="line">static void __main_block_dispose_0(struct __main_block_impl_0*src) &#123;_Block_object_dispose((void*)src-&gt;a, 8/*BLOCK_FIELD_IS_BYREF*/);&#125;</div><div class="line"></div><div class="line">static struct __main_block_desc_0 &#123;</div><div class="line">    size_t reserved;</div><div class="line">    size_t Block_size;</div><div class="line">    void (*copy)(struct __main_block_impl_0*, struct __main_block_impl_0*);</div><div class="line">    void (*dispose)(struct __main_block_impl_0*);</div><div class="line">&#125; __main_block_desc_0_DATA = &#123; 0, sizeof(struct __main_block_impl_0), __main_block_copy_0, __main_block_dispose_0&#125;;</div><div class="line">int main(int argc, const char * argv[]) &#123;</div><div class="line">    /* @autoreleasepool */ &#123; __AtAutoreleasePool __autoreleasepool;</div><div class="line">        </div><div class="line">        __attribute__((__blocks__(byref))) __Block_byref_a_0 a = &#123;(void*)0,(__Block_byref_a_0 *)&amp;a, 0, sizeof(__Block_byref_a_0), 10&#125;;</div><div class="line">        ((void (*)())&amp;__main_block_impl_0((void *)__main_block_func_0, &amp;__main_block_desc_0_DATA, (__Block_byref_a_0 *)&amp;a, 570425344))();</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div><div class="line">static struct IMAGE_INFO &#123; unsigned version; unsigned flag; &#125; _OBJC_IMAGE_INFO = &#123; 0, 2 &#125;;</div></pre></td></tr></table></figure>
+<p>1.源码中多了一个__Block_byref_a_0类型的结构体，用来保存我们capture的变量a；</p>
+<ol>
+<li><strong>main_block_impl_0中引用的是</strong>Block_byref_a_0的结构体指针a，这样就可以达到访问外部变量的作用；</li>
+<li><strong>Block_byref_a_0结构体中带有isa，说明它也是一个对象；<br>4.该block负责</strong>Block_byref_a_0结构体相关的内存管理，<strong>main_block_desc_0中多了copy和<br>dispose函数，用于修改引用计数。<br>5.</strong>Block_byref_a_0中的__forwarding指针：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">struct __Block_byref_a_0 &#123;</div><div class="line">    void *__isa;</div><div class="line">    __Block_byref_a_0 *__forwarding;</div><div class="line">    int __flags;</div><div class="line">    int __size;</div><div class="line">    int a;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>分配在栈上的Block，其所属的变量的作用域结束后。改Block就会被废弃，<strong>block变量也分配在栈上，当超过该变量的作用域时，该</strong>block变量也会被废弃。<br>将Block从栈复制到堆上，<strong>block变量也被复制到了堆栈，堆上的</strong>block变量被堆上的Block持有，在这一变化后，<strong><strong>forwarding指针保证了</strong>block变量的正确访问</strong>。</p>
+<p><img src="http://lyra.tech/images/ArticlePics/Block__forwarding.JPG" alt=""><br>即，栈上的<strong>block变量被复制到了堆上，其</strong>forwarding指针的指向从指向自身，变为指向堆中的__block变量的结构体。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">static void __main_block_func_0(struct __main_block_impl_0 *__cself) &#123;</div><div class="line">    __Block_byref_a_0 *a = __cself-&gt;a; // bound by ref</div><div class="line">    </div><div class="line">    printf(&quot;hello world %d&quot;, (a-&gt;__forwarding-&gt;a));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过<strong>cself找到变量val，再通过val的</strong>forwarding找到真正的val变量。</p>
+<h3 id="变量的复制"><a href="#变量的复制" class="headerlink" title="变量的复制"></a>变量的复制</h3><ol>
+<li>对于block外的变量引用，block是将其复制到block的数据结构中来访问的；</li>
+<li>对于__block修饰的外部变量，block是复制其引用地址来访问的。</li>
+<li>对于数组，block复制其本身的地址，而指向的地址是相同的（数组首地址），所以不需要__block修饰：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">NSMutableArray * array = @[].mutableCopy;</div><div class="line">NSLog(@&quot;%p  %@&quot;, &amp;array, array);</div><div class="line"></div><div class="line">^&#123;</div><div class="line">    [array addObject:@&quot;1&quot;];</div><div class="line">    [array addObject:@&quot;3&quot;];</div><div class="line">    NSLog(@&quot;%p  %@&quot;, &amp;array, array);</div><div class="line">&#125;();</div><div class="line"></div><div class="line">NSLog(@&quot;%p  %@&quot;, &amp;array, array);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">2017-11-27 09:17:51.169619+0800 Testsss[1624:256717] 0x7fff57a443c8  (</div><div class="line">)</div><div class="line">2017-11-27 09:17:51.170120+0800 Testsss[1624:256717] 0x7fff57a443c0  (</div><div class="line">    1,</div><div class="line">    3</div><div class="line">)</div><div class="line">2017-11-27 09:17:51.170305+0800 Testsss[1624:256717] 0x7fff57a443c8  (</div><div class="line">    1,</div><div class="line">    3</div><div class="line">)</div></pre></td></tr></table></figure>
+<h3 id="MRC中三种Block从捕获变量的角度："><a href="#MRC中三种Block从捕获变量的角度：" class="headerlink" title="MRC中三种Block从捕获变量的角度："></a>MRC中三种Block从捕获变量的角度：</h3><ol>
+<li>NSConcreteStackBlock：只访问局部变量，成员变量，没有强指针引用。在函数返回后即销毁；</li>
+<li>NSConcreteMallocBlock：有强指针引用或者copy修饰，block被复制到堆中，没有强指针引用即销毁；</li>
+<li>NSConcreteGlobalBlock：没有访问外界变量，或只访问全局变量、静态变量，应用程序结束才销毁。</li>
+</ol>
+<h3 id="ARC对Block的影响"><a href="#ARC对Block的影响" class="headerlink" title="ARC对Block的影响"></a>ARC对Block的影响</h3><p>ARC中，将只有NSConcerteGlobalBlock和NSConcreteMallocBlock，NSConcreteStackBlock类型会被NSConcreteMallocBlock替代。<br>由于ARC已经能很好的处理对象的生命周期的管理，这样所有对象都放到堆上管理，对编译器来说，实现比较方便</p>
+<p>借鉴学习链接：<a href="http://blog.devtang.com/2013/07/28/a-look-inside-blocks/" target="_blank" rel="external">http://blog.devtang.com/2013/07/28/a-look-inside-blocks/</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Objc/" rel="tag"># Objc</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/02/17/iOS-AVFoundation-二维码/" rel="next" title="iOS:AVFoundation:二维码">
+                <i class="fa fa-chevron-left"></i> iOS:AVFoundation:二维码
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/14/Objective-C-消息机制/" rel="prev" title="Objective-C:消息机制">
+                Objective-C:消息机制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="张胜烊" />
+          <p class="site-author-name" itemprop="name">张胜烊</p>
+          <p class="site-description motion-element" itemprop="description">A Coder who like Orange</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="mailto:Lyra814@icloud.com" target="_blank" title="Email">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                  Email
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://wy95.xyz" title="诗酒趁年华" target="_blank">诗酒趁年华</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://yucapri.net" title="yucapri" target="_blank">yucapri</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#dispatch-block-t-定义Block-及安全调用"><span class="nav-number">1.</span> <span class="nav-text">dispatch_block_t 定义Block 及安全调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#weak-strong-dance"><span class="nav-number">2.</span> <span class="nav-text">weak- strong-dance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Block-实现函数多返回值"><span class="nav-number">3.</span> <span class="nav-text">Block 实现函数多返回值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Block实现链式语法"><span class="nav-number">4.</span> <span class="nav-text">Block实现链式语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Block的底层实现"><span class="nav-number">5.</span> <span class="nav-text">Block的底层实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#NSConcerteGlobalBlock的底层实现"><span class="nav-number">5.1.</span> <span class="nav-text">NSConcerteGlobalBlock的底层实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NSConcerteStackBlock的底层实现"><span class="nav-number">5.2.</span> <span class="nav-text">NSConcerteStackBlock的底层实现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#不加-block的实现："><span class="nav-number">5.2.1.</span> <span class="nav-text">不加__block的实现：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#添加-block的实现："><span class="nav-number">5.2.2.</span> <span class="nav-text">添加__block的实现：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量的复制"><span class="nav-number">6.</span> <span class="nav-text">变量的复制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MRC中三种Block从捕获变量的角度："><span class="nav-number">7.</span> <span class="nav-text">MRC中三种Block从捕获变量的角度：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ARC对Block的影响"><span class="nav-number">8.</span> <span class="nav-text">ARC对Block的影响</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张胜烊</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

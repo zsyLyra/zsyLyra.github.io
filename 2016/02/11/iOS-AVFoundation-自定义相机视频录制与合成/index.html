@@ -1,0 +1,710 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="AVFoundation," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="内容为王的年代">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS:AVFoundation:自定义相机视频录制与合成">
+<meta property="og:url" content="http://yoursite.com/2016/02/11/iOS-AVFoundation-自定义相机视频录制与合成/index.html">
+<meta property="og:site_name" content="Lyra">
+<meta property="og:description" content="内容为王的年代">
+<meta property="og:image" content="http://lyra.tech/images/ArticlePics/自定义相机界面.png">
+<meta property="og:image" content="http://lyra.tech/images/ArticlePics/自定义相机视频录制与合成.png">
+<meta property="og:updated_time" content="2017-11-14T12:09:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS:AVFoundation:自定义相机视频录制与合成">
+<meta name="twitter:description" content="内容为王的年代">
+<meta name="twitter:image" content="http://lyra.tech/images/ArticlePics/自定义相机界面.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":1},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/02/11/iOS-AVFoundation-自定义相机视频录制与合成/"/>
+
+
+
+
+
+  <title> iOS:AVFoundation:自定义相机视频录制与合成 | Lyra </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lyra</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Personal Blog</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/02/11/iOS-AVFoundation-自定义相机视频录制与合成/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="张胜烊">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Lyra">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Lyra" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS:AVFoundation:自定义相机视频录制与合成
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-02-11T14:15:44+08:00">
+                2016-02-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p style="font-family:verdana;font-size:100%;color:gray" ,="" align="center">内容为王的年代</p>
+
+<a id="more"></a>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>虽然系统相机功能多且强大，但很多项目中，不可避免的用到自定义相机，为避免重复的麻烦，我对自定义相机做了一个封装。</p>
+<h3 id="界面"><a href="#界面" class="headerlink" title="界面"></a>界面</h3><p>视频录制这里的界面我使用的和相机摄像是同一个界面，只要把相应按钮状态，文字做一些改变，最后再添加一个用于显示时间的Label即可，让我们再看一下相机摄像的界面：<br><img src="http://lyra.tech/images/ArticlePics/自定义相机界面.png" alt=""></p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>视频录制与合成，我把它拆分为三个类：VideoRecordDevice设备类，LyraVideoMergeUtil视频合成工具类，以及LyraVideoViewController控制器类。<br>先看一下目录结构：<br><img src="http://lyra.tech/images/ArticlePics/自定义相机视频录制与合成.png" alt=""></p>
+<ol>
+<li>不同于相机摄像中，使用的AVCaptureStillImageOutput作为照片输出，在这里我们要处理的是音视频数据，区别与静态图片，我们要使用AVCaptureMovieFileOutput作为输出流;</li>
+<li>在摄像机中，我们只有一个输入设备和输入流，音视频有两个输入流，AVCaptureDeviceInput <em> deviceInput设备输入 和 AVCaptureDeviceInput </em> audioDeviceInput音频输入;</li>
+</ol>
+<h4 id="VideoRecordDevice设备类"><a href="#VideoRecordDevice设备类" class="headerlink" title="VideoRecordDevice设备类"></a>VideoRecordDevice设备类</h4><p><strong>interface</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">//  PhotoTakeDevice.h</div><div class="line">//  LyraPhotoTake</div><div class="line">//</div><div class="line">//  Created by ZSY on 2017/1/18.</div><div class="line">//  Copyright © 2017年 Lyra. All rights reserved.</div><div class="line">//</div><div class="line"></div><div class="line">#import &lt;Foundation/Foundation.h&gt;</div><div class="line">#import &lt;UIKit/UIKit.h&gt;</div><div class="line">#import &lt;AVFoundation/AVFoundation.h&gt;</div><div class="line"></div><div class="line">@interface VideoRecordDevice : NSObject</div><div class="line"></div><div class="line">/// AVCaptureSession 负责输入和输出设置之间的数据传递</div><div class="line">@property (nonatomic, strong) AVCaptureSession * session;</div><div class="line"></div><div class="line">/// AVCaptureDeviceInput 负责从AVCaptureDevice获得输入数据 设备输入</div><div class="line">@property (nonatomic, strong) AVCaptureDeviceInput * deviceInput;</div><div class="line"></div><div class="line">/// AVCaptureDeviceInput 负责从AVCaptureDevice获得输入数据 音频输入</div><div class="line">@property (nonatomic, strong) AVCaptureDeviceInput * audioDeviceInput;</div><div class="line"></div><div class="line">/// AVCaptureStillImageOutput 视频输出流</div><div class="line">@property (nonatomic, strong) AVCaptureMovieFileOutput * movieFileOutPut;</div><div class="line"></div><div class="line">/// AVCaptureVideoPreviewLayer 拍摄预览图层</div><div class="line">@property (nonatomic, strong) AVCaptureVideoPreviewLayer * videoPreviewLayer;</div><div class="line"></div><div class="line"></div><div class="line">/**</div><div class="line"> * 配置预览层,将视频预览层添加到界面中</div><div class="line"> */</div><div class="line">- (void)configPreviewLayerInView:(UIView *)view belowView:(UIView *)belowView;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 开启会话</div><div class="line"> */</div><div class="line">- (void)deviceStart;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 停止会话</div><div class="line"> */</div><div class="line">- (void)deviceStop;</div><div class="line"></div><div class="line">/**</div><div class="line"> *  设置闪光灯模式</div><div class="line"> *</div><div class="line"> *  @param flashMode 闪光灯模式</div><div class="line"> */</div><div class="line">- (void)setFlashMode:(AVCaptureFlashMode )flashMode;</div><div class="line"></div><div class="line">/**</div><div class="line"> *  获取闪光灯状态</div><div class="line"> */</div><div class="line">- (void)getFlashMode:(void(^)(BOOL flashAvailable, AVCaptureFlashMode flashMode))flashModeCallback;</div><div class="line"></div><div class="line">/**</div><div class="line"> *  点按手势，点按时聚焦</div><div class="line"> */</div><div class="line">- (void)tapScreenPoint:(CGPoint)point;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 切换摄像头</div><div class="line"> */</div><div class="line">- (void)cameraToggle;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p><strong>implementation</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div><div class="line">292</div><div class="line">293</div><div class="line">294</div><div class="line">295</div><div class="line">296</div><div class="line">297</div><div class="line">298</div><div class="line">299</div><div class="line">300</div><div class="line">301</div><div class="line">302</div><div class="line">303</div><div class="line">304</div><div class="line">305</div><div class="line">306</div><div class="line">307</div><div class="line">308</div><div class="line">309</div><div class="line">310</div><div class="line">311</div><div class="line">312</div><div class="line">313</div><div class="line">314</div><div class="line">315</div><div class="line">316</div><div class="line">317</div><div class="line">318</div><div class="line">319</div><div class="line">320</div><div class="line">321</div><div class="line">322</div><div class="line">323</div><div class="line">324</div><div class="line">325</div><div class="line">326</div><div class="line">327</div><div class="line">328</div><div class="line">329</div><div class="line">330</div><div class="line">331</div><div class="line">332</div><div class="line">333</div><div class="line">334</div><div class="line">335</div><div class="line">336</div><div class="line">337</div><div class="line">338</div><div class="line">339</div><div class="line">340</div><div class="line">341</div><div class="line">342</div><div class="line">343</div><div class="line">344</div><div class="line">345</div><div class="line">346</div><div class="line">347</div><div class="line">348</div><div class="line">349</div><div class="line">350</div><div class="line">351</div><div class="line">352</div><div class="line">353</div><div class="line">354</div><div class="line">355</div><div class="line">356</div><div class="line">357</div><div class="line">358</div><div class="line">359</div><div class="line">360</div><div class="line">361</div><div class="line">362</div><div class="line">363</div><div class="line">364</div><div class="line">365</div><div class="line">366</div><div class="line">367</div><div class="line">368</div><div class="line">369</div><div class="line">370</div><div class="line">371</div><div class="line">372</div><div class="line">373</div><div class="line">374</div><div class="line">375</div><div class="line">376</div><div class="line">377</div><div class="line">378</div><div class="line">379</div><div class="line">380</div><div class="line">381</div><div class="line">382</div><div class="line">383</div><div class="line">384</div><div class="line">385</div><div class="line">386</div><div class="line">387</div><div class="line">388</div><div class="line">389</div><div class="line">390</div><div class="line">391</div><div class="line">392</div><div class="line">393</div><div class="line">394</div><div class="line">395</div><div class="line">396</div><div class="line">397</div><div class="line">398</div><div class="line">399</div><div class="line">400</div><div class="line">401</div><div class="line">402</div><div class="line">403</div><div class="line">404</div><div class="line">405</div><div class="line">406</div><div class="line">407</div><div class="line">408</div><div class="line">409</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">//  PhotoTakeDevice.m</div><div class="line">//  LyraPhotoTake</div><div class="line">//</div><div class="line">//  Created by ZSY on 2017/1/18.</div><div class="line">//  Copyright © 2017年 Lyra. All rights reserved.</div><div class="line">//</div><div class="line"></div><div class="line">#import &quot;VideoRecordDevice.h&quot;</div><div class="line"></div><div class="line"></div><div class="line">@implementation VideoRecordDevice</div><div class="line"></div><div class="line">- (instancetype)init</div><div class="line">&#123;</div><div class="line">    if (self = [super init])</div><div class="line">    &#123;</div><div class="line">        [self configSession];</div><div class="line">    &#125;</div><div class="line">    return self;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)dealloc</div><div class="line">&#123;</div><div class="line">    [self removeNotification];</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - Public</div><div class="line"></div><div class="line">/**</div><div class="line"> * 配置预览层,将视频预览层添加到界面中</div><div class="line"> */</div><div class="line">- (void)configPreviewLayerInView:(UIView *)view belowView:(UIView *)belowView</div><div class="line">&#123;</div><div class="line">    CALayer *layer = view.layer;</div><div class="line">    layer.masksToBounds=YES;</div><div class="line">    self.videoPreviewLayer.frame=layer.bounds;</div><div class="line">    [layer insertSublayer:self.videoPreviewLayer below:belowView.layer];</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 开启会话</div><div class="line"> */</div><div class="line">- (void)deviceStart</div><div class="line">&#123;</div><div class="line">    [self.session startRunning];</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 停止会话</div><div class="line"> */</div><div class="line">- (void)deviceStop</div><div class="line">&#123;</div><div class="line">    [self.session stopRunning];</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> *  设置闪光灯模式</div><div class="line"> *</div><div class="line"> *  @param flashMode 闪光灯模式</div><div class="line"> */</div><div class="line">- (void)setFlashMode:(AVCaptureFlashMode )flashMode</div><div class="line">&#123;</div><div class="line">    [self changeDeviceProperty:^(AVCaptureDevice *captureDevice) &#123;</div><div class="line">        if ([captureDevice isFlashModeSupported:flashMode])</div><div class="line">        &#123;</div><div class="line">            [captureDevice setFlashMode:flashMode];</div><div class="line">        &#125;</div><div class="line">    &#125;];</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> *  设置闪光灯按钮状态</div><div class="line"> */</div><div class="line">- (void)getFlashMode:(void(^)(BOOL flashAvailable, AVCaptureFlashMode flashMode))flashModeCallback</div><div class="line">&#123;</div><div class="line">    AVCaptureDevice *captureDevice = [self.deviceInput device];</div><div class="line">    AVCaptureFlashMode flashMode = captureDevice.flashMode;</div><div class="line">    flashModeCallback([captureDevice isFlashAvailable], flashMode);</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> *  点按手势，点按时聚焦</div><div class="line"> */</div><div class="line">- (void)tapScreenPoint:(CGPoint)point</div><div class="line">&#123;</div><div class="line">    //将UI坐标转化为摄像头坐标</div><div class="line">    CGPoint cameraPoint = [self.videoPreviewLayer captureDevicePointOfInterestForPoint:point];</div><div class="line">    [self focusWithMode:AVCaptureFocusModeAutoFocus exposureMode:AVCaptureExposureModeAutoExpose atPoint:cameraPoint];</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 切换摄像头</div><div class="line"> */</div><div class="line">- (void)cameraToggle</div><div class="line">&#123;</div><div class="line">    AVCaptureDevice *currentDevice=[self.deviceInput device];</div><div class="line">    AVCaptureDevicePosition currentPosition=[currentDevice position];</div><div class="line">    [self removeNotificationFromCaptureDevice:currentDevice];</div><div class="line">    AVCaptureDevice *toChangeDevice;</div><div class="line">    AVCaptureDevicePosition toChangePosition=AVCaptureDevicePositionFront;</div><div class="line">    </div><div class="line">    if (currentPosition==AVCaptureDevicePositionUnspecified||currentPosition==AVCaptureDevicePositionFront)</div><div class="line">    &#123;</div><div class="line">        toChangePosition=AVCaptureDevicePositionBack;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    toChangeDevice=[self getCameraDeviceWithPosition:toChangePosition];</div><div class="line">    [self addNotificationToCaptureDevice:toChangeDevice];</div><div class="line">    //获得要调整的设备输入对象</div><div class="line">    AVCaptureDeviceInput *toChangeDeviceInput=[[AVCaptureDeviceInput alloc]initWithDevice:toChangeDevice error:nil];</div><div class="line">    </div><div class="line">    //改变会话的配置前一定要先开启配置，配置完成后提交配置改变</div><div class="line">    [self.session beginConfiguration];</div><div class="line">    //移除原有输入对象</div><div class="line">    [self.session removeInput:self.deviceInput];</div><div class="line">    //添加新的输入对象</div><div class="line">    if ([self.session canAddInput:toChangeDeviceInput])</div><div class="line">    &#123;</div><div class="line">        [self.session addInput:toChangeDeviceInput];</div><div class="line">        self.deviceInput=toChangeDeviceInput;</div><div class="line">    &#125;</div><div class="line">    //提交会话配置</div><div class="line">    [self.session commitConfiguration];</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - Lazy Loading</div><div class="line"></div><div class="line">- (AVCaptureSession *)session</div><div class="line">&#123;</div><div class="line">    if (!_session)</div><div class="line">    &#123;</div><div class="line">        /// 初始化会话</div><div class="line">        _session = [[AVCaptureSession alloc] init];</div><div class="line">        /// 设置分辨率</div><div class="line">        if ([_session canSetSessionPreset:AVCaptureSessionPresetHigh])</div><div class="line">        &#123;</div><div class="line">            _session.sessionPreset = AVCaptureSessionPresetHigh;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return _session;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (AVCaptureDeviceInput *)deviceInput</div><div class="line">&#123;</div><div class="line">    if (!_deviceInput)</div><div class="line">    &#123;</div><div class="line">        /// 获得输入设备 取得后置摄像头</div><div class="line">        AVCaptureDevice * captureDevice = [self getCameraDeviceWithPosition:AVCaptureDevicePositionBack];</div><div class="line">        if (!captureDevice)</div><div class="line">        &#123;</div><div class="line">            NSLog(@&quot;取得后置摄像头出错&quot;);</div><div class="line">        &#125;</div><div class="line">        /// 根据输入设备初始化设备输入对象，用于获得输入数据</div><div class="line">        NSError *error=nil;</div><div class="line">        _deviceInput = [[AVCaptureDeviceInput alloc]initWithDevice:captureDevice error:&amp;error];</div><div class="line">        if (error)</div><div class="line">        &#123;</div><div class="line">            NSLog(@&quot;取得设备输入对象时出错，错误原因：%@&quot;,error.localizedDescription);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return _deviceInput;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (AVCaptureDeviceInput *)audioDeviceInput</div><div class="line">&#123;</div><div class="line">    if (!_audioDeviceInput)</div><div class="line">    &#123;</div><div class="line">        /// 添加一个音频输入设备</div><div class="line">        AVCaptureDevice * audioDevice = [[AVCaptureDevice devicesWithMediaType:AVMediaTypeAudio] firstObject];</div><div class="line">        </div><div class="line">        /// 根据音频输入设备初始化设备输入对象</div><div class="line">        NSError *error=nil;</div><div class="line">        _audioDeviceInput = [[AVCaptureDeviceInput alloc] initWithDevice:audioDevice error:&amp;error];</div><div class="line">        if (error)</div><div class="line">        &#123;</div><div class="line">            NSLog(@&quot;取得音频设备输入对象时出错，错误原因：%@&quot;,error.localizedDescription);</div><div class="line">        &#125;;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">    return _audioDeviceInput;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (AVCaptureMovieFileOutput *)movieFileOutPut</div><div class="line">&#123;</div><div class="line">    if (!_movieFileOutPut)</div><div class="line">    &#123;</div><div class="line">        /// 初始化设备输出对象，用于获得输出数据</div><div class="line">        _movieFileOutPut = [[AVCaptureMovieFileOutput alloc] init];</div><div class="line">    &#125;</div><div class="line">    return _movieFileOutPut;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (AVCaptureVideoPreviewLayer *)videoPreviewLayer</div><div class="line">&#123;</div><div class="line">    if (!_videoPreviewLayer)</div><div class="line">    &#123;</div><div class="line">        /// 创建视频预览层，用于实时展示摄像头状态</div><div class="line">        _videoPreviewLayer =[[AVCaptureVideoPreviewLayer alloc] initWithSession:self.session];</div><div class="line">        /// 填充模式</div><div class="line">        _videoPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;</div><div class="line">    &#125;</div><div class="line">    return _videoPreviewLayer;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)configSession</div><div class="line">&#123;</div><div class="line">    /// 将设备输入对象添加到会话中</div><div class="line">    if ([self.session canAddInput:self.deviceInput])</div><div class="line">    &#123;</div><div class="line">        [self.session addInput:self.deviceInput];</div><div class="line">        [self.session addInput:self.audioDeviceInput];</div><div class="line">        </div><div class="line">        AVCaptureConnection * connection = [self.movieFileOutPut connectionWithMediaType:AVMediaTypeVideo];</div><div class="line">        if ([connection isVideoStabilizationSupported])</div><div class="line">        &#123;</div><div class="line">            connection.preferredVideoStabilizationMode = AVCaptureVideoStabilizationModeAuto;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    /// 将设备输出对象添加到会话中</div><div class="line">    if ([self.session canAddOutput:self.movieFileOutPut])</div><div class="line">    &#123;</div><div class="line">        [self.session addOutput:self.movieFileOutPut];</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    AVCaptureDevice * captureDevice = [self.deviceInput device];</div><div class="line">    [self addNotificationToCaptureDevice:captureDevice];</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - 私有方法</div><div class="line"></div><div class="line">/**</div><div class="line"> *  取得指定位置的摄像头</div><div class="line"> *</div><div class="line"> *  @param position 摄像头位置</div><div class="line"> *</div><div class="line"> *  @return 摄像头设备</div><div class="line"> */</div><div class="line">- (AVCaptureDevice *)getCameraDeviceWithPosition:(AVCaptureDevicePosition )position</div><div class="line">&#123;</div><div class="line">    NSArray *cameras= [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];</div><div class="line">    for (AVCaptureDevice *camera in cameras)</div><div class="line">    &#123;</div><div class="line">        if ([camera position]==position)</div><div class="line">        &#123;</div><div class="line">            return camera;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return nil;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> *  改变设备属性的统一操作方法</div><div class="line"> *</div><div class="line"> *  @param propertyChange 属性改变操作</div><div class="line"> */</div><div class="line">- (void)changeDeviceProperty:(void(^)(AVCaptureDevice *captureDevice))propertyChange</div><div class="line">&#123;</div><div class="line">    AVCaptureDevice *captureDevice= [self.deviceInput device];</div><div class="line">    NSError *error;</div><div class="line">    //注意改变设备属性前一定要首先调用lockForConfiguration:调用完之后使用unlockForConfiguration方法解锁</div><div class="line">    if ([captureDevice lockForConfiguration:&amp;error])</div><div class="line">    &#123;</div><div class="line">        propertyChange(captureDevice);</div><div class="line">        [captureDevice unlockForConfiguration];</div><div class="line">    &#125;</div><div class="line">    else</div><div class="line">    &#123;</div><div class="line">        NSLog(@&quot;设置设备属性过程发生错误，错误信息：%@&quot;,error.localizedDescription);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> *  设置聚焦模式</div><div class="line"> *</div><div class="line"> *  @param focusMode 聚焦模式</div><div class="line"> */</div><div class="line">- (void)setFocusMode:(AVCaptureFocusMode )focusMode</div><div class="line">&#123;</div><div class="line">    [self changeDeviceProperty:^(AVCaptureDevice *captureDevice) &#123;</div><div class="line">        if ([captureDevice isFocusModeSupported:focusMode])</div><div class="line">        &#123;</div><div class="line">            [captureDevice setFocusMode:focusMode];</div><div class="line">        &#125;</div><div class="line">    &#125;];</div><div class="line">&#125;</div><div class="line">/**</div><div class="line"> *  设置曝光模式</div><div class="line"> *</div><div class="line"> *  @param exposureMode 曝光模式</div><div class="line"> */</div><div class="line">- (void)setExposureMode:(AVCaptureExposureMode)exposureMode</div><div class="line">&#123;</div><div class="line">    [self changeDeviceProperty:^(AVCaptureDevice *captureDevice) &#123;</div><div class="line">        if ([captureDevice isExposureModeSupported:exposureMode])</div><div class="line">        &#123;</div><div class="line">            [captureDevice setExposureMode:exposureMode];</div><div class="line">        &#125;</div><div class="line">    &#125;];</div><div class="line">&#125;</div><div class="line">/**</div><div class="line"> *  设置聚焦点</div><div class="line"> *</div><div class="line"> *  @param point 聚焦点</div><div class="line"> */</div><div class="line">- (void)focusWithMode:(AVCaptureFocusMode)focusMode exposureMode:(AVCaptureExposureMode)exposureMode atPoint:(CGPoint)point</div><div class="line">&#123;</div><div class="line">    [self changeDeviceProperty:^(AVCaptureDevice *captureDevice) &#123;</div><div class="line">        if ([captureDevice isFocusModeSupported:focusMode])</div><div class="line">        &#123;</div><div class="line">            [captureDevice setFocusMode:AVCaptureFocusModeAutoFocus];</div><div class="line">        &#125;</div><div class="line">        if ([captureDevice isFocusPointOfInterestSupported])</div><div class="line">        &#123;</div><div class="line">            [captureDevice setFocusPointOfInterest:point];</div><div class="line">        &#125;</div><div class="line">        if ([captureDevice isExposureModeSupported:exposureMode])</div><div class="line">        &#123;</div><div class="line">            [captureDevice setExposureMode:AVCaptureExposureModeAutoExpose];</div><div class="line">        &#125;</div><div class="line">        if ([captureDevice isExposurePointOfInterestSupported])</div><div class="line">        &#123;</div><div class="line">            [captureDevice setExposurePointOfInterest:point];</div><div class="line">        &#125;</div><div class="line">    &#125;];</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - 通知</div><div class="line"></div><div class="line">/**</div><div class="line"> *  给输入设备添加通知</div><div class="line"> */</div><div class="line">- (void)addNotificationToCaptureDevice:(AVCaptureDevice *)captureDevice</div><div class="line">&#123;</div><div class="line">    //注意添加区域改变捕获通知必须首先设置设备允许捕获</div><div class="line">    [self changeDeviceProperty:^(AVCaptureDevice *captureDevice) &#123;</div><div class="line">        captureDevice.subjectAreaChangeMonitoringEnabled=YES;</div><div class="line">    &#125;];</div><div class="line">    NSNotificationCenter *notificationCenter= [NSNotificationCenter defaultCenter];</div><div class="line">    //捕获区域发生改变</div><div class="line">    [notificationCenter addObserver:self selector:@selector(areaChange:) name:AVCaptureDeviceSubjectAreaDidChangeNotification object:captureDevice];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)removeNotificationFromCaptureDevice:(AVCaptureDevice *)captureDevice</div><div class="line">&#123;</div><div class="line">    NSNotificationCenter *notificationCenter= [NSNotificationCenter defaultCenter];</div><div class="line">    [notificationCenter removeObserver:self name:AVCaptureDeviceSubjectAreaDidChangeNotification object:captureDevice];</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> *  移除所有通知</div><div class="line"> */</div><div class="line">- (void)removeNotification</div><div class="line">&#123;</div><div class="line">    NSNotificationCenter *notificationCenter= [NSNotificationCenter defaultCenter];</div><div class="line">    [notificationCenter removeObserver:self];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)addNotificationToCaptureSession:(AVCaptureSession *)captureSession</div><div class="line">&#123;</div><div class="line">    NSNotificationCenter *notificationCenter= [NSNotificationCenter defaultCenter];</div><div class="line">    //会话出错</div><div class="line">    [notificationCenter addObserver:self selector:@selector(sessionRuntimeError:) name:AVCaptureSessionRuntimeErrorNotification object:captureSession];</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> *  设备连接成功</div><div class="line"> *</div><div class="line"> *  @param notification 通知对象</div><div class="line"> */</div><div class="line">- (void)deviceConnected:(NSNotification *)notification</div><div class="line">&#123;</div><div class="line">    NSLog(@&quot;设备已连接...&quot;);</div><div class="line">&#125;</div><div class="line">/**</div><div class="line"> *  设备连接断开</div><div class="line"> *</div><div class="line"> *  @param notification 通知对象</div><div class="line"> */</div><div class="line">- (void)deviceDisconnected:(NSNotification *)notification</div><div class="line">&#123;</div><div class="line">    NSLog(@&quot;设备已断开.&quot;);</div><div class="line">&#125;</div><div class="line">/**</div><div class="line"> *  捕获区域改变</div><div class="line"> *</div><div class="line"> *  @param notification 通知对象</div><div class="line"> */</div><div class="line">- (void)areaChange:(NSNotification *)notification</div><div class="line">&#123;</div><div class="line">    NSLog(@&quot;捕获区域改变...&quot;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> *  会话出错</div><div class="line"> *</div><div class="line"> *  @param notification 通知对象</div><div class="line"> */</div><div class="line">- (void)sessionRuntimeError:(NSNotification *)notification</div><div class="line">&#123;</div><div class="line">    NSLog(@&quot;会话发生错误.&quot;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<h4 id="LyraVideoMergeUtil视频合成工具类"><a href="#LyraVideoMergeUtil视频合成工具类" class="headerlink" title="LyraVideoMergeUtil视频合成工具类"></a>LyraVideoMergeUtil视频合成工具类</h4><p><strong>interface</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">//  LyraVideoMergeUtil.h</div><div class="line">//  LyraCamera</div><div class="line">//</div><div class="line">//  Created by ZSY on 2017/1/11.</div><div class="line">//  Copyright © 2017年 Lyra. All rights reserved.</div><div class="line">//</div><div class="line"></div><div class="line">#import &lt;Foundation/Foundation.h&gt;</div><div class="line">#import &lt;UIKit/UIKit.h&gt;</div><div class="line">#import &lt;AVFoundation/AVFoundation.h&gt;</div><div class="line"></div><div class="line">#define VIDEO_FOLDER    @&quot;videos&quot;</div><div class="line"></div><div class="line">@interface LyraVideoMergeUtil : NSObject</div><div class="line"></div><div class="line">/**</div><div class="line"> * 获取文件的大小，单位是KB。</div><div class="line"> */</div><div class="line">+ (CGFloat)getFileSize:(NSString *)path;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 获取视频文件的时长</div><div class="line"> */</div><div class="line">+ (CGFloat)getVideoLength:(NSURL *)URL;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 获取并创建视频路径</div><div class="line"> */</div><div class="line">+ (NSString *)getVideoSaveFilePathString;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 获取合成后的视频路径</div><div class="line"> */</div><div class="line">+ (NSString *)getVideoMergeFilePathString;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 拼接合成视频</div><div class="line"> */</div><div class="line">+ (void)mergeVideosWithFileURLs:(NSArray *)fileURLs Result:(void(^)(NSString * videoPath, NSURL * videoURL))result;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p><strong>implementation</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">//  LyraVideoMergeUtil.m</div><div class="line">//  LyraCamera</div><div class="line">//</div><div class="line">//  Created by ZSY on 2017/1/11.</div><div class="line">//  Copyright © 2017年 Lyra. All rights reserved.</div><div class="line">//</div><div class="line"></div><div class="line">#import &quot;LyraVideoMergeUtil.h&quot;</div><div class="line"></div><div class="line">@implementation LyraVideoMergeUtil</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - 获取视频大小及时长</div><div class="line"></div><div class="line">/**</div><div class="line"> * 获取文件的大小，单位是KB。</div><div class="line"> */</div><div class="line">+ (CGFloat)getFileSize:(NSString *)path</div><div class="line">&#123;</div><div class="line">    NSFileManager *fileManager = [[NSFileManager alloc] init] ;</div><div class="line">    float filesize = -1.0;</div><div class="line">    if ([fileManager fileExistsAtPath:path])</div><div class="line">    &#123;</div><div class="line">        NSDictionary *fileDic = [fileManager attributesOfItemAtPath:path error:nil];//获取文件的属性</div><div class="line">        unsigned long long size = [[fileDic objectForKey:NSFileSize] longLongValue];</div><div class="line">        filesize = 1.0*size/1024;</div><div class="line">    &#125;</div><div class="line">    return filesize;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 获取视频文件的时长</div><div class="line"> */</div><div class="line">+ (CGFloat)getVideoLength:(NSURL *)URL</div><div class="line">&#123;</div><div class="line">    NSDictionary *opts = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO]</div><div class="line">                                                     forKey:AVURLAssetPreferPreciseDurationAndTimingKey];</div><div class="line">    AVURLAsset *urlAsset = [AVURLAsset URLAssetWithURL:URL options:opts];</div><div class="line">    float second = 0;</div><div class="line">    second = urlAsset.duration.value/urlAsset.duration.timescale;</div><div class="line">    return second;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - 创建视频目录及文件</div><div class="line"></div><div class="line">/**</div><div class="line"> * 获取并创建视频路径</div><div class="line"> */</div><div class="line">+ (NSString *)getVideoSaveFilePathString</div><div class="line">&#123;</div><div class="line">    NSString * path = NSTemporaryDirectory();</div><div class="line">    </div><div class="line">    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];</div><div class="line">    </div><div class="line">    formatter.dateFormat = @&quot;yyyyMMddHHmmss&quot;;</div><div class="line">    </div><div class="line">    NSString *nowTimeStr = [formatter stringFromDate:[NSDate dateWithTimeIntervalSinceNow:0]];</div><div class="line">    </div><div class="line">    NSString *fileName = [[path stringByAppendingPathComponent:nowTimeStr] stringByAppendingString:@&quot;.mp4&quot;];</div><div class="line">    </div><div class="line">    return fileName;</div><div class="line">    </div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 获取合成后的视频路径</div><div class="line"> */</div><div class="line">+ (NSString *)getVideoMergeFilePathString</div><div class="line">&#123;</div><div class="line">    NSString * path = NSTemporaryDirectory();</div><div class="line">    </div><div class="line">    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];</div><div class="line">    formatter.dateFormat = @&quot;yyyyMMddHHmmss&quot;;</div><div class="line">    NSString *nowTimeStr = [formatter stringFromDate:[NSDate dateWithTimeIntervalSinceNow:0]];</div><div class="line">    </div><div class="line">    NSString *fileName = [[path stringByAppendingPathComponent:nowTimeStr] stringByAppendingString:@&quot;merge.mp4&quot;];</div><div class="line">    </div><div class="line">    return fileName;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - 合成文件</div><div class="line"></div><div class="line">/**</div><div class="line"> * 拼接合成视频</div><div class="line"> */</div><div class="line">+ (void)mergeVideosWithFileURLs:(NSArray *)fileURLs Result:(void(^)(NSString * videoPath, NSURL * videoURL))result</div><div class="line">&#123;</div><div class="line">    </div><div class="line">    //    AVAsset：素材库里的素材；</div><div class="line">    //    AVAssetTrack：素材的轨道；</div><div class="line">    //    AVMutableComposition ：一个用来合成视频的工程文件；</div><div class="line">    //    AVMutableCompositionTrack ：工程文件中的轨道，有音频轨、视频轨等，里面可以插入各种对应的素材；</div><div class="line">    //    AVMutableVideoCompositionLayerInstruction：视频轨道中的一个视频，可以缩放、旋转等；</div><div class="line">    //    AVMutableVideoCompositionInstruction：一个视频轨道，包含了这个轨道上的所有视频素材；</div><div class="line">    //    AVMutableVideoComposition：管理所有视频轨道，可以决定最终视频的尺寸，裁剪需要在这里进行；</div><div class="line">    //    AVAssetExportSession：配置渲染参数并渲染。</div><div class="line">    </div><div class="line">    /// 1.将素材拖入到素材库中</div><div class="line">    </div><div class="line">    NSError *error = nil;</div><div class="line">    </div><div class="line">    CGSize renderSize = CGSizeMake(0, 0);</div><div class="line">    </div><div class="line">    NSMutableArray *layerInstructionArray = [[NSMutableArray alloc] init];</div><div class="line">    </div><div class="line">    //这是工程文件</div><div class="line">    AVMutableComposition *mixComposition = [[AVMutableComposition alloc] init];</div><div class="line">    </div><div class="line">    CMTime totalDuration = kCMTimeZero;</div><div class="line">    </div><div class="line">    //先去assetTrack 也为了取renderSize</div><div class="line">    NSMutableArray *assetTrackArray = [[NSMutableArray alloc] init];</div><div class="line">    NSMutableArray *assetArray = [[NSMutableArray alloc] init];</div><div class="line">    </div><div class="line">    </div><div class="line">    for (NSURL *fileURL in fileURLs)</div><div class="line">    &#123;</div><div class="line">        </div><div class="line">        AVAsset *asset = [AVAsset assetWithURL:fileURL];</div><div class="line">        </div><div class="line">        if (!asset)</div><div class="line">        &#123;</div><div class="line">            continue;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        [assetArray addObject:asset];</div><div class="line">        </div><div class="line">        AVAssetTrack *assetTrack = [[asset tracksWithMediaType:@&quot;vide&quot;] objectAtIndex:0];</div><div class="line">        </div><div class="line">        [assetTrackArray addObject:assetTrack];</div><div class="line">        </div><div class="line">        renderSize.width = MAX(renderSize.width, assetTrack.naturalSize.height);</div><div class="line">        renderSize.height = MAX(renderSize.height, assetTrack.naturalSize.width);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    </div><div class="line">    CGFloat renderW = MIN(renderSize.width, renderSize.height);</div><div class="line">    </div><div class="line">    for (int i = 0; i &lt; [assetArray count] &amp;&amp; i &lt; [assetTrackArray count]; i++)</div><div class="line">    &#123;</div><div class="line">        </div><div class="line">        /// 2.将素材的视频插入视频轨，音频插入音频轨</div><div class="line">        </div><div class="line">        AVAsset *asset = [assetArray objectAtIndex:i];</div><div class="line">        AVAssetTrack *assetTrack = [assetTrackArray objectAtIndex:i];</div><div class="line">        </div><div class="line">        // 一个 audio 轨道</div><div class="line">        // AVMutableCompositionTrack provides a convenient interface for insertion, removals, and scaling of track</div><div class="line">        // 合成音频轨道    进行插入、缩放、删除</div><div class="line">        AVMutableCompositionTrack *audioTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];</div><div class="line">        // 把录制的 audio 插入到 AVMutableCompositionTrack</div><div class="line">        [audioTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, asset.duration)</div><div class="line">                            ofTrack:[[asset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0]</div><div class="line">                             atTime:totalDuration</div><div class="line">                              error:nil];</div><div class="line">        </div><div class="line">        // 合成视频轨道</div><div class="line">        AVMutableCompositionTrack *videoTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];</div><div class="line">        // 把录制的第一段 视频轨道插入到 AVMutableCompositionTrack</div><div class="line">        [videoTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, asset.duration)</div><div class="line">                            ofTrack:assetTrack</div><div class="line">                             atTime:totalDuration</div><div class="line">                              error:&amp;error];</div><div class="line">        </div><div class="line">        /// 3.裁剪视频，就是要将所有视频轨进行裁剪，就需要得到所有的视频轨，而得到一个视频轨就需要得到它上面所有的视频素材</div><div class="line">        </div><div class="line">        // fix orientationissue</div><div class="line">        AVMutableVideoCompositionLayerInstruction *layerInstruciton = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoTrack];</div><div class="line">        </div><div class="line">        totalDuration = CMTimeAdd(totalDuration, asset.duration);</div><div class="line">        </div><div class="line">        CGFloat rate;</div><div class="line">        rate = renderW / MIN(assetTrack.naturalSize.width, assetTrack.naturalSize.height);</div><div class="line">        </div><div class="line">        CGAffineTransform layerTransform = CGAffineTransformMake(assetTrack.preferredTransform.a, assetTrack.preferredTransform.b, assetTrack.preferredTransform.c, assetTrack.preferredTransform.d, assetTrack.preferredTransform.tx * rate, assetTrack.preferredTransform.ty * rate);</div><div class="line">        layerTransform = CGAffineTransformConcat(layerTransform, CGAffineTransformMake(1, 0, 0, 1, 0, -(assetTrack.naturalSize.width - assetTrack.naturalSize.height) / 2.0));//向上移动取中部影响</div><div class="line">        layerTransform = CGAffineTransformScale(layerTransform, rate, rate);//放缩，解决前后摄像结果大小不对称</div><div class="line">        </div><div class="line">        [layerInstruciton setTransform:layerTransform atTime:kCMTimeZero];</div><div class="line">        [layerInstruciton setOpacity:0.0 atTime:totalDuration];</div><div class="line">        //data</div><div class="line">        [layerInstructionArray addObject:layerInstruciton];</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    // get save path</div><div class="line">    NSString *filePath = [self getVideoMergeFilePathString];</div><div class="line">    NSURL *mergeFileURL = [NSURL fileURLWithPath:filePath];</div><div class="line">    </div><div class="line">    // 得到视频素材</div><div class="line">    // export</div><div class="line">    AVMutableVideoCompositionInstruction *mainInstruciton = [AVMutableVideoCompositionInstruction videoCompositionInstruction];</div><div class="line">    mainInstruciton.timeRange = CMTimeRangeMake(kCMTimeZero, totalDuration);</div><div class="line">    mainInstruciton.layerInstructions = layerInstructionArray;</div><div class="line">    </div><div class="line">    // 裁剪出对应的大小</div><div class="line">    AVMutableVideoComposition *mainCompositionInst = [AVMutableVideoComposition videoComposition];</div><div class="line">    mainCompositionInst.instructions = @[mainInstruciton];</div><div class="line">    mainCompositionInst.frameDuration = CMTimeMake(1, 30);</div><div class="line">    mainCompositionInst.renderSize = CGSizeMake(renderW, renderW);</div><div class="line">    </div><div class="line">    /// 4.导出</div><div class="line">    </div><div class="line">    AVAssetExportSession *exporter = [[AVAssetExportSession alloc] initWithAsset:mixComposition presetName:AVAssetExportPresetMediumQuality];</div><div class="line">    exporter.videoComposition = mainCompositionInst;</div><div class="line">    exporter.outputURL = mergeFileURL;</div><div class="line">    exporter.outputFileType = AVFileTypeMPEG4;</div><div class="line">    exporter.shouldOptimizeForNetworkUse = YES;</div><div class="line">    </div><div class="line">    [exporter exportAsynchronouslyWithCompletionHandler:^&#123;</div><div class="line">        dispatch_async(dispatch_get_main_queue(), ^&#123;</div><div class="line">            </div><div class="line">            if (result)</div><div class="line">            &#123;</div><div class="line">                result(filePath, mergeFileURL);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;];</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<h4 id="LyraVideoViewController控制器类"><a href="#LyraVideoViewController控制器类" class="headerlink" title="LyraVideoViewController控制器类"></a>LyraVideoViewController控制器类</h4><p><strong>interface 及 protocol</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">//  LyraCameraViewController.h</div><div class="line">//  LyraCamera</div><div class="line">//</div><div class="line">//  Created by ZSY on 2017/1/6.</div><div class="line">//  Copyright © 2017年 Lyra. All rights reserved.</div><div class="line">//</div><div class="line"></div><div class="line">#import &lt;UIKit/UIKit.h&gt;</div><div class="line"></div><div class="line">@protocol LyraVideoRecordDelegate &lt;NSObject&gt;</div><div class="line"></div><div class="line">- (void)videoRecordDidFinished:(NSURL *)videoURL;</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">@interface LyraVideoViewController : UIViewController</div><div class="line"></div><div class="line">@property (nonatomic, assign) BOOL isSaveAlbum;</div><div class="line"></div><div class="line">@property (nonatomic, weak) id&lt;LyraVideoRecordDelegate&gt; delegate;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p><strong>implementation</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div><div class="line">292</div><div class="line">293</div><div class="line">294</div><div class="line">295</div><div class="line">296</div><div class="line">297</div><div class="line">298</div><div class="line">299</div><div class="line">300</div><div class="line">301</div><div class="line">302</div><div class="line">303</div><div class="line">304</div><div class="line">305</div><div class="line">306</div><div class="line">307</div><div class="line">308</div><div class="line">309</div><div class="line">310</div><div class="line">311</div><div class="line">312</div><div class="line">313</div><div class="line">314</div><div class="line">315</div><div class="line">316</div><div class="line">317</div><div class="line">318</div><div class="line">319</div><div class="line">320</div><div class="line">321</div><div class="line">322</div><div class="line">323</div><div class="line">324</div><div class="line">325</div><div class="line">326</div><div class="line">327</div><div class="line">328</div><div class="line">329</div><div class="line">330</div><div class="line">331</div><div class="line">332</div><div class="line">333</div><div class="line">334</div><div class="line">335</div><div class="line">336</div><div class="line">337</div><div class="line">338</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">//  LyraCameraViewController.m</div><div class="line">//  LyraCamera</div><div class="line">//</div><div class="line">//  Created by ZSY on 2017/1/6.</div><div class="line">//  Copyright © 2017年 Lyra. All rights reserved.</div><div class="line">//</div><div class="line"></div><div class="line">#import &quot;LyraVideoViewController.h&quot;</div><div class="line">#import &lt;AVFoundation/AVFoundation.h&gt;</div><div class="line">#import &lt;AssetsLibrary/AssetsLibrary.h&gt;</div><div class="line">#import &quot;LyraVideoMergeUtil.h&quot;</div><div class="line">#import &quot;VideoRecordDevice.h&quot;</div><div class="line"></div><div class="line"></div><div class="line">@interface LyraVideoViewController ()</div><div class="line">&lt;AVCaptureFileOutputRecordingDelegate&gt;</div><div class="line">&#123;</div><div class="line">    /// 闪光相关灯按钮</div><div class="line">    __weak IBOutlet UIButton * _flashLightAutoButton;</div><div class="line">    __weak IBOutlet UIButton * _flashLightOnButton;</div><div class="line">    __weak IBOutlet UIButton * _flashLightOffButton;</div><div class="line">    </div><div class="line">    /// 录像按钮</div><div class="line">    __weak IBOutlet UIButton * _takeVideoButton;</div><div class="line">    </div><div class="line">    /// 取消按钮</div><div class="line">    __weak IBOutlet UIButton * _cancelButton;</div><div class="line">    </div><div class="line">    /// 使用录像按钮</div><div class="line">    __weak IBOutlet UIButton * _useVideoButton;</div><div class="line">    </div><div class="line">    /// 图像预览层</div><div class="line">    __weak IBOutlet UIView * _containerView;</div><div class="line">    </div><div class="line">    /// 聚焦光标</div><div class="line">    __weak IBOutlet UIImageView * _focusCursor;</div><div class="line">    </div><div class="line">    </div><div class="line">    /// 后台任务标识</div><div class="line">    UIBackgroundTaskIdentifier _bgTaskId;</div><div class="line">    </div><div class="line">    /// 录制时间</div><div class="line">    __weak IBOutlet UILabel * _timeLabel;</div><div class="line">    CGFloat _time;</div><div class="line">    dispatch_source_t _timer;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@property (nonatomic, strong) VideoRecordDevice * videoRecordDevice;</div><div class="line">@property(nonatomic, strong) NSMutableArray * fileURLs;</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">@implementation LyraVideoViewController</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - Life Cycle</div><div class="line"></div><div class="line">- (void)viewDidLoad</div><div class="line">&#123;</div><div class="line">    [super viewDidLoad];</div><div class="line">    </div><div class="line">    _time = 0.0f;</div><div class="line">    </div><div class="line">    _videoRecordDevice = [[VideoRecordDevice alloc] init];</div><div class="line">    [_videoRecordDevice configPreviewLayerInView:_containerView belowView:_focusCursor];</div><div class="line">    [self setFlashModeButtonStatus];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)viewDidAppear:(BOOL)animated</div><div class="line">&#123;</div><div class="line">    [super viewDidAppear:animated];</div><div class="line">    </div><div class="line">    [_videoRecordDevice deviceStart];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)viewDidDisappear:(BOOL)animated</div><div class="line">&#123;</div><div class="line">    [super viewDidDisappear:animated];</div><div class="line">    </div><div class="line">    [_videoRecordDevice deviceStop];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (NSMutableArray *)fileURLs</div><div class="line">&#123;</div><div class="line">    if (!_fileURLs)</div><div class="line">    &#123;</div><div class="line">        _fileURLs = [NSMutableArray array];</div><div class="line">    &#125;</div><div class="line">    return _fileURLs;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - React Events</div><div class="line"></div><div class="line">/**</div><div class="line"> * 退出</div><div class="line"> */</div><div class="line">- (IBAction)exitTakeCamera</div><div class="line">&#123;</div><div class="line">    [self dismissViewControllerAnimated:true completion:nil];</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">/**</div><div class="line"> * 闪光灯切换</div><div class="line"> */</div><div class="line">- (IBAction)flashLightChanged:(UIButton *)sender</div><div class="line">&#123;</div><div class="line">    switch (sender.tag)</div><div class="line">    &#123;</div><div class="line">        case 0: //关闭闪光灯</div><div class="line">        &#123;</div><div class="line">            [_videoRecordDevice setFlashMode:AVCaptureFlashModeOff];</div><div class="line">            [self setFlashModeButtonStatus];</div><div class="line">            break;</div><div class="line">        &#125;</div><div class="line">        case 1: //打开闪光灯</div><div class="line">        &#123;</div><div class="line">            [_videoRecordDevice setFlashMode:AVCaptureFlashModeOn];</div><div class="line">            [self setFlashModeButtonStatus];</div><div class="line">            break;</div><div class="line">        &#125;</div><div class="line">        case 2: //自动闪光灯开启</div><div class="line">        &#123;</div><div class="line">            [_videoRecordDevice setFlashMode:AVCaptureFlashModeAuto];</div><div class="line">            [self setFlashModeButtonStatus];</div><div class="line">            break;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 摄像头切换</div><div class="line"> */</div><div class="line">- (IBAction)toggleCamera:(UIButton *)sender</div><div class="line">&#123;</div><div class="line">    [_videoRecordDevice cameraToggle];</div><div class="line">    [self setFlashModeButtonStatus];</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 视频录制</div><div class="line"> */</div><div class="line">- (IBAction)takeVideo:(UIButton *)sender</div><div class="line">&#123;</div><div class="line">    /// 根据设备输出获得连接</div><div class="line">    AVCaptureConnection * connection = [_videoRecordDevice.movieFileOutPut connectionWithMediaType:AVMediaTypeVideo];</div><div class="line">    </div><div class="line">    /// 根据状态的逻辑相应</div><div class="line">    if (sender.selected)</div><div class="line">    &#123;</div><div class="line">        /// 设备正在录制，停止录制</div><div class="line">        [_videoRecordDevice.movieFileOutPut stopRecording];</div><div class="line">        </div><div class="line">        if (_timer)</div><div class="line">        &#123;</div><div class="line">            dispatch_source_cancel(_timer);</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        _useVideoButton.hidden = false;</div><div class="line">        _cancelButton.hidden = false;</div><div class="line">    &#125;</div><div class="line">    else</div><div class="line">    &#123;</div><div class="line">        /// 如果支持多任务则则开始多任务</div><div class="line">        if ([[UIDevice currentDevice] isMultitaskingSupported])</div><div class="line">        &#123;</div><div class="line">            _bgTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        /// 根据连接取得设备输出的数据</div><div class="line">        </div><div class="line">        /// 预览图层和视频方向保持一致</div><div class="line">        connection.videoOrientation = [_videoRecordDevice.videoPreviewLayer connection].videoOrientation;</div><div class="line">        </div><div class="line">        /// 根据路径写入视频流</div><div class="line">//        NSString * path = [NSTemporaryDirectory() stringByAppendingString:@&quot;tempVideo.mp4&quot;];</div><div class="line">        NSString * path = [LyraVideoMergeUtil getVideoSaveFilePathString];</div><div class="line">        NSURL * videoURL = [NSURL fileURLWithPath:path];</div><div class="line">        [self.fileURLs addObject:videoURL];</div><div class="line">        [_videoRecordDevice.movieFileOutPut startRecordingToOutputFileURL:videoURL recordingDelegate:self];</div><div class="line">        </div><div class="line">        _useVideoButton.hidden = true;</div><div class="line">        _cancelButton.hidden = true;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    sender.selected = !sender.selected;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 录制后使用视频</div><div class="line"> */</div><div class="line">- (IBAction)useVideo</div><div class="line">&#123;</div><div class="line">    [LyraVideoMergeUtil mergeVideosWithFileURLs:self.fileURLs Result:^(NSString *videoPath, NSURL *videoURL) &#123;</div><div class="line">        </div><div class="line">         /// 后台任务：将视频存储到相簿</div><div class="line">         UIBackgroundTaskIdentifier lastBgTaskId = _bgTaskId;</div><div class="line">         _bgTaskId = UIBackgroundTaskInvalid;</div><div class="line">         </div><div class="line">         ALAssetsLibrary *assetsLibrary=[[ALAssetsLibrary alloc]init];</div><div class="line">         [assetsLibrary writeVideoAtPathToSavedPhotosAlbum:videoURL completionBlock:^(NSURL *assetURL, NSError *error) &#123;</div><div class="line">         </div><div class="line">             if (error)</div><div class="line">             &#123;</div><div class="line">                 NSLog(@&quot;保存视频到相簿过程中发生错误，错误信息：%@&quot;,error.localizedDescription);</div><div class="line">                 return;</div><div class="line">             &#125;</div><div class="line">             </div><div class="line">             // 删除原始路径文件</div><div class="line">             [[NSFileManager defaultManager] removeItemAtURL:videoURL error:nil];</div><div class="line">             </div><div class="line">             if (lastBgTaskId != UIBackgroundTaskInvalid)</div><div class="line">             &#123;</div><div class="line">                 [[UIApplication sharedApplication] endBackgroundTask:lastBgTaskId];</div><div class="line">             &#125;</div><div class="line">             </div><div class="line">             NSLog(@&quot;成功保存视频到相簿.&quot;);</div><div class="line">             </div><div class="line">             if ([self.delegate respondsToSelector:@selector(videoRecordDidFinished:)])</div><div class="line">             &#123;</div><div class="line">                 [self.delegate videoRecordDidFinished:assetURL];</div><div class="line">             &#125;</div><div class="line">             </div><div class="line">             [self dismissViewControllerAnimated:true completion:nil];</div><div class="line">         &#125;];</div><div class="line">    &#125;];</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 录制后取消</div><div class="line"> */</div><div class="line">- (IBAction)cancelVideo</div><div class="line">&#123;</div><div class="line">    _cancelButton.hidden = true;</div><div class="line">    _useVideoButton.hidden = true;</div><div class="line">    [_videoRecordDevice deviceStart];</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - 视频输出代理</div><div class="line"></div><div class="line">/// 视频开始录制</div><div class="line">- (void)captureOutput:(AVCaptureFileOutput *)captureOutput didStartRecordingToOutputFileAtURL:(NSURL *)fileURL fromConnections:(NSArray *)connections &#123;</div><div class="line">    </div><div class="line">    _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());</div><div class="line">    dispatch_source_set_timer(_timer, DISPATCH_TIME_NOW, 0.025 * NSEC_PER_SEC, 0 * NSEC_PER_SEC);</div><div class="line">    dispatch_source_set_event_handler(_timer, ^&#123;</div><div class="line">        </div><div class="line">        _time += 0.025;</div><div class="line">        NSDateFormatter * formatter = [[NSDateFormatter alloc] init];</div><div class="line">        [formatter setDateFormat:@&quot;mm:ss&quot;];</div><div class="line">        NSDate * oriDate = [formatter dateFromString:@&quot;00:00&quot;];</div><div class="line">        NSDate * date = [NSDate dateWithTimeInterval:_time sinceDate:oriDate];</div><div class="line">        _timeLabel.text = [formatter stringFromDate:date];</div><div class="line">    &#125;);</div><div class="line">    dispatch_resume(_timer);</div><div class="line">&#125;</div><div class="line"></div><div class="line">/// 视频结束录制</div><div class="line">- (void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error</div><div class="line">&#123;</div><div class="line">    // 如果不错其他处理，此处即为录制得到的视频信息</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#pragma mark - 私有方法</div><div class="line"></div><div class="line"></div><div class="line">/**</div><div class="line"> *  点按手势，点按时聚焦</div><div class="line"> */</div><div class="line">- (IBAction)tapScreen:(UITapGestureRecognizer *)tapGesture</div><div class="line">&#123;</div><div class="line">    CGPoint point= [tapGesture locationInView:_containerView];</div><div class="line">    [self setFocusCursorWithPoint:point];</div><div class="line">    [_videoRecordDevice tapScreenPoint:point];</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> *  设置闪光灯按钮状态</div><div class="line"> */</div><div class="line">- (void)setFlashModeButtonStatus</div><div class="line">&#123;</div><div class="line">    [_videoRecordDevice getFlashMode:^(BOOL flashAvailable, AVCaptureFlashMode flashMode) &#123;</div><div class="line">        </div><div class="line">        if(!flashAvailable)</div><div class="line">        &#123;</div><div class="line">            _flashLightAutoButton.hidden=YES;</div><div class="line">            _flashLightOnButton.hidden=YES;</div><div class="line">            _flashLightOffButton.hidden=YES;</div><div class="line">            return ;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        _flashLightAutoButton.hidden=NO;</div><div class="line">        _flashLightOnButton.hidden=NO;</div><div class="line">        _flashLightOffButton.hidden=NO;</div><div class="line">        _flashLightAutoButton.enabled=YES;</div><div class="line">        _flashLightOnButton.enabled=YES;</div><div class="line">        _flashLightOffButton.enabled=YES;</div><div class="line">        </div><div class="line">        switch (flashMode)</div><div class="line">        &#123;</div><div class="line">            case AVCaptureFlashModeAuto:</div><div class="line">                _flashLightAutoButton.enabled=NO;</div><div class="line">                break;</div><div class="line">            case AVCaptureFlashModeOn:</div><div class="line">                _flashLightOnButton.enabled=NO;</div><div class="line">                break;</div><div class="line">            case AVCaptureFlashModeOff:</div><div class="line">                _flashLightOffButton.enabled=NO;</div><div class="line">                break;</div><div class="line">            default:</div><div class="line">                break;</div><div class="line">        &#125;</div><div class="line">    &#125;];</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> *  设置聚焦光标位置</div><div class="line"> *</div><div class="line"> *  @param point 光标位置</div><div class="line"> */</div><div class="line">- (void)setFocusCursorWithPoint:(CGPoint)point</div><div class="line">&#123;</div><div class="line">    _focusCursor.center=point;</div><div class="line">    _focusCursor.transform=CGAffineTransformMakeScale(1.5, 1.5);</div><div class="line">    _focusCursor.alpha=1.0;</div><div class="line">    [UIView animateWithDuration:1.0 animations:^&#123;</div><div class="line">        _focusCursor.transform=CGAffineTransformIdentity;</div><div class="line">    &#125; completion:^(BOOL finished) &#123;</div><div class="line">        _focusCursor.alpha=0;</div><div class="line">        </div><div class="line">    &#125;];</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<h3 id="使用这个封装"><a href="#使用这个封装" class="headerlink" title="使用这个封装"></a>使用这个封装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">//  ViewController.m</div><div class="line">//  LyraVideoRecord</div><div class="line">//</div><div class="line">//  Created by ZSY on 2017/1/18.</div><div class="line">//  Copyright © 2017年 Lyra. All rights reserved.</div><div class="line">//</div><div class="line"></div><div class="line">#import &quot;ViewController.h&quot;</div><div class="line">#import &lt;AVFoundation/AVFoundation.h&gt;</div><div class="line">#import &quot;LyraVideoViewController.h&quot;</div><div class="line"></div><div class="line">@interface ViewController ()</div><div class="line">&lt;LyraVideoRecordDelegate&gt;</div><div class="line">&#123;</div><div class="line">    __weak IBOutlet UIImageView *_imgView;</div><div class="line">    AVPlayer * _player;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">@implementation ViewController</div><div class="line"></div><div class="line">- (void)viewDidLoad</div><div class="line">&#123;</div><div class="line">    [super viewDidLoad];</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">- (IBAction)toVideoRecord:(id)sender</div><div class="line">&#123;</div><div class="line">    LyraVideoViewController * videoVC = [[LyraVideoViewController alloc] init];</div><div class="line">    videoVC.delegate = self;</div><div class="line">    [self presentViewController:videoVC animated:true completion:nil];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)videoRecordDidFinished:(NSURL *)videoURL</div><div class="line">&#123;</div><div class="line">    _player = [AVPlayer playerWithURL:videoURL];</div><div class="line">    AVPlayerLayer * playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];</div><div class="line">    playerLayer.frame = _imgView.bounds;</div><div class="line">    [_imgView.layer addSublayer:playerLayer];</div><div class="line">    [_player play];</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<h4 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h4><p>使用AVCaptureMovieFileOutput作为输出流只是视频录制的一种方式,我们同样可以使用AVCaptureVideoDataOutput加上AVCaptureAudioDataOutput来进行视频录制;<br>这里我们使用AVAsset来进行视频合成剪裁，出于篇幅考虑，暂不进行详细解释，同样，我们可以使用AVAssetWriter加上AVAssetWriterInput来进行合成;<br>区别在于，AVCaptureVideoDataOutput，AVCaptureAudioDataOutput配合AVAssetWriter，AVAssetWriterInput的方式更精确与细致，可以操控到录制输出过程中的每个细节。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/AVFoundation/" rel="tag"># AVFoundation</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/10/iOS-AVFoundation-自定义相机摄像/" rel="next" title="iOS:AVFoundation:自定义相机摄像">
+                <i class="fa fa-chevron-left"></i> iOS:AVFoundation:自定义相机摄像
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/02/17/iOS-AVFoundation-二维码/" rel="prev" title="iOS:AVFoundation:二维码">
+                iOS:AVFoundation:二维码 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="张胜烊" />
+          <p class="site-author-name" itemprop="name">张胜烊</p>
+          <p class="site-description motion-element" itemprop="description">A Coder who like Orange</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="mailto:Lyra814@icloud.com" target="_blank" title="Email">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                  Email
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://wy95.xyz" title="诗酒趁年华" target="_blank">诗酒趁年华</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://yucapri.net" title="yucapri" target="_blank">yucapri</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#界面"><span class="nav-number">2.</span> <span class="nav-text">界面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现"><span class="nav-number">3.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#VideoRecordDevice设备类"><span class="nav-number">3.1.</span> <span class="nav-text">VideoRecordDevice设备类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LyraVideoMergeUtil视频合成工具类"><span class="nav-number">3.2.</span> <span class="nav-text">LyraVideoMergeUtil视频合成工具类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LyraVideoViewController控制器类"><span class="nav-number">3.3.</span> <span class="nav-text">LyraVideoViewController控制器类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用这个封装"><span class="nav-number">4.</span> <span class="nav-text">使用这个封装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#后记"><span class="nav-number">4.1.</span> <span class="nav-text">后记</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张胜烊</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

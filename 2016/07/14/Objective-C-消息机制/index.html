@@ -1,0 +1,704 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Objc," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="OC的消息发送石沉大海，就容易崩溃">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Objective-C:消息机制">
+<meta property="og:url" content="http://yoursite.com/2016/07/14/Objective-C-消息机制/index.html">
+<meta property="og:site_name" content="Lyra">
+<meta property="og:description" content="OC的消息发送石沉大海，就容易崩溃">
+<meta property="og:updated_time" content="2017-11-27T03:00:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Objective-C:消息机制">
+<meta name="twitter:description" content="OC的消息发送石沉大海，就容易崩溃">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":1},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/07/14/Objective-C-消息机制/"/>
+
+
+
+
+
+  <title> Objective-C:消息机制 | Lyra </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lyra</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Personal Blog</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/14/Objective-C-消息机制/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="张胜烊">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Lyra">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Lyra" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Objective-C:消息机制
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-07-14T11:10:35+08:00">
+                2016-07-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p style="font-family:verdana;font-size:100%;color:gray" ,="" align="center">OC的消息发送石沉大海，就容易崩溃</p>
+
+<a id="more"></a>
+<h3 id="消息发送"><a href="#消息发送" class="headerlink" title="消息发送"></a>消息发送</h3><p>Objective-C 中 的方法调用，其本质是消息的发送，在编译时程序不查找要执行的函数，必须等到真正运行时，程序才查找要执行的函数。为这一特性提供支撑的，就是消息发送机制。</p>
+<p>在OC中调用方法，以如下形式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">#import &lt;Foundation/Foundation.h&gt;</div><div class="line">#import &quot;Obj.h&quot;</div><div class="line"></div><div class="line">int main(int argc, const char * argv[]) &#123;</div><div class="line">    @autoreleasepool &#123;</div><div class="line">        </div><div class="line">        Obj * obj = [[Obj alloc] init];</div><div class="line">        [obj doSomething];</div><div class="line">        </div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过对象名 obj 调用方法 doSomething，我们将main.m编译链接处理一下：<br>打开终端，进入main.m所在文件夹，输入clang编译命令：clang -rewrite-objc main.m，查看编译生成的main文件（拖拽到最下方，查看main函数）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">// - (void)doSomething;</div><div class="line"></div><div class="line">/* @end */</div><div class="line"></div><div class="line"></div><div class="line">int main(int argc, const char * argv[]) &#123;</div><div class="line">    /* @autoreleasepool */ &#123; __AtAutoreleasePool __autoreleasepool; </div><div class="line"></div><div class="line">        Obj * obj = ((Obj *(*)(id, SEL))(void *)objc_msgSend)((id)((Obj *(*)(id, SEL))(void *)objc_msgSend)((id)objc_getClass(&quot;Obj&quot;), sel_registerName(&quot;alloc&quot;)), sel_registerName(&quot;init&quot;));</div><div class="line">        ((void (*)(id, SEL))(void *)objc_msgSend)((id)obj, sel_registerName(&quot;doSomething&quot;));</div><div class="line"></div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div><div class="line">static struct IMAGE_INFO &#123; unsigned version; unsigned flag; &#125; _OBJC_IMAGE_INFO = &#123; 0, 2 &#125;;</div></pre></td></tr></table></figure>
+<p>可知，OC的方法调用，会在编译链接后，被处理为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">objc_msgSend(obj,@selector(doSomething));</div></pre></td></tr></table></figure></p>
+<p>我们可以直接使用底层的C函数来进行方法调用：<br>(1).打开编译器Build Settings 将消息发送代码检查Enable Strict Checking of objc_msgSend Calls选项置为NO;<br>(2).在Obj类中声明方法：- (void)doSomething:(NSString *)str;<br>(3).导入头文件#import <objc message.h="">，调用：</objc></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">objc_msgSend(obj, @selector(doSomething:), @&quot;some obj&quot;);</div></pre></td></tr></table></figure>
+<p>打印结果：doSomething with str : some obj</p>
+<p>对于继承自NSObject的obj对象（不特指obj）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@interface NSObject  &#123;</div><div class="line">    Class isa  OBJC_ISA_AVAILABILITY;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>存在一个Class类型的isa指针，该指针的类型包含的信息就是这篇文章的重点</p>
+<h3 id="类结构与isa指针"><a href="#类结构与isa指针" class="headerlink" title="类结构与isa指针"></a>类结构与isa指针</h3><p>isa指针的Class类型结构：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">typedef struct objc_class *Class;</div><div class="line"></div><div class="line">struct objc_class &#123;</div><div class="line"></div><div class="line">  Class isa;           // 实例的isa指向类对象，类对象的isa指向元类</div><div class="line">  Class super_class ;  // 指向其父类</div><div class="line">  const char *name ;   // 类名</div><div class="line">  long version ;       // 类的版本信息，初始化默认为0，可以通过runtime函数class_setVersion和class_getVersion进行修改、读取</div><div class="line">  long info;           // 一些标识信息,如CLS_CLASS (0x1L) 表示该类为普通 class ，其中包含对象方法和成员变量;CLS_META (0x2L) 表示该类为 metaclass，其中包含类方法;</div><div class="line">  long instance_size ; // 该类的实例变量大小(包括从父类继承下来的实例变量);</div><div class="line">  struct objc_ivar_list *ivars;           // 用于存储每个成员变量的地址</div><div class="line">  struct objc_method_list **methodLists ; // 与 info 的一些标志位有关,如CLS_CLASS (0x1L),则存储对象方法，如CLS_META (0x2L)，则存储类方法;</div><div class="line">  struct objc_cache *cache;               // 指向最近使用的方法的指针，一种优化，用于提升效率；调用过的方法存入缓存列表，下次调用先找缓存</div><div class="line">  struct objc_protocol_list *protocols;   // 存储该类遵守的协议</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>1.对象的isa指针指向类，类中的isa指针指向元类，元类中的指针指向NSObject，这也是NSObject类是所有类的根类的原因。<br>2.在该结构中，我们可以看到ivars 和methodLists字段。对于普通类，ivars中存储成员变量的信息，methodLists中存储对象方法信息；对于静态类，ivars中存储静态成员变量的信息，methodLists中存储类方法信息。</p>
+<h3 id="消息发送的过程"><a href="#消息发送的过程" class="headerlink" title="消息发送的过程"></a>消息发送的过程</h3><p>我们回到运行时对方法调用的处理中：<br>1.objc_msgSend(obj,@selector(doSomething));其中@selector() 是SEL类型的方法选择器，SEL本身是一个int类型的地址，存放方法名字，每一个方法对应一个SEL，SEL是根据方法名字生成的，这也决定了OC中的方法不可重名。<br>2.SEL的主要作用是快速通过方法名doSomething查找对应方法的函数指针，继而进行调用该函数。<br>3.总结消息发送的过程：　　　　<br>(1). [obj doSomething]; 在编译时被处理为objc_msgSend(obj,@selector(doSomething));<br>(2). 对于 objc_msgSend 函数，先通过obj的isa指针找到其class，在Class中查找函数列表methodLists；<br>(3). 根据 SEL 在 methodLists 中找到 imp 指针（函数指针），执行函数；<br>(4). 没有找到对应的imp指针，则根据 class 中的 super_class 指针，去父类中查找，继而上述到元类，根类，若根类中无此函数信息，则抛出 unrecognized selector sent to xxx 的异常，如果找到该函数指针，则执行。<br>(5). 在 isa ——&gt; methodLists 之间，存有缓存优化，即有 cache 的实现，根据 isa 在 Class 中先去 cache 通过 SEL 查找对应的 method，若 cache 中未找到，再去 methodLists 中查找，若找到，则将 method 加入到 cache 中，节约了消息发送的时间成本。（猜测 cache 中 method 列表是以SEL为key通过hash表来存储的，这样能提高函数查找速度）。<br>以上，就是OC的消息发送特性，它是Runtime的重要组成，决定了OC区别于C的动态特性。<br>　　<br>附：(1). 事件监听本质发送消息.但是发送消息是OC的特性，如果Swift中将一个函数声明称private,那么该函数不会被添加到方法列表中，如果在private前面加上@objc,那么该方法依然会被添加到方法列表中。<br>　　(2). 重写父类的方法，并没有覆盖掉父类的方法，只是在当前类对象中找到了这个方法后就不再去父类中找。<br>　　(3). 调用已经重写过的方法的父类的实现，使用super这个编译器标识，其作用是在运行时跳过在当前的类对象中寻找方法的过程。
+　　</p>
+<h3 id="消息发送过程中的拦截调用"><a href="#消息发送过程中的拦截调用" class="headerlink" title="消息发送过程中的拦截调用"></a>消息发送过程中的拦截调用</h3><p>在消息发送过程中，如果没有找到method，再抛出异常之前，运行时还会进一步处理，这不处理即：转向拦截调用。<br>拦截调用，通过重写NSObject提供的四个方法来进行处理。<br>1.+ (BOOL)resolveClassMethod:(SEL)sel;<br>当调用一个不存在的类方法时，会调用该方法，返回值默认为NO，重写为：加上自己的处理然后返回YES。<br>2.+ (BOOL)resolveInstanceMethod:(SEL)sel;<br>该方法同上，区别在于处理的是实例方法。<br>3.- (id)forwardingTargetForSelector:(SEL)aSelector;<br>该方法将所调用的未找到的method，重定向到另一个声明了该method的类，需要返回拥有该方法的实例。<br>4.- (void)forwardInvocation:(NSInvocation *)anInvocation;<br>该方法将所调用的未找到的method，打包成NSInvocation（即anInvocation），在该方法中进行自定义处理后，调用invokeWithTarget:方法，让另一个实例来触发。</p>
+<p>通过这四个方法，我们有机会对“未找到消息接受者”导致闪退进行处理，Runtime给我们提供了机会，也意味着“最后通牒”。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Objc/" rel="tag"># Objc</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/21/Objective-C-Block/" rel="next" title="Objective-C:Block">
+                <i class="fa fa-chevron-left"></i> Objective-C:Block
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/20/Objective-C-RunLoop-原理/" rel="prev" title="Objective-C:RunLoop(原理)">
+                Objective-C:RunLoop(原理) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="张胜烊" />
+          <p class="site-author-name" itemprop="name">张胜烊</p>
+          <p class="site-description motion-element" itemprop="description">A Coder who like Orange</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="mailto:Lyra814@icloud.com" target="_blank" title="Email">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                  Email
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://wy95.xyz" title="诗酒趁年华" target="_blank">诗酒趁年华</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://yucapri.net" title="yucapri" target="_blank">yucapri</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#消息发送"><span class="nav-number">1.</span> <span class="nav-text">消息发送</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类结构与isa指针"><span class="nav-number">2.</span> <span class="nav-text">类结构与isa指针</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消息发送的过程"><span class="nav-number">3.</span> <span class="nav-text">消息发送的过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消息发送过程中的拦截调用"><span class="nav-number">4.</span> <span class="nav-text">消息发送过程中的拦截调用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张胜烊</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

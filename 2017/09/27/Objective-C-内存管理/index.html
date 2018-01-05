@@ -1,0 +1,738 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Objc," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="基于引用计数的内存管理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Objective-C:内存管理">
+<meta property="og:url" content="http://yoursite.com/2017/09/27/Objective-C-内存管理/index.html">
+<meta property="og:site_name" content="Lyra">
+<meta property="og:description" content="基于引用计数的内存管理">
+<meta property="og:image" content="http://lyra.tech/images/ArticlePics/runloop_04.JPG">
+<meta property="og:updated_time" content="2017-11-27T03:00:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Objective-C:内存管理">
+<meta name="twitter:description" content="基于引用计数的内存管理">
+<meta name="twitter:image" content="http://lyra.tech/images/ArticlePics/runloop_04.JPG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":1},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/09/27/Objective-C-内存管理/"/>
+
+
+
+
+
+  <title> Objective-C:内存管理 | Lyra </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lyra</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Personal Blog</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/27/Objective-C-内存管理/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="张胜烊">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Lyra">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Lyra" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Objective-C:内存管理
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-27T09:20:36+08:00">
+                2017-09-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p style="font-family:verdana;font-size:100%;color:gray" ,="" align="center">基于引用计数的内存管理</p>
+
+<a id="more"></a>
+<h3 id="Objective-C中的内存管理"><a href="#Objective-C中的内存管理" class="headerlink" title="Objective-C中的内存管理"></a>Objective-C中的内存管理</h3><h4 id="引用计数"><a href="#引用计数" class="headerlink" title="引用计数"></a>引用计数</h4><p>iOS中使用retainCount来管理Objc对象的内存，通过retain来增加引用计数，release减少引用计数，retainCount检查引用计数，retainCount为0，该对象将被释放。</p>
+<h4 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h4><p>在MacOS的开发中，有垃圾回收的内存管理机制，不过在MacOS10.10左右吧大概，改机制被废弃，改用引用计数。</p>
+<h3 id="autorelease-与-autoreleasePool"><a href="#autorelease-与-autoreleasePool" class="headerlink" title="autorelease 与 autoreleasePool"></a>autorelease 与 autoreleasePool</h3><h4 id="autorelease"><a href="#autorelease" class="headerlink" title="autorelease"></a>autorelease</h4><ol>
+<li>发送autorelease消息，表示将对象加入到autoreleasePool中；</li>
+<li>除了alloc、new、copy、mutableCopy等关键字的类构建方法（便利构造方法），会对对象自动发送autorelease消息，将其加入autoreleasePool中；</li>
+<li>被加入autoreleasePool中的对象，将在autoreleasePool销毁时，被发送release消息。</li>
+</ol>
+<h4 id="autoreleasePool"><a href="#autoreleasePool" class="headerlink" title="autoreleasePool"></a>autoreleasePool</h4><h5 id="NSAutoreleasePool"><a href="#NSAutoreleasePool" class="headerlink" title="NSAutoreleasePool"></a>NSAutoreleasePool</h5><p>NSAutoreleasePool是MRC时代的旧的API，只能在MRC中使用，其用法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">NSAutorelaesePool * pool = [NSAutorelaesePool new];</div><div class="line">    // code here</div><div class="line">[pool release];</div></pre></td></tr></table></figure>
+<p>NSAutoreleasePool 在循环中要注意不能被break，否则对象无法释放</p>
+<h5 id="autoreleasepool"><a href="#autoreleasepool" class="headerlink" title="@autoreleasepool{}"></a>@autoreleasepool{}</h5><p>@autoreleasepool{} 是新的API，既可以在MRC中使用，也可以在ARC中使用，而且不必担心break，性能也叫NSAutoreleasePool高：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@autoreleasepool &#123;</div><div class="line">    // code here</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="autoreleasePool的创建和释放时机"><a href="#autoreleasePool的创建和释放时机" class="headerlink" title="autoreleasePool的创建和释放时机"></a>autoreleasePool的创建和释放时机</h5><p><img src="http://lyra.tech/images/ArticlePics/runloop_04.JPG" alt=""></p>
+<h5 id="autoreleasePool的使用时机"><a href="#autoreleasePool的使用时机" class="headerlink" title="autoreleasePool的使用时机"></a>autoreleasePool的使用时机</h5><ol>
+<li>程序不基于UIFramework（命令行项目）；</li>
+<li>循环内创建大量临时对象或者长期执行的任务中有大量临时对象；</li>
+<li>新线程开始执行时。</li>
+</ol>
+<h3 id="setter与dealloc"><a href="#setter与dealloc" class="headerlink" title="setter与dealloc"></a>setter与dealloc</h3><h4 id="setter"><a href="#setter" class="headerlink" title="setter"></a>setter</h4><p>MRC一个错误的setter示范：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">- (void)setValue:(id)value  &#123;</div><div class="line">    </div><div class="line">    [_value release];</div><div class="line">    _value = [value retain];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>当_value 和 value是同一个对象是，这种写法会导致value提前释放。<br>安全的setter写法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">- (void)setValue:(id)value  &#123;</div><div class="line">    </div><div class="line">    id temp = _value；</div><div class="line">    [value retain];</div><div class="line">    _value = value;</div><div class="line">    [temp release];</div><div class="line">&#125;</div><div class="line">// 或者</div><div class="line">- (void)setValue:(id)value  &#123;</div><div class="line">    </div><div class="line">    if (_value != value) &#123;</div><div class="line">        [_value release];</div><div class="line">        _value = [value retain];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="dealloc"><a href="#dealloc" class="headerlink" title="dealloc"></a>dealloc</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">@interface MyBuffer:NSObject &#123;</div><div class="line">    NSString * fileName;</div><div class="line">    NSView * fileMonitorView;</div><div class="line">    char * buffer;</div><div class="line">    FILE * fp;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>MRC 中 除了调用父类的dealloc方法之外，不允许显示的调用dealloc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">- (void)dealloc &#123;</div><div class="line">    [fileName release];</div><div class="line">    [fileMonitorView release];</div><div class="line">    if (buffer != NULL) &#123;</div><div class="line">        free(buffer);</div><div class="line">    &#125;</div><div class="line">    if (fp != NULL) &#123;</div><div class="line">        fclose(fp);</div><div class="line">    &#125;</div><div class="line">    [super dealloc];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>ARC 中 不允许调用父类的dealloc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">- (void)dealloc &#123;</div><div class="line">    if (buffer != NULL) &#123;</div><div class="line">        free(buffer);</div><div class="line">    &#125;</div><div class="line">    if (fp != NULL) &#123;</div><div class="line">        fclose(fp);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="weak-unsafe-unretained-autoreleasing"><a href="#weak-unsafe-unretained-autoreleasing" class="headerlink" title="weak, unsafe_unretained, __autoreleasing"></a><strong>weak, </strong>unsafe_unretained, __autoreleasing</h3><h4 id="weak"><a href="#weak" class="headerlink" title="__weak"></a>__weak</h4><ol>
+<li>__weak 是ARC为了解决retainCycle而引入的；</li>
+<li>弱引用是通过存储一个对象的指针创建的，且不保留对象；</li>
+<li>nonowning relationship。自动nil化，<strong>weak修饰的对象被释放，</strong>weak变量自动置nil，不会变成野指针。</li>
+</ol>
+<p>使用时机：</p>
+<ol>
+<li>已经对该对象有一个强引用，没必要再强引用的时候；</li>
+<li>解决循环引用的时候；</li>
+</ol>
+<h4 id="unsafe-unretained"><a href="#unsafe-unretained" class="headerlink" title="__unsafe_unretained"></a>__unsafe_unretained</h4><p>非nil化的弱指针，更强调所有权不变更。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Person * p1 = [[Person alloc] intiWithName:@&quot;alicy&quot;];</div><div class="line">__unsafe_unretained Person * temP = p1;</div><div class="line">Person * p2 = temP;</div><div class="line">temP = nil; // 所有权不变更</div></pre></td></tr></table></figure>
+<p>类似Swift中的unOwned：<br>假定银行系统，一张信用卡（CreditCard）对应一个客户（Customer），但一个客户不一定有一张信用卡。<br>Customer -&gt; unsafe_unretained -&gt; CreditCard;<br>CreditCard -&gt; strong -&gt; Customer;<br>当该客户将信用卡从此银行注销时：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">CreditCard 的 dealloc：</div><div class="line">- (void)dealloc &#123;</div><div class="line">    [self.customer setCreditCard:nil];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="autoreleasing"><a href="#autoreleasing" class="headerlink" title="__autoreleasing"></a>__autoreleasing</h4><p>__autoreleasing的根本目的是获取一个延迟释放的对象。<br>比如NSString的初始化方法中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (nullable instancetype)initWithContentsOfFile:(NSString *)path encoding:(NSStringEncoding)enc error:(NSError **)error;</div></pre></td></tr></table></figure>
+<p>ARC的编译器会自动为函数的二重指针变量加上一个__autoreleasing修饰符：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (nullable instancetype)initWithContentsOfFile:(NSString *)path encoding:(NSStringEncoding)enc error:(__autoreleasing NSError **)error;</div></pre></td></tr></table></figure>
+<p>相应的，我们使用这个函数的时候：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">NSError * error = nil;</div><div class="line">NSString * str = [[NSString alloc] initWithContentsOfFile:@&quot;file&quot; encoding:NSUTF8StringEncoding error:&amp;error];</div></pre></td></tr></table></figure>
+<p>ARC的编译器会转为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">NSError __strong * error = nil;</div><div class="line">NSError __autoreleasing * tempError = error;</div><div class="line">NSString * str = [[NSString alloc] initWithContentsOfFile:@&quot;file&quot; encoding:NSUTF8StringEncoding error:&amp;tempError];</div><div class="line">error = tempError;</div></pre></td></tr></table></figure>
+<p>当我们传递一个为初始化的对象的引用到一个方法中，并在此方法中实例化该对象，且希望返回时这个对象被自动加入到autoreleasePool的时候，我们就可以使用__autoreleasing的关键字。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Objc/" rel="tag"># Objc</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/14/Objective-C-从NSProxy谈起/" rel="next" title="Objective-C-从NSProxy谈起">
+                <i class="fa fa-chevron-left"></i> Objective-C-从NSProxy谈起
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/29/iOS-Responder-Chain-响应链/" rel="prev" title="iOS:Responder Chain 响应链">
+                iOS:Responder Chain 响应链 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="张胜烊" />
+          <p class="site-author-name" itemprop="name">张胜烊</p>
+          <p class="site-description motion-element" itemprop="description">A Coder who like Orange</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="mailto:Lyra814@icloud.com" target="_blank" title="Email">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                  Email
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://wy95.xyz" title="诗酒趁年华" target="_blank">诗酒趁年华</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://yucapri.net" title="yucapri" target="_blank">yucapri</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Objective-C中的内存管理"><span class="nav-number">1.</span> <span class="nav-text">Objective-C中的内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#引用计数"><span class="nav-number">1.1.</span> <span class="nav-text">引用计数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#垃圾回收"><span class="nav-number">1.2.</span> <span class="nav-text">垃圾回收</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#autorelease-与-autoreleasePool"><span class="nav-number">2.</span> <span class="nav-text">autorelease 与 autoreleasePool</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#autorelease"><span class="nav-number">2.1.</span> <span class="nav-text">autorelease</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#autoreleasePool"><span class="nav-number">2.2.</span> <span class="nav-text">autoreleasePool</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#NSAutoreleasePool"><span class="nav-number">2.2.1.</span> <span class="nav-text">NSAutoreleasePool</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#autoreleasepool"><span class="nav-number">2.2.2.</span> <span class="nav-text">@autoreleasepool{}</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#autoreleasePool的创建和释放时机"><span class="nav-number">2.2.3.</span> <span class="nav-text">autoreleasePool的创建和释放时机</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#autoreleasePool的使用时机"><span class="nav-number">2.2.4.</span> <span class="nav-text">autoreleasePool的使用时机</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setter与dealloc"><span class="nav-number">3.</span> <span class="nav-text">setter与dealloc</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#setter"><span class="nav-number">3.1.</span> <span class="nav-text">setter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dealloc"><span class="nav-number">3.2.</span> <span class="nav-text">dealloc</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#weak-unsafe-unretained-autoreleasing"><span class="nav-number">4.</span> <span class="nav-text">weak, unsafe_unretained, __autoreleasing</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#weak"><span class="nav-number">4.1.</span> <span class="nav-text">__weak</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#unsafe-unretained"><span class="nav-number">4.2.</span> <span class="nav-text">__unsafe_unretained</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#autoreleasing"><span class="nav-number">4.3.</span> <span class="nav-text">__autoreleasing</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张胜烊</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
