@@ -92,7 +92,7 @@
 <meta property="og:description" content="从用户点击屏幕，到view响应，这之间发生了什么">
 <meta property="og:image" content="http://lyra.tech/images/ArticlePics/EventDelivery.JPG">
 <meta property="og:image" content="http://lyra.tech/images/ArticlePics/EventHandle.JPG">
-<meta property="og:updated_time" content="2018-01-07T08:46:13.138Z">
+<meta property="og:updated_time" content="2018-01-07T09:14:32.636Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS:Responder Chain 响应链">
 <meta name="twitter:description" content="从用户点击屏幕，到view响应，这之间发生了什么">
@@ -348,11 +348,9 @@
 </ol>
 <p>当这些事件发生时，iOS会通过响应者链条来查找FristResponder进行事件的分发、处理，然后完成响应操作。</p>
 <h3 id="响应链Responder-Chain"><a href="#响应链Responder-Chain" class="headerlink" title="响应链Responder Chain"></a>响应链Responder Chain</h3><p>Cocoa中，凡是UIResponder及其子类，都可以作为响应对象。<br>touch发生时，App通过三步来完成touch事件的相应：</p>
-<ol>
-<li><strong>生成事件：</strong><br>touch -&gt; 生成touchEvents -&gt; 加入Application的事件队列中 -&gt; 取出队列中最前面的Events交给Window处理；</li>
-<li><strong>事件分发，查找第一响应者</strong><br>Window收到事件后，在其视图层次结构中找到最适合的一个视图来处理events；（FirstResponder）</li>
-<li><strong>处理事件</strong><br>通常是FirstResponder响应事件，如果FirstResponder无法处理事件，就会把事件传递给下一个响应者，直到UIApplication实例，如果UIApplication实例也无法处理，就会抛弃此事件。</li>
-</ol>
+<p>1.生成事件：<br>touch -&gt; 生成touchEvents -&gt; 加入Application的事件队列中 -&gt; 取出队列中最前面的Events交给Window处理；</p>
+<p>2.事件分发，查找第一响应者<br>Window收到事件后，在其视图层次结构中找到最适合的一个视图来处理events；（FirstResponder）</p>
+<p>3.处理事件<br>通常是FirstResponder响应事件，如果FirstResponder无法处理事件，就会把事件传递给下一个响应者，直到UIApplication实例，如果UIApplication实例也无法处理，就会抛弃此事件。</p>
 <p>这一过程中，参与的UIApplication、UIViewController、UIView就作为响应对象，构成这次事件响应的<strong>响应链</strong> <strong>Responder Chain</strong></p>
 <h3 id="事件分发Event-Delivery（查找First-Responder）"><a href="#事件分发Event-Delivery（查找First-Responder）" class="headerlink" title="事件分发Event Delivery（查找First Responder）"></a>事件分发Event Delivery（查找First Responder）</h3><h4 id="hitTest"><a href="#hitTest" class="headerlink" title="hitTest:"></a>hitTest:</h4><p>window实例首先对它的内容视图进行hitTest，即调用：<br> <strong>- (UIView <em>)hitTest:(CGPoint)point withEvent:(UIEvent </em>)event</strong><br>方法，该方法返回UIView实例；该方法会调用：<br> <strong>- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event</strong><br>方法，该方法用来判断touch区域是否在视图内，返回值为BOOl类型：<br>返回true，则对该视图的所有subViews进行hitTest，直到找到最终touch发生的View；<br>返回false，则- (UIView *)hitTest: withEvent:返回nil。</p>
 <h4 id="hitTest具体流程："><a href="#hitTest具体流程：" class="headerlink" title="hitTest具体流程："></a>hitTest具体流程：</h4><p><img src="http://lyra.tech/images/ArticlePics/EventDelivery.JPG" alt=""><br>window的根视图是ViewA， 我们点击；额ViewE。</p>
