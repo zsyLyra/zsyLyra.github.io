@@ -92,7 +92,7 @@
 <meta property="og:description" content="从用户点击屏幕，到view响应，这之间发生了什么">
 <meta property="og:image" content="http://lyra.tech/images/ArticlePics/EventDelivery.JPG">
 <meta property="og:image" content="http://lyra.tech/images/ArticlePics/EventHandle.JPG">
-<meta property="og:updated_time" content="2018-01-07T09:15:21.047Z">
+<meta property="og:updated_time" content="2018-01-07T09:20:14.416Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS:Responder Chain 响应链">
 <meta name="twitter:description" content="从用户点击屏幕，到view响应，这之间发生了什么">
@@ -341,11 +341,9 @@
         <p style="font-family:verdana;font-size:100%;color:gray" ,="" align="center">从用户点击屏幕，到view响应，这之间发生了什么</p>
 
 <a id="more"></a>
-<h3 id="事件类型"><a href="#事件类型" class="headerlink" title="事件类型"></a>事件类型</h3><ol>
-<li>Multitouch Events 触摸事件</li>
-<li>Accelerometer Events 运动事件</li>
-<li>Remotecontrol Events 远程控制事件</li>
-</ol>
+<h3 id="事件类型"><a href="#事件类型" class="headerlink" title="事件类型"></a>事件类型</h3><p>1.Multitouch Events 触摸事件</p>
+<p>2.Accelerometer Events 运动事件</p>
+<p>3.Remotecontrol Events 远程控制事件</p>
 <p>当这些事件发生时，iOS会通过响应者链条来查找FristResponder进行事件的分发、处理，然后完成响应操作。</p>
 <h3 id="响应链Responder-Chain"><a href="#响应链Responder-Chain" class="headerlink" title="响应链Responder Chain"></a>响应链Responder Chain</h3><p>Cocoa中，凡是UIResponder及其子类，都可以作为响应对象。<br>touch发生时，App通过三步来完成touch事件的相应：</p>
 <p>1.生成事件：<br>touch -&gt; 生成touchEvents -&gt; 加入Application的事件队列中 -&gt; 取出队列中最前面的Events交给Window处理；</p>
@@ -353,31 +351,28 @@
 <p>3.处理事件<br>通常是FirstResponder响应事件，如果FirstResponder无法处理事件，就会把事件传递给下一个响应者，直到UIApplication实例，如果UIApplication实例也无法处理，就会抛弃此事件。</p>
 <p>这一过程中，参与的UIApplication、UIViewController、UIView就作为响应对象，构成这次事件响应的<strong>响应链</strong> <strong>Responder Chain</strong></p>
 <h3 id="事件分发Event-Delivery（查找First-Responder）"><a href="#事件分发Event-Delivery（查找First-Responder）" class="headerlink" title="事件分发Event Delivery（查找First Responder）"></a>事件分发Event Delivery（查找First Responder）</h3><h4 id="hitTest"><a href="#hitTest" class="headerlink" title="hitTest:"></a>hitTest:</h4><p>window实例首先对它的内容视图进行hitTest，即调用：<br> <strong>- (UIView <em>)hitTest:(CGPoint)point withEvent:(UIEvent </em>)event</strong><br>方法，该方法返回UIView实例；该方法会调用：<br> <strong>- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event</strong><br>方法，该方法用来判断touch区域是否在视图内，返回值为BOOl类型：<br>返回true，则对该视图的所有subViews进行hitTest，直到找到最终touch发生的View；<br>返回false，则- (UIView *)hitTest: withEvent:返回nil。</p>
-<h4 id="hitTest具体流程："><a href="#hitTest具体流程：" class="headerlink" title="hitTest具体流程："></a>hitTest具体流程：</h4><p><img src="http://lyra.tech/images/ArticlePics/EventDelivery.JPG" alt=""><br>window的根视图是ViewA， 我们点击；额ViewE。</p>
-<ol>
-<li>Window接收到Events，对ViewA进行hitTest：ViewA调用- (UIView *)hitTest: withEvent:，该方法调用- (BOOL)pointInside: withEvent:，返回true，ViewA对ViewB和ViewC进行hitTest；</li>
-<li>ViewB调用- (BOOL)pointInside: withEvent:，返回false，其- (UIView *)hitTest: withEvent:方法返回nil；</li>
-<li>ViewC调用- (BOOL)pointInside: withEvent:，返回true，ViewC对ViewD和ViewEr进行hitTest；</li>
-<li>ViewD调用- (BOOL)pointInside: withEvent:，返回false，其- (UIView *)hitTest: withEvent:方法返回nil；</li>
-<li>ViewE调用- (BOOL)pointInside: withEvent:，返回true，ViewE没有子视图，则其- (UIView *)hitTest: withEvent:方法返回ViewE的实例；</li>
-<li>ViewC的- (UIView *)hitTest: withEvent:方法返回ViewE的实例；</li>
-<li>ViewA的- (UIView *)hitTest: withEvent:方法返回ViewE的实例；</li>
-<li>Window的- (UIView *)hitTest: withEvent:方法返回ViewE的实例；</li>
-<li>UIApplication实例获知ViewE为FirstResponder，UIApplication的实例将Events消息发送给ViewE进行处理。</li>
-</ol>
+<h4 id="hitTest具体流程："><a href="#hitTest具体流程：" class="headerlink" title="hitTest具体流程："></a>hitTest具体流程：</h4><p><img src="http://lyra.tech/images/ArticlePics/EventDelivery.JPG" alt=""></p>
+<p>window的根视图是ViewA， 我们点击；额ViewE。</p>
+<p>1.Window接收到Events，对ViewA进行hitTest：ViewA调用- (UIView *)hitTest: withEvent:，该方法调用- (BOOL)pointInside: withEvent:，返回true，ViewA对ViewB和ViewC进行hitTest；</p>
+<p>2.ViewB调用- (BOOL)pointInside: withEvent:，返回false，其- (UIView *)hitTest: withEvent:方法返回nil；</p>
+<p>3.ViewC调用- (BOOL)pointInside: withEvent:，返回true，ViewC对ViewD和ViewEr进行hitTest；</p>
+<p>4.ViewD调用- (BOOL)pointInside: withEvent:，返回false，其- (UIView *)hitTest: withEvent:方法返回nil；</p>
+<p>5.ViewE调用- (BOOL)pointInside: withEvent:，返回true，ViewE没有子视图，则其- (UIView *)hitTest: withEvent:方法返回ViewE的实例；</p>
+<p>6.ViewC的- (UIView *)hitTest: withEvent:方法返回ViewE的实例；</p>
+<p>7.ViewA的- (UIView *)hitTest: withEvent:方法返回ViewE的实例；</p>
+<p>8.Window的- (UIView *)hitTest: withEvent:方法返回ViewE的实例；</p>
+<p>9.UIApplication实例获知ViewE为FirstResponder，UIApplication的实例将Events消息发送给ViewE进行处理。</p>
 <h3 id="事件处理"><a href="#事件处理" class="headerlink" title="事件处理"></a>事件处理</h3><p><img src="http://lyra.tech/images/ArticlePics/EventHandle.JPG" alt=""></p>
 <p>ViewE可以处理该Events，则ViewE进行处理，完成整个Events的响应。<br>ViewE不能处理该消息，则将Events消息发送给nextResponder，一直沿着ResponderChain向上回溯，知道UIApplication实例，如果UIApplication实例也无法处理该消息，则这条Events消息被抛弃。</p>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
-<li>遍历查找FirstResponder时，从subViews的最上层往下遍历（subViews从后向前遍历）；</li>
-<li>遍历查找FirstResponder时，当一个子视图告诉OS它没有被点击时，它的子视图不会被检查；</li>
-<li>子视图在父视图边界外，并且父视图的clipsToBounds = false，子视图接收不到点击事件；（可以通过重写hitTest方法或pointInset来解决此问题）；</li>
-<li>一个UIWindow对象，在某一时刻只能有一个Responder成为FirstResponder；</li>
-<li>成为FirstResponder必须canBecomeFirstResponder才能becomeFirstResponder；</li>
-<li>手动设置某个View becomeFirstResponder时，当touch event 发生时，该View不一定最先响应。（比如button触发时会触发自身响应，而不管有无其他becomeFirstResponder的View）；</li>
-<li>FirstResponder主要体现在，touch event 发生时，没有响应者来处理event，FirstResponder就会尝试处理该 touch event；</li>
-<li>UIApplication的实例是一个响应链的终点，它的next Responder指向nil，已结束整个循环；</li>
-<li>事件管理应用队列而不是栈，因为队列先进先出。</li>
-</ol>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>1.遍历查找FirstResponder时，从subViews的最上层往下遍历（subViews从后向前遍历）；</p>
+<p>2.遍历查找FirstResponder时，当一个子视图告诉OS它没有被点击时，它的子视图不会被检查；</p>
+<p>3.子视图在父视图边界外，并且父视图的clipsToBounds = false，子视图接收不到点击事件；（可以通过重写hitTest方法或pointInset来解决此问题）；</p>
+<p>4.一个UIWindow对象，在某一时刻只能有一个Responder成为FirstResponder；</p>
+<p>5.成为FirstResponder必须canBecomeFirstResponder才能becomeFirstResponder；</p>
+<p>6.手动设置某个View becomeFirstResponder时，当touch event 发生时，该View不一定最先响应。（比如button触发时会触发自身响应，而不管有无其他becomeFirstResponder的View）；</p>
+<p>7.FirstResponder主要体现在，touch event 发生时，没有响应者来处理event，FirstResponder就会尝试处理该 touch event；</p>
+<p>8.UIApplication的实例是一个响应链的终点，它的next Responder指向nil，已结束整个循环；</p>
+<p>9.事件管理应用队列而不是栈，因为队列先进先出。</p>
 
       
     </div>
